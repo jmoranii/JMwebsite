@@ -1,0 +1,110 @@
+/*
+=====================================================
+James Moran - Professional Website JavaScript
+=====================================================
+Minimal JavaScript for:
+- Intersection Observer for scroll-triggered animations
+- Dynamic copyright year
+- Smooth scroll behavior enhancement
+=====================================================
+*/
+
+/**
+ * Initialize all JavaScript functionality when DOM is ready
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    initScrollAnimations();
+    updateCopyrightYear();
+});
+
+/**
+ * Scroll-triggered fade-in animations using Intersection Observer
+ * 
+ * The Intersection Observer API provides a way to asynchronously observe
+ * changes in the intersection of a target element with an ancestor element
+ * or with the document's viewport.
+ * 
+ * This is more performant than listening to scroll events.
+ */
+function initScrollAnimations() {
+    // Check if Intersection Observer is supported
+    if (!('IntersectionObserver' in window)) {
+        // Fallback: just show all sections immediately
+        document.querySelectorAll('.section').forEach(function(section) {
+            section.classList.add('visible');
+        });
+        return;
+    }
+
+    // Configuration for the observer
+    const observerOptions = {
+        root: null,           // Use the viewport as the root
+        rootMargin: '0px',    // No margin around the root
+        threshold: 0.15       // Trigger when 15% of element is visible
+    };
+
+    /**
+     * Callback function when intersection changes
+     * @param {IntersectionObserverEntry[]} entries - Array of intersection entries
+     * @param {IntersectionObserver} observer - The observer instance
+     */
+    function handleIntersection(entries, observer) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                // Add the visible class to trigger CSS animation
+                entry.target.classList.add('visible');
+                
+                // Stop observing this element (animation only happens once)
+                observer.unobserve(entry.target);
+            }
+        });
+    }
+
+    // Create the observer
+    const observer = new IntersectionObserver(handleIntersection, observerOptions);
+
+    // Observe all sections
+    document.querySelectorAll('.section').forEach(function(section) {
+        observer.observe(section);
+    });
+}
+
+/**
+ * Update the copyright year in the footer dynamically
+ * This ensures the year is always current without manual updates
+ */
+function updateCopyrightYear() {
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+}
+
+/**
+ * Optional: Add smooth scroll behavior for anchor links
+ * (This is a progressive enhancement since CSS scroll-behavior 
+ * handles most cases, but this provides a fallback)
+ */
+document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        
+        // Skip if it's just "#" (back to top handled by href)
+        if (targetId === '#' || targetId === '#top') {
+            return; // Let the default behavior handle it
+        }
+        
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+            e.preventDefault();
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // Update URL without adding to browser history
+            history.replaceState(null, null, targetId);
+        }
+    });
+});

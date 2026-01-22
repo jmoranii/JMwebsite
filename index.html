@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 
+    =====================================================
+    James Moran - Personal Professional Website
+    A minimalist, modern single-page resume site
+    =====================================================
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>James Moran | Data Professional & AI Enthusiast</title>
+    <meta name="description" content="James Moran is a data professional and AI enthusiast with expertise in pharmaceutical digital marketing, data analysis, and SQL/Snowflake. Engineer turned analytics leader.">
+    <meta name="keywords" content="James Moran, Data Analyst, Analytics Manager, Pharmaceutical Marketing, SQL, Snowflake, AI">
+    <meta name="author" content="James Moran">
+    
+    <!-- Open Graph Tags for Link Previews -->
+    <meta property="og:title" content="James Moran | Data Professional & AI Enthusiast">
+    <meta property="og:description" content="Engineer turned data professional with expertise in pharmaceutical digital marketing and a passion for AI-driven solutions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jamesmoran.github.io">
+    <meta property="og:image" content="assets/headshot.jpg">
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="James Moran | Data Professional & AI Enthusiast">
+    <meta name="twitter:description" content="Engineer turned data professional with expertise in pharmaceutical digital marketing.">
+    
+    <!-- Favicon - Replace with favicon.ico for production -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    
+    <!-- Google Fonts - Distinctive typography choices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 
+    =====================================================
+    HEADER / HERO SECTION
+    The first impression - name, photo, and contact
+    =====================================================
+    -->
+    <header class="hero" id="top">
+        <div class="hero__container">
+            <!-- Profile Photo - Replace headshot.svg with your own headshot.jpg -->
+            <div class="hero__image-wrapper">
+                <img 
+                    src="assets/James1.jpg" 
+                    alt="James Moran - Professional headshot" 
+                    class="hero__image"
+                    loading="eager"
+                >
+            </div>
+            
+            <!-- Hero Content -->
+            <div class="hero__content">
+                <h1 class="hero__name">James Moran</h1>
+                <p class="hero__headline">Data Professional & AI Enthusiast</p>
+                
+                <!-- Contact Links -->
+                <div class="hero__contact">
+                    <a href="mailto:jamesshehanmoran.com@gmail.com" class="hero__email" aria-label="Send email to James">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <span>jamesshehanmoran.com@gmail.com</span>
+                    </a>
+                    
+                    <a href="https://www.linkedin.com/in/james-moran-082629b7/" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="hero__linkedin"
+                       aria-label="View James Moran's LinkedIn profile (opens in new tab)">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="hero__scroll-indicator" aria-hidden="true">
+            <span>Scroll</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+        <!-- 
+        =====================================================
+        ABOUT ME SECTION
+        Professional summary with personality
+        =====================================================
+        -->
+        <section class="section about" id="about" aria-labelledby="about-heading">
+            <div class="section__container">
+                <h2 class="section__heading" id="about-heading">About Me</h2>
+                <div class="about__content">
+                    <p class="about__text">
+                        I'm an engineer turned data professional who found my calling at the intersection of 
+                        analytics and strategy. With a Materials Engineering degree from Iowa State and nearly 
+                        a decade in manufacturing, I pivoted to pharmaceutical digital marketing where I now 
+                        lead analytics initiatives that drive real patient outcomes.
+                    </p>
+                    <p class="about__text">
+                        My background gives me a unique lens—I approach data problems with an engineer's rigor 
+                        and a marketer's creativity. I'm passionate about AI and continuously explore how 
+                        emerging technologies can solve business challenges in smarter ways. Whether I'm 
+                        building complex SQL queries in Snowflake or mentoring the next generation, I bring 
+                        curiosity and a results-driven mindset to everything I do.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =====================================================
+        SKILLS SECTION
+        Technical capabilities displayed as pills/tags
+        =====================================================
+        -->
+        <section class="section skills" id="skills" aria-labelledby="skills-heading">
+            <div class="section__container">
+                <h2 class="section__heading" id="skills-heading">Skills & Technologies</h2>
+                <ul class="skills__list" role="list">
+                    <li class="skills__item">SQL / Snowflake</li>
+                    <li class="skills__item">Data Analysis & Reporting</li>
+                    <li class="skills__item">Pharmaceutical Marketing</li>
+                    <li class="skills__item">AI Tools</li>
+                    <li class="skills__item">Business Data Management</li>
+                    <li class="skills__item">Campaign Analytics</li>
+                    <li class="skills__item">Process Engineering</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 
+        =====================================================
+        WORK EXPERIENCE SECTION
+        Professional history from current to earliest
+        =====================================================
+        -->
+        <section class="section experience" id="experience" aria-labelledby="experience-heading">
+            <div class="section__container">
+                <h2 class="section__heading" id="experience-heading">Experience</h2>
+                
+                <div class="experience__timeline">
+                    <!-- Spring & Bond - Analytics Manager -->
+                    <article class="experience__item">
+                        <div class="experience__header">
+                            <h3 class="experience__company">Spring & Bond</h3>
+                            <span class="experience__years">2024 – Present</span>
+                        </div>
+                        <p class="experience__title">Analytics Manager</p>
+                        <p class="experience__description">
+                            Lead analytics initiatives for pharmaceutical marketing campaigns, performing advanced 
+                            data analysis and campaign performance optimization using Snowflake SQL. Manage healthcare 
+                            provider targeting and prescription data analysis for major pharmaceutical clients.
+                        </p>
+                    </article>
+
+                    <!-- Spring & Bond - Operations Analyst -->
+                    <article class="experience__item">
+                        <div class="experience__header">
+                            <h3 class="experience__company">Spring & Bond</h3>
+                            <span class="experience__years">2023 – 2024</span>
+                        </div>
+                        <p class="experience__title">Operations Analyst</p>
+                        <p class="experience__description">
+                            Conducted campaign analysis across programmatic advertising, paid search, and branded 
+                            media channels. Provided data-driven insights to optimize pharmaceutical marketing strategies.
+                        </p>
+                    </article>
+
+                    <!-- Kaiser Aluminum -->
+                    <article class="experience__item">
+                        <div class="experience__header">
+                            <h3 class="experience__company">Kaiser Aluminum</h3>
+                            <span class="experience__years">2021 – 2022</span>
+                        </div>
+                        <p class="experience__title">Sr. Metallurgical Engineer</p>
+                        <p class="experience__description">
+                            Advanced metallurgical engineering in aluminum manufacturing operations, providing 
+                            technical leadership in process optimization and quality control.
+                        </p>
+                    </article>
+
+                    <!-- Alcoa - Senior -->
+                    <article class="experience__item">
+                        <div class="experience__header">
+                            <h3 class="experience__company">Alcoa</h3>
+                            <span class="experience__years">2018 – 2021</span>
+                        </div>
+                        <p class="experience__title">Sr. Metallurgical Engineer</p>
+                        <p class="experience__description">
+                            Senior technical leadership in metallurgical operations, driving process improvements 
+                            and engineering problem-solving initiatives across production teams.
+                        </p>
+                    </article>
+
+                    <!-- Alcoa - Engineer -->
+                    <article class="experience__item">
+                        <div class="experience__header">
+                            <h3 class="experience__company">Alcoa</h3>
+                            <span class="experience__years">2015 – 2018</span>
+                        </div>
+                        <p class="experience__title">Metallurgical Engineer</p>
+                        <p class="experience__description">
+                            Metallurgical process engineering and quality control, collaborating with 
+                            cross-functional teams to maintain and improve production standards.
+                        </p>
+                    </article>
+
+                    <!-- Stellar Industries -->
+                    <article class="experience__item">
+                        <div class="experience__header">
+                            <h3 class="experience__company">Stellar Industries</h3>
+                            <span class="experience__years">2014 – 2015</span>
+                        </div>
+                        <p class="experience__title">Materials Engineer</p>
+                        <p class="experience__description">
+                            Materials engineering for manufacturing operations, providing quality assurance 
+                            and process support in industrial equipment production.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        =====================================================
+        EDUCATION SECTION
+        Academic background
+        =====================================================
+        -->
+        <section class="section education" id="education" aria-labelledby="education-heading">
+            <div class="section__container">
+                <h2 class="section__heading" id="education-heading">Education</h2>
+                <article class="education__item">
+                    <h3 class="education__school">Iowa State University</h3>
+                    <p class="education__degree">Bachelor of Science in Materials Engineering</p>
+                    <span class="education__years">2010 – 2014</span>
+                </article>
+            </div>
+        </section>
+
+        <!-- 
+        =====================================================
+        HIGHLIGHTS SECTION
+        Volunteering and personal interests
+        =====================================================
+        -->
+        <section class="section highlights" id="highlights" aria-labelledby="highlights-heading">
+            <div class="section__container">
+                <h2 class="section__heading" id="highlights-heading">Beyond Work</h2>
+                
+                <div class="highlights__grid">
+                    <!-- Volunteering -->
+                    <div class="highlights__category">
+                        <h3 class="highlights__subtitle">Community Involvement</h3>
+                        <ul class="highlights__list">
+                            <li>
+                                <strong>Big Brothers Big Sisters</strong> – Mentor (3 years)
+                            </li>
+                            <li>
+                                <strong>Iowa FIRST Lego League</strong> – Planning Team Member
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Interests -->
+                    <div class="highlights__category">
+                        <h3 class="highlights__subtitle">Interests</h3>
+                        <ul class="highlights__list">
+                            <li>Brazilian Jiu-Jitsu practitioner</li>
+                            <li>Book club member (10+ years, 165+ books)</li>
+                            <li>Creative songwriting with AI tools</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 
+    =====================================================
+    FOOTER
+    Simple closing with copyright
+    =====================================================
+    -->
+    <footer class="footer">
+        <div class="footer__container">
+            <p class="footer__copyright">
+                © <span id="current-year">2025</span> James Moran. Built with curiosity.
+            </p>
+            <a href="#top" class="footer__back-to-top" aria-label="Back to top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M12 19V5M5 12l7-7 7 7"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+
+    <!-- JavaScript - Minimal, for enhancements only -->
+    <script src="app.js"></script>
+</body>
+</html>
