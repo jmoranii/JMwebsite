@@ -658,6 +658,20 @@ Simple closing section
     font-size: var(--text-sm);
 }
 
+.easter-egg {
+    opacity: 0.3;
+    transition: opacity var(--transition-base), transform var(--transition-base);
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin-left: var(--space-sm);
+    display: inline-block;
+}
+
+.easter-egg:hover {
+    opacity: 1;
+    transform: scale(1.3);
+}
+
 .footer__back-to-top {
     display: flex;
     align-items: center;

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a static personal portfolio/resume website for James Moran. It's built with vanilla HTML, CSS, and JavaScript with no build process or dependencies.
+This is a static personal portfolio/resume website for James Moran. It's built with vanilla HTML, CSS, and JavaScript with no build process or dependencies. Also serves as a playground for exploring AI coding tools.
 
 ## Development
 
@@ -25,11 +25,17 @@ live-server
 **Single-page structure:**
 - `index.html` - All content and semantic structure
 - `styles.css` - CSS with custom properties in `:root` for theming (colors, fonts, spacing)
-- `app.js` - Minimal JavaScript for Intersection Observer scroll animations and dynamic copyright year
+- `app.js` - JavaScript for theme toggling, scroll animations, and image cycling
 
-**CSS Custom Properties (styles.css:20-84):** All design tokens are centralized in `:root`. Colors use a navy/gray palette with blue accent. Typography uses Outfit (display) and Source Serif 4 (body) from Google Fonts.
+**CSS Custom Properties (styles.css):** All design tokens are centralized in `:root`, with dark mode overrides in `[data-theme="dark"]`. Typography uses Outfit (display), Source Serif 4 (body), and Caveat (handwritten hint).
 
-**Scroll Animations (app.js:29-70):** Sections start with `opacity: 0` and gain the `.visible` class when 15% visible via Intersection Observer. Includes fallback for unsupported browsers.
+## Key Features
+
+**Dark Mode (styles.css + app.js):** Toggle button fixed in top-right corner. Theme preference saved to localStorage, falls back to system `prefers-color-scheme`, then defaults to light.
+
+**Hero Image Cycling (app.js):** Clicking the profile photo cycles through `assets/James1.jpg` to `James18.jpg`. Uses `touch-action: manipulation` CSS to fix Android Chrome tap issues.
+
+**"Click me" Hint:** Handwritten-style text with arrow pointing at the photo. Positioned left of image on desktop, below on mobile. Uses Caveat font and subtle wiggle animation.
 
 ## Deployment
 

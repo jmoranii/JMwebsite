@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match | James Moran</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-navy: #1a2f4e;
+            --color-white: #ffffff;
+            --color-gray-50: #f8fafc;
+            --color-gray-200: #e2e8f0;
+            --color-gray-400: #94a3b8;
+            --color-gray-600: #475569;
+            --color-accent: #3b82f6;
+            --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --color-navy: #e2e8f0;
+            --color-white: #0f172a;
+            --color-gray-50: #1e293b;
+            --color-gray-200: #334155;
+            --color-gray-400: #94a3b8;
+            --color-gray-600: #e2e8f0;
+            --color-accent: #60a5fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-display);
+            background-color: var(--color-gray-50);
+            color: var(--color-navy);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--color-gray-600);
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: var(--color-navy);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .stats span {
+            color: var(--color-gray-600);
+        }
+
+        .stats strong {
+            color: var(--color-navy);
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            max-width: 400px;
+            width: 100%;
+            perspective: 1000px;
+        }
+
+        .card {
+            aspect-ratio: 1;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.4s ease;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            cursor: default;
+        }
+
+        .card__face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .card__front {
+            background: linear-gradient(135deg, var(--color-navy), var(--color-accent));
+            color: var(--color-white);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .card__back {
+            background-color: var(--color-white);
+            transform: rotateY(180deg);
+            overflow: hidden;
+        }
+
+        .card__back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card.matched .card__face {
+            box-shadow: 0 0 0 3px var(--color-accent);
+        }
+
+        .reset-btn {
+            margin-top: 1.5rem;
+            padding: 0.75rem 2rem;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-white);
+            background-color: var(--color-navy);
+            border: none;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .win-message {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .win-message.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .win-message h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .win-message p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .win-message button {
+            padding: 0.75rem 2rem;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-navy);
+            background-color: var(--color-white);
+            border: none;
+            border-radius: 9999px;
+            cursor: pointer;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            background-color: var(--color-white);
+            border: 1px solid var(--color-gray-200);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--color-gray-200);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--color-navy);
+        }
+
+        .theme-toggle__sun { display: none; }
+        .theme-toggle__moon { display: block; }
+        [data-theme="dark"] .theme-toggle__sun { display: block; }
+        [data-theme="dark"] .theme-toggle__moon { display: none; }
+
+        @media (max-width: 480px) {
+            .game-grid {
+                gap: 0.5rem;
+                max-width: 320px;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .stats {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back
+    </a>
+
+    <button class="theme-toggle" aria-label="Toggle dark mode" type="button">
+        <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <header class="header">
+        <h1>Memory Match</h1>
+        <p>Find all the matching pairs!</p>
+    </header>
+
+    <div class="stats">
+        <div><span>Moves:</span> <strong id="moves">0</strong></div>
+        <div><span>Pairs:</span> <strong id="pairs">0</strong>/8</div>
+    </div>
+
+    <div class="game-grid" id="game-grid"></div>
+
+    <button class="reset-btn" id="reset-btn">New Game</button>
+
+    <div class="win-message" id="win-message">
+        <h2>You Win!</h2>
+        <p>Completed in <span id="final-moves">0</span> moves</p>
+        <button id="play-again">Play Again</button>
+    </div>
+
+    <script>
+        // Theme handling (sync with main site)
+        function initTheme() {
+            var savedTheme = localStorage.getItem('theme');
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            } else if (prefersDark) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        function toggleTheme() {
+            var currentTheme = document.documentElement.getAttribute('data-theme');
+            var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        document.querySelector('.theme-toggle').addEventListener('click', toggleTheme);
+        initTheme();
+
+        // Game logic
+        var images = ['James1', 'James2', 'James3', 'James4', 'James5', 'James6', 'James7', 'James8'];
+        var cards = [];
+        var flippedCards = [];
+        var matchedPairs = 0;
+        var moves = 0;
+        var isLocked = false;
+
+        function shuffle(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            return array;
+        }
+
+        function createCard(imageName) {
+            var card = document.createElement('div');
+            card.className = 'card';
+            card.dataset.image = imageName;
+            card.innerHTML =
+                '<div class="card__face card__front">?</div>' +
+                '<div class="card__face card__back">' +
+                    '<img src="assets/' + imageName + '.jpg" alt="">' +
+                '</div>';
+            card.addEventListener('click', function() { flipCard(card); });
+            return card;
+        }
+
+        function flipCard(card) {
+            if (isLocked) return;
+            if (card.classList.contains('flipped')) return;
+            if (card.classList.contains('matched')) return;
+            if (flippedCards.length >= 2) return;
+
+            card.classList.add('flipped');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('moves').textContent = moves;
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            var card1 = flippedCards[0];
+            var card2 = flippedCards[1];
+
+            if (card1.dataset.image === card2.dataset.image) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedPairs++;
+                document.getElementById('pairs').textContent = matchedPairs;
+                flippedCards = [];
+
+                if (matchedPairs === 8) {
+                    setTimeout(showWin, 500);
+                }
+            } else {
+                isLocked = true;
+                setTimeout(function() {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    flippedCards = [];
+                    isLocked = false;
+                }, 800);
+            }
+        }
+
+        function showWin() {
+            document.getElementById('final-moves').textContent = moves;
+            document.getElementById('win-message').classList.add('show');
+        }
+
+        function initGame() {
+            var grid = document.getElementById('game-grid');
+            grid.innerHTML = '';
+            cards = shuffle(images.concat(images));
+            matchedPairs = 0;
+            moves = 0;
+            flippedCards = [];
+            isLocked = false;
+
+            document.getElementById('moves').textContent = '0';
+            document.getElementById('pairs').textContent = '0';
+            document.getElementById('win-message').classList.remove('show');
+
+            cards.forEach(function(imageName) {
+                grid.appendChild(createCard(imageName));
+            });
+        }
+
+        document.getElementById('reset-btn').addEventListener('click', initGame);
+        document.getElementById('play-again').addEventListener('click', initGame);
+
+        initGame();
+    </script>
+</body>
+</html>
