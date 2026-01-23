@@ -13,9 +13,50 @@ Minimal JavaScript for:
  * Initialize all JavaScript functionality when DOM is ready
  */
 document.addEventListener('DOMContentLoaded', function() {
+    initTheme();
     initScrollAnimations();
     updateCopyrightYear();
 });
+
+/**
+ * Initialize theme based on saved preference or system preference
+ * Priority: localStorage > system preference > light (default)
+ */
+function initTheme() {
+    var savedTheme = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    // Apply theme: saved preference first, then system preference
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    } else if (prefersDark) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+
+    // Set up toggle button
+    var toggleButton = document.querySelector('.theme-toggle');
+    if (toggleButton) {
+        toggleButton.addEventListener('click', toggleTheme);
+    }
+
+    // Listen for system preference changes (only applies when no saved preference)
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        if (!localStorage.getItem('theme')) {
+            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+    });
+}
+
+/**
+ * Toggle between light and dark themes
+ */
+function toggleTheme() {
+    var currentTheme = document.documentElement.getAttribute('data-theme');
+    var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+}
 
 /**
  * Scroll-triggered fade-in animations using Intersection Observer
