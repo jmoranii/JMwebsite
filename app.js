@@ -15,8 +15,27 @@ Minimal JavaScript for:
 document.addEventListener('DOMContentLoaded', function() {
     initTheme();
     initScrollAnimations();
+    initHeroImageCycle();
     updateCopyrightYear();
 });
+
+/**
+ * Initialize hero image click cycling (James1 through James18)
+ */
+function initHeroImageCycle() {
+    var heroImage = document.getElementById('hero-image');
+    if (!heroImage) return;
+
+    var totalImages = 18;
+
+    heroImage.addEventListener('click', function() {
+        var currentIndex = parseInt(heroImage.getAttribute('data-image-index'), 10);
+        var nextIndex = currentIndex >= totalImages ? 1 : currentIndex + 1;
+
+        heroImage.src = 'assets/James' + nextIndex + '.jpg';
+        heroImage.setAttribute('data-image-index', nextIndex);
+    });
+}
 
 /**
  * Initialize theme based on saved preference or system preference
