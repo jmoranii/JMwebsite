@@ -12,15 +12,17 @@ A single-page resume site built with vanilla HTML, CSS, and JavaScript. No build
 
 ## Features
 
-- **Dark Mode** - Toggle between light and dark themes with system preference detection (`prefers-color-scheme`) and localStorage persistence
-- **Photo Gallery Easter Egg** - Click the profile photo to cycle through 18 different images
+- **Dark Mode** - Toggle between light and dark themes with system preference detection and localStorage persistence
+- **Photo Gallery Easter Egg** - Click the profile photo to cycle through 16 different images
+- **Memory Match Game** - Hidden game accessible via the juggler emoji at the bottom of the page
 - **Responsive Design** - Mobile-first with tablet and desktop breakpoints
+- **Mobile Experience Highlights** - Timeline items highlight as you scroll on mobile
 - **Scroll Animations** - Fade-in effects using Intersection Observer
 - **Print Optimized** - Clean output when printing as a resume
 
 ## Built With Claude Code
 
-This site serves as a learning project for exploring AI-assisted development. Features like dark mode, the photo cycling easter egg, and the "Click me" hint were pair-programmed with [Claude Code](https://claude.ai/code).
+This site serves as a learning project for exploring AI-assisted development. Features like dark mode, the photo cycling easter egg, the Memory Match game, and mobile scroll highlights were pair-programmed with [Claude Code](https://claude.ai/code).
 
 ---
 
