@@ -498,7 +498,8 @@ Work history timeline
     transition: border-color var(--transition-base);
 }
 
-.experience__item:hover {
+.experience__item:hover,
+.experience__item.in-view {
     border-left-color: var(--color-navy);
 }
 
@@ -516,7 +517,8 @@ Work history timeline
     transition: all var(--transition-base);
 }
 
-.experience__item:hover::before {
+.experience__item:hover::before,
+.experience__item.in-view::before {
     background-color: var(--color-navy);
     border-color: var(--color-navy);
 }
@@ -844,6 +846,25 @@ Mobile-first breakpoints
 
     .hero__click-hint svg {
         transform: rotate(90deg);
+    }
+
+    /* Slower highlight transition for scroll-based highlighting */
+    /* Default = fade-out duration (3s) */
+    .experience__item {
+        transition: border-color 3s ease;
+    }
+
+    .experience__item::before {
+        transition: all 3s ease;
+    }
+
+    /* When highlighted = fade-in duration (3s) */
+    .experience__item.in-view {
+        transition: border-color 3s ease !important;
+    }
+
+    .experience__item.in-view::before {
+        transition: all 3s ease !important;
     }
 }
 

@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initTheme();
     initScrollAnimations();
     initHeroImageCycle();
+    initExperienceHighlight();
     updateCopyrightYear();
 });
 
@@ -37,6 +38,40 @@ function initHeroImageCycle() {
 
         heroImage.src = 'assets/James' + imageNumber + '.jpg';
         heroImage.setAttribute('data-image-index', nextIndex);
+    });
+}
+
+/**
+ * Highlight experience items on scroll for mobile devices
+ * Uses Intersection Observer to add .in-view class when items enter viewport
+ */
+function initExperienceHighlight() {
+    // Only activate on mobile/tablet (no hover)
+    if (window.innerWidth > 768) return;
+
+    var items = document.querySelectorAll('.experience__item');
+    if (!items.length) return;
+
+    var observerOptions = {
+        root: null,
+        rootMargin: '-25% 0px',
+        threshold: 0.5
+    };
+
+    function handleIntersection(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+            } else {
+                entry.target.classList.remove('in-view');
+            }
+        });
+    }
+
+    var observer = new IntersectionObserver(handleIntersection, observerOptions);
+
+    items.forEach(function(item) {
+        observer.observe(item);
     });
 }
 
