@@ -26,13 +26,16 @@ function initHeroImageCycle() {
     var heroImage = document.getElementById('hero-image');
     if (!heroImage) return;
 
-    var totalImages = 18;
+    var totalPositions = 18;
 
     heroImage.addEventListener('click', function() {
         var currentIndex = parseInt(heroImage.getAttribute('data-image-index'), 10);
-        var nextIndex = currentIndex >= totalImages ? 1 : currentIndex + 1;
+        var nextIndex = currentIndex >= totalPositions ? 1 : currentIndex + 1;
 
-        heroImage.src = 'assets/James' + nextIndex + '.jpg';
+        // James16 is used for positions 16, 17, and 18
+        var imageNumber = nextIndex > 16 ? 16 : nextIndex;
+
+        heroImage.src = 'assets/James' + imageNumber + '.jpg';
         heroImage.setAttribute('data-image-index', nextIndex);
     });
 }
