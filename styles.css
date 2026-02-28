@@ -643,7 +643,6 @@ Simple closing section
 */
 .footer {
     padding: var(--space-2xl) var(--container-padding);
-    padding-bottom: calc(var(--space-2xl) + 100px);
     background-color: var(--color-navy-dark);
     color: var(--color-gray-300);
 }
@@ -713,29 +712,6 @@ Simple closing section
 .footer__back-to-top svg {
     width: 20px;
     height: 20px;
-}
-
-/*
------------------------------------------------------
-AUDIO PLAYER BAR
-Fixed bottom bar for ElevenLabs AudioNative player
------------------------------------------------------
-*/
-.audio-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
-    background-color: var(--color-white);
-    border-top: 1px solid var(--color-gray-200);
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.audio-bar__container {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: 0 var(--container-padding);
 }
 
 /*
@@ -976,8 +952,7 @@ Mobile-first breakpoints
     .footer__back-to-top,
     .theme-toggle,
     .hero__click-hint,
-    .easter-egg-container,
-    .audio-bar {
+    .easter-egg-container {
         display: none;
     }
     
