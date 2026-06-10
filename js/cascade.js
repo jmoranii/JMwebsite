@@ -3,9 +3,9 @@
    reaches mid-screen (alternating sides) and joins a real juggling
    pattern at the bottom that never stops:
      1 ball  — bounces
-     2 balls — go around in a circle (shower)
+     2 balls — siteswap 31 (shower: high parabola + quick pass under)
      3 balls — cascade
-     4 balls — fountain (a crossing pair in each hand)
+     4 balls — siteswap 5551
    "I don't drop balls." */
 (function () {
     'use strict';
@@ -32,30 +32,32 @@
            Parametric positions per pattern; amplitudes kept small so
            the corner stays charming rather than busy. x/y are offsets
            from tray bottom-center, in px (y negative = up). */
-        var T = 2400; /* ms per cycle (1-3 ball patterns) */
+        var T = 2400; /* ms per cycle (1- and 3-ball patterns) */
         function pose(n, k, t) {
             var th = (2 * Math.PI * t) / T;
-            switch (n) {
-                case 1: /* bounce */
-                    return { x: 0, y: -24 * Math.abs(Math.sin(th)) };
-                case 2: /* shower: both balls around one circle, opposite phases */
-                    var a2 = th + k * Math.PI;
-                    return { x: 26 * Math.cos(a2), y: -16 - 14 * Math.sin(a2) };
-                default: /* cascade: one arched path, three phases */
-                    var a3 = th + (k * 2 * Math.PI) / 3;
-                    return { x: 30 * Math.cos(a3), y: -26 * Math.abs(Math.sin(a3)) };
+            if (n === 1) { /* bounce */
+                return { x: 0, y: -24 * Math.abs(Math.sin(th)) };
             }
+            /* cascade: one arched path, three phases */
+            var a3 = th + (k * 2 * Math.PI) / 3;
+            return { x: 30 * Math.cos(a3), y: -26 * Math.abs(Math.sin(a3)) };
         }
 
-        /* ---------- 4 balls: a real siteswap — 5551 ----------
-           Three high crossing 5s, then the quick 1 hand-across.
+        /* ---------- real siteswaps ----------
            Beat-based simulation: hands alternate each beat; a throw of
-           height h lands h beats later (odd heights cross hands). */
+           height h lands h beats later (odd heights cross hands).
+           2 balls -> 31 (shower: high parabola + quick pass under)
+           4 balls -> 5551 (three high crossing 5s + the 1 hand-across) */
         var SS = null;
-        function ssApex(h) { return h === 1 ? 10 : 66; }   /* bigger loops */
+        function ssApex(h) { return h === 1 ? 10 : h === 3 ? 46 : 66; }
         function ssHandX(hand) { return hand === 0 ? 30 : -30; }
-        function ssInit(now) {
-            SS = { pattern: [5, 5, 5, 1], tau: 300, t0: now, beat: 0, landAt: {}, pool: inPattern.slice(), flights: new Map() };
+        function ssInit(now, n) {
+            SS = {
+                pattern: n >= 4 ? [5, 5, 5, 1] : [3, 1],
+                tau: n >= 4 ? 300 : 340,
+                forN: n,
+                t0: now, beat: 0, landAt: {}, pool: inPattern.slice(), flights: new Map()
+            };
         }
         function ssProcessBeats(now) {
             while (SS.t0 + SS.beat * SS.tau <= now) {
@@ -88,8 +90,8 @@
 
         function frame(now) {
             var n = inPattern.length;
-            if (n >= 4) {
-                if (!SS) ssInit(now);
+            if (n === 2 || n >= 4) {
+                if (!SS || SS.forN !== n) ssInit(now, n);
                 ssProcessBeats(now);
                 for (var k = 0; k < n; k++) {
                     var p = ssPose(inPattern[k], now);
