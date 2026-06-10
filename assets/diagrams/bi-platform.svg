@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" role="img" aria-labelledby="bp-title bp-desc" font-family="Outfit, sans-serif">
+  <title id="bp-title">Measurement platform architecture</title>
+  <desc id="bp-desc">About twenty media data sources flow into bronze, silver, and gold table tiers. An AI-readable metadata layer spans all tiers. AI agents query both the gold tier and the metadata to produce answers, reports, and QA.</desc>
+
+  <!-- styles: currentColor adapts to light/dark when inlined -->
+  <style>
+    .lbl { fill: currentColor; font-size: 14px; font-weight: 600; }
+    .sub { fill: currentColor; font-size: 11px; opacity: 0.65; }
+    .tier-lbl { fill: #1C1B1A; font-size: 15px; font-weight: 800; letter-spacing: 0.04em; }
+    .tier-sub { fill: #1C1B1A; font-size: 10.5px; opacity: 0.75; }
+    .box { fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .arrow { stroke: currentColor; stroke-width: 1.8; fill: none; marker-end: url(#ah); }
+    .arrow2 { stroke: currentColor; stroke-width: 1.8; fill: none; marker-end: url(#ah); marker-start: url(#ah2); }
+  </style>
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M1,1 L8,4.5 L1,8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </marker>
+    <marker id="ah2" markerWidth="9" markerHeight="9" refX="2" refY="4.5" orient="auto">
+      <path d="M8,1 L1,4.5 L8,8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </marker>
+  </defs>
+
+  <!-- sources: decorative stack, labels safely below -->
+  <g>
+    <rect x="22" y="84" width="116" height="26" rx="7" class="box" opacity="0.45"/>
+    <rect x="28" y="94" width="116" height="26" rx="7" class="box" opacity="0.7"/>
+    <rect x="34" y="104" width="116" height="26" rx="7" class="box"/>
+    <text x="92" y="152" text-anchor="middle" class="lbl" font-size="12.5">media vendors</text>
+    <text x="92" y="168" text-anchor="middle" class="sub">~20 data sources</text>
+  </g>
+  <path d="M156 124 H 196" class="arrow"/>
+
+  <!-- medallion tiers -->
+  <g>
+    <rect x="204" y="104" width="118" height="56" rx="10" fill="#C08552"/>
+    <text x="263" y="128" text-anchor="middle" class="tier-lbl">BRONZE</text>
+    <text x="263" y="146" text-anchor="middle" class="tier-sub">raw deliveries</text>
+  </g>
+  <path d="M328 132 H 358" class="arrow"/>
+  <g>
+    <rect x="366" y="104" width="118" height="56" rx="10" fill="#B9C2CC"/>
+    <text x="425" y="128" text-anchor="middle" class="tier-lbl">SILVER</text>
+    <text x="425" y="146" text-anchor="middle" class="tier-sub">standardized</text>
+  </g>
+  <path d="M490 132 H 520" class="arrow"/>
+  <g>
+    <rect x="528" y="104" width="118" height="56" rx="10" fill="#E2B53E"/>
+    <text x="587" y="128" text-anchor="middle" class="tier-lbl">GOLD</text>
+    <text x="587" y="146" text-anchor="middle" class="tier-sub">reporting-ready</text>
+  </g>
+
+  <!-- metadata layer spanning the tiers -->
+  <rect x="204" y="196" width="442" height="46" rx="10" class="box" stroke-dasharray="6 5"/>
+  <text x="425" y="216" text-anchor="middle" class="lbl" font-size="13">AI-readable metadata</text>
+  <text x="425" y="232" text-anchor="middle" class="sub">data dictionaries · semantic metric definitions · automated QA</text>
+  <path d="M263 168 V 188" class="arrow" opacity="0.6"/>
+  <path d="M425 168 V 188" class="arrow" opacity="0.6"/>
+  <path d="M587 168 V 188" class="arrow" opacity="0.6"/>
+
+  <!-- agents -->
+  <g>
+    <rect x="284" y="286" width="282" height="56" rx="12" fill="var(--c-builder, #F4845F)"/>
+    <text x="425" y="310" text-anchor="middle" class="tier-lbl">AI AGENTS</text>
+    <text x="425" y="328" text-anchor="middle" class="tier-sub">Snowflake Cortex · Claude Code</text>
+  </g>
+  <path d="M425 250 V 278" class="arrow2"/>
+
+  <!-- outputs -->
+  <path d="M574 314 H 614" class="arrow"/>
+  <text x="622" y="308" class="lbl" font-size="13">answers · reports</text>
+  <text x="622" y="326" class="sub">self-serve, validated</text>
+
+  <!-- humans -->
+  <path d="M276 314 H 236" class="arrow2" transform="rotate(180 256 314)"/>
+  <text x="138" y="308" text-anchor="middle" class="lbl" font-size="13">analysts</text>
+  <text x="138" y="326" text-anchor="middle" class="sub">same library, human-readable</text>
+</svg>
