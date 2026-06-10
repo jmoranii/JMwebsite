@@ -426,9 +426,14 @@ body.past-hero .portrait .hand { opacity: 0; }
 .footer { padding: 12vh 28px 110px; text-align: center; position: relative; }
 .juggler-zone { display: inline-block; margin-bottom: 8px; }
 .easter-egg {
-    font-size: 38px; text-decoration: none; display: inline-block;
-    opacity: 0.45;
+    text-decoration: none; display: inline-block;
+    opacity: 0.55;
     animation: pulse 3s ease-in-out infinite;
+}
+.easter-egg img {
+    width: 64px; height: 64px; border-radius: 50%;
+    object-fit: cover; display: block;
+    border: 2px solid var(--ink);
 }
 @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.35; } 50% { transform: scale(1.1); opacity: 0.6; } }
 .footer-line { font-size: 14px; opacity: 0.75; }
@@ -520,6 +525,12 @@ body.past-hero .theme-toggle {
     .contact { bottom: 18px; flex-direction: column; }
     .portrait { width: 64px; right: 78px; }
     .portrait img { width: 56px; height: 56px; }
+    /* caption sits to the LEFT of the circle on phones (below, the
+       ghost name was swallowing it) */
+    .portrait .hand {
+        position: absolute; right: calc(100% + 8px); top: 17px;
+        margin-top: 0; white-space: nowrap; transform: rotate(-3deg);
+    }
     .hero-scroll { display: none; }
     .stack-card { width: calc(100% - 24px); }
     .xp .role .note { white-space: normal; }

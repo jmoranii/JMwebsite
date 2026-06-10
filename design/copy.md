@@ -108,4 +108,4 @@ Intro line: **The through-line: I commit to things for years.**
 
 ## Footer (screen)
 
-© James Moran. Built with curiosity. *(🤹 stays — pulsing, clickable, unexplained.)*
+© James Moran. Built with curiosity. *(The easter egg is the photo of James actually juggling — pulsing, clickable, unexplained — leading to the Keep It Up game.)*
