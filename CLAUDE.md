@@ -1,55 +1,33 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code when working in this repository.
 
-## Project Overview
+## Project overview
 
-This is a static personal portfolio/resume website for James Moran. It's built with vanilla HTML, CSS, and JavaScript with no build process or dependencies. Also serves as a playground for exploring AI coding tools.
-
-## Development
-
-To view the site locally, simply open `index.html` in a browser. For live reload during development:
-
-```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js (after npm install -g live-server)
-live-server
-```
+James Moran's personal site, v2 ("Daylight Studio" / juggling brand system). Static vanilla HTML/CSS/JS, zero dependencies, no build step, deployed to GitHub Pages from `main`. v1 is preserved at git tag `v1`.
 
 ## Architecture
 
-**No build process** - This is intentionally a zero-dependency static site. All code runs directly in the browser.
+- `index.html` — single page: hero carousel → story beats → sticky-stack builds → experience → beyond work → CV section. A hidden `#cv-print` block (direct child of `<body>`) is the ONLY thing visible in print.
+- `css/main.css` — all design tokens in `:root` (`[data-theme="dark"]` overrides). **Tokens are the single source of truth** — JS reads them via `JM.cssVar()`; never duplicate color values in scripts.
+- `css/print.css` — loaded with `media="print"`; hides everything except `#cv-print`.
+- `js/*.js` — classic `<script defer>` IIFEs on a shared `window.JM` namespace (NOT ES modules — keeps `file://` viewing working). Load order matters: `theme.js` first (defines helpers), `main.js` last (orchestrates init).
+- `game.html` — self-contained Memory Match easter egg. Shares the `'theme'` localStorage key with the main site. **Do not rename that key.**
+- `assets/` — photos James1–16.jpg (cycle uses 1–7 only; 8–16 belong to the game), `projects/` screenshots, `diagrams/bi-platform.svg` (inlined at runtime for theming), `qr-site.svg`, `favicon.svg`.
+- `design/` — brand brief, build spec, copy doc. Copy changes should go through `design/copy.md` first.
 
-**File structure:**
-- `index.html` - Main resume page with all content
-- `styles.css` - CSS with custom properties in `:root` for theming
-- `app.js` - JavaScript for theme toggling, scroll animations, image cycling, and mobile highlights
-- `game.html` - Hidden Memory Match game (Easter egg)
-- `assets/` - Images (James1.jpg through James16.jpg, resized to 400px for performance)
+## Hard rules
 
-**CSS Custom Properties (styles.css):** All design tokens are centralized in `:root`, with dark mode overrides in `[data-theme="dark"]`. Typography uses Outfit (display), Source Serif 4 (body), and Caveat (handwritten hint).
+1. **Privacy:** no client names, drug/brand names, exact budget figures, colleague names, or internal system identifiers anywhere — including alt text, comments, and commit messages. "Eight-figure annual media programs" is the approved budget phrasing.
+2. **Reduced motion:** every animation must be gated; the site must fully work with zero motion (CSS override + `JM.reducedMotion()` checks).
+3. **Accessibility:** keep the APG carousel semantics, the pause control, focus-visible styles, and the scoped arrow-key handler.
+4. **The print CV must stay one page.** Test with print emulation after any content change.
+5. Animate only `transform`/`opacity`; IntersectionObserver class-toggles over scroll handlers.
 
-## Key Features
+## Development
 
-**Dark Mode (styles.css + app.js):** Toggle button fixed in top-right corner. Theme preference saved to localStorage, falls back to system `prefers-color-scheme`, then defaults to light.
-
-**Hero Image Cycling (app.js):** Clicking the profile photo cycles through 18 positions using James1-16.jpg (James16 repeats for positions 16-18). Uses `touch-action: manipulation` CSS to fix Android Chrome tap issues.
-
-**"Click me" Hint:** Handwritten-style text (Caveat font) with arrow pointing at the photo. Positioned left of image on desktop, below on mobile. Subtle wiggle animation.
-
-**Memory Match Game (game.html):** Hidden game using James1-8.jpg. Access via the pulsing juggler emoji (🤹) at the bottom of the main page. Includes dark mode support synced with main site.
-
-**Mobile Experience Highlights (app.js):** On mobile (≤768px), experience timeline items highlight as they scroll into view using Intersection Observer. Slow fade transitions (3s) for smooth effect.
-
-## Deployment
-
-The site is designed for GitHub Pages deployment directly from the `main` branch.
-
-## Git Notes
-
-Large image pushes may timeout. If you get HTTP 408 errors, increase the buffer:
 ```bash
-git config http.postBuffer 524288000
+python3 -m http.server 8000   # then open http://localhost:8000
 ```
+
+Playwright (python) is the test harness pattern — see git history for the verification scripts (viewports 375/768/1440, light/dark, print PDF, reduced-motion, zero console errors).

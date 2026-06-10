@@ -64,11 +64,11 @@ Bilingual site for the weekly Russian conversation meetup I run at the Des Moine
 **07 · This site** — *Meta* — [source ↗](https://github.com/jmoranii/JMwebsite)
 Designed and built in collaboration with Claude Code — vanilla HTML/CSS/JS, no frameworks, no build step. The juggling is CSS. View source; it's commented.
 
-⚪ OPTION — **SoyLei line** (one-liner under the cards, no card): *"Also: AI-assisted sales-enablement consulting for an Iowa soy-tech startup."* Include or omit at Checkpoint 2.
+*(Decided 2026-06-09: consulting side-projects omitted from this section.)*
 
 ## Experience
 
-⚪ OPTION (acquisition arc): present employers as **"Spring & Bond → Real Chemistry (acquired)"** or just **"Real Chemistry"**. Same question for **"Alcoa Warrick → Kaiser Aluminum"**. v1 showed them separately; the arc form is more honest and more interesting. Decide at Checkpoint 2; copy below uses the arc form.
+*(Decided 2026-06-09: acquisition arcs shown — "Spring & Bond → Real Chemistry" and "Alcoa Warrick → Kaiser Aluminum". James may tweak wording in this file directly; the build pulls from here.)*
 
 **Real Chemistry** (via Spring & Bond) · *2023 – present*
 *Digital Media Account Manager → Ad Ops Analyst → **Beyond Insights Manager***
