@@ -243,7 +243,7 @@ footer .hint { font-family: var(--font-hand); font-size: 20px; opacity: 0.9; }
   </div>
 </div>
 
-<footer>
+<footer data-ball="3">
   <span class="juggler">🤹</span>
   <p class="hint">…and the pattern never stops — four balls, still in the air, right here next to the juggler.</p>
   <p>© James Moran. Built with curiosity. (Prototype — <a href="proto-a.html">A</a> · <a href="proto-b.html">B</a>)</p>
@@ -323,7 +323,10 @@ footer .hint { font-family: var(--font-hand); font-size: 20px; opacity: 0.9; }
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) {
-        toss(+e.target.dataset.ball);
+        /* catch-up: jumping past sections must still land every earlier
+           ball (fast scrollers, End key, reduced-motion jumps) */
+        var upto = +e.target.dataset.ball;
+        for (var j = 0; j <= upto; j++) toss(j);
         io.unobserve(e.target);
       }
     });
