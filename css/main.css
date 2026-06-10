@@ -106,6 +106,7 @@ a { color: inherit; }
 }
 .ghost {
     position: absolute; inset-inline: 0; top: 14%;
+    flex-wrap: wrap; column-gap: 0.22em;
     display: flex; align-items: center; justify-content: center;
     z-index: 2; pointer-events: none; user-select: none;
     font-family: var(--font-display);
@@ -140,16 +141,25 @@ a { color: inherit; }
 
 /* portrait badge — magnetic, click-cycles photos 1-7 */
 .portrait {
-    position: absolute; top: 22px; right: 88px; z-index: 60;
+    position: fixed; top: 22px; right: 88px; z-index: 105;
     width: 84px; text-align: center;
     will-change: transform;
     transition: transform 300ms ease-out;
 }
+/* past the colorful hero: smaller, ink ring, caption hidden */
+body.past-hero .portrait { width: 60px; }
+body.past-hero .portrait img {
+    width: 52px; height: 52px;
+    border-color: var(--ink);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+}
+body.past-hero .portrait .hand { opacity: 0; }
 .portrait button { all: unset; cursor: pointer; display: block; margin: 0 auto; }
 .portrait img {
     width: 76px; height: 76px; border-radius: 50%;
     object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.85);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    transition: width 250ms ease, height 250ms ease, border-color 250ms ease;
 }
 .portrait .hand {
     font-size: 17px; color: var(--hero-text); opacity: 0.95;
@@ -197,6 +207,11 @@ a { color: inherit; }
     100% { transform: translateY(0) rotate(0deg); }
 }
 .slot.toss .card { animation: toss-arc var(--dur) var(--ease); }
+@keyframes ball-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7%); }
+}
+.slot.is-center .ball { animation: ball-bob 3.4s ease-in-out infinite; }
 .ball {
     --ball: #999;
     width: 38%; aspect-ratio: 1; border-radius: 50%;
@@ -209,8 +224,9 @@ a { color: inherit; }
     box-shadow: 0 10px 18px -6px rgba(0, 0, 0, 0.35);
 }
 .card .num {
-    font-family: var(--font-ui); font-weight: 600; font-size: 11px;
-    letter-spacing: 0.22em; opacity: 0.55; margin-top: 8%;
+    font-family: var(--font-ui); font-weight: 600; font-size: 10.5px;
+    letter-spacing: 0.18em; opacity: 0.55; margin-top: 8%;
+    white-space: nowrap;
 }
 .card h2 {
     font-family: var(--font-display); font-weight: 800;
@@ -243,7 +259,14 @@ a { color: inherit; }
     opacity: 0.92; margin-bottom: 16px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
-.nav { display: flex; gap: 12px; }
+.nav { display: flex; gap: 12px; align-items: center; }
+.nav .auto-pill {
+    width: auto !important; height: 44px; border-radius: 999px !important;
+    padding: 0 18px;
+    font-family: var(--font-ui); font-weight: 600; font-size: 12.5px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    white-space: nowrap;
+}
 .nav button {
     pointer-events: auto;
     width: 54px; height: 54px; border-radius: 50%;
@@ -412,11 +435,11 @@ a { color: inherit; }
    BALL CASCADE — landing zone + flights + perpetual juggle
    ---------------------------------------------------------- */
 .tray {
-    position: fixed; left: 50%; margin-left: -72px; bottom: 14px; z-index: 90;
-    width: 144px; height: 52px;
+    position: fixed; left: 50%; margin-left: -80px; bottom: 12px; z-index: 90;
+    width: 160px; height: 64px;
     pointer-events: none;
 }
-.tray .ball2 { position: absolute; bottom: 0; }
+.tray .ball2 { position: absolute; bottom: 0; left: 50%; will-change: transform; }
 .ball2 {
     --ball: #999;
     width: 28px; height: 28px; border-radius: 50%;
@@ -425,20 +448,6 @@ a { color: inherit; }
         radial-gradient(circle at 31% 28%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 14%, transparent 32%),
         radial-gradient(circle at 50% 45%, var(--ball) 45%, color-mix(in srgb, var(--ball) 62%, #000) 100%);
     box-shadow: 0 5px 9px -3px rgba(0, 0, 0, 0.4);
-}
-.tray .ball2 {
-    /* land with a squash, then never stop (phase-staggered via inline delay) */
-    animation: settle 360ms var(--ease), mini-juggle 3.2s ease-in-out 600ms infinite;
-}
-@keyframes settle {
-    0% { transform: scale(1.15, 0.8); }
-    45% { transform: scale(0.92, 1.1); }
-    100% { transform: scale(1, 1); }
-}
-@keyframes mini-juggle {
-    0%, 100% { transform: translateY(0) scale(1, 1); }
-    8%       { transform: translateY(1px) scale(1.06, 0.94); }
-    50%      { transform: translateY(-13px) scale(0.98, 1.02); }
 }
 .flight {
     position: fixed; z-index: 95; pointer-events: none;
@@ -490,7 +499,7 @@ body.past-hero .theme-toggle {
    RESPONSIVE
    ---------------------------------------------------------- */
 @media (max-width: 639px) {
-    .ghost { white-space: normal; font-size: clamp(60px, 22vw, 130px); top: 8%; }
+    .ghost { white-space: normal; font-size: clamp(52px, 20vw, 120px); top: 14%; line-height: 0.92; } /* clears the fixed badge row */
     .slot { height: max(30vh, 230px); }
     .slot.is-center { transform: translateX(-50%) scale(1.12); bottom: 26%; }
     .slot.is-left  { left: 13%; transform: translateX(-50%) scale(0.4); bottom: 36%; }

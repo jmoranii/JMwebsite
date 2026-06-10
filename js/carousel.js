@@ -24,6 +24,11 @@
         var animating = false;
         var paused = JM.reducedMotion();
         var idleTimer = null;
+        /* distinguish keyboard focus (pause rotation) from mouse clicks
+           (which would otherwise leave focus parked in the hero forever) */
+        var keyboardFocus = false;
+        document.addEventListener('keydown', function (e) { if (e.key === 'Tab') keyboardFocus = true; });
+        document.addEventListener('pointerdown', function () { keyboardFocus = false; });
 
         function paint(announce) {
             var f = FACETS[active];
@@ -66,8 +71,8 @@
             bumpIdle();
         }
 
-        document.getElementById('next').addEventListener('click', function () { navigate('next', true); });
-        document.getElementById('prev').addEventListener('click', function () { navigate('prev', true); });
+        document.getElementById('next').addEventListener('click', function (e) { navigate('next', true); if (e.detail) this.blur(); });
+        document.getElementById('prev').addEventListener('click', function (e) { navigate('prev', true); if (e.detail) this.blur(); });
 
         /* arrow keys: only while the hero is on screen, never in form fields */
         document.addEventListener('keydown', function (e) {
@@ -98,17 +103,21 @@
             if (paused || JM.reducedMotion()) return;
             idleTimer = setInterval(function () {
                 if (document.hidden) return;
-                if (JM.canHover && hero.matches(':hover')) return;
-                if (hero.contains(document.activeElement)) return;
+                /* pause only when actually engaging the cards/controls,
+                   not whenever the mouse is anywhere on the page */
+                if (JM.canHover && document.querySelector('.slot:hover, .nav:hover')) return;
+                if (keyboardFocus && hero.contains(document.activeElement)) return;
+                if (hero.getBoundingClientRect().bottom < 120) return; /* offscreen: skip */
                 navigate('next', false);
             }, 6000);
         }
         if (pauseBtn) {
-            pauseBtn.addEventListener('click', function () {
+            pauseBtn.addEventListener('click', function (e) {
                 paused = !paused;
                 pauseBtn.setAttribute('aria-pressed', String(paused));
-                pauseBtn.setAttribute('aria-label', paused ? 'Resume automatic rotation' : 'Pause automatic rotation');
-                pauseBtn.textContent = paused ? '▶' : '⏸';
+                pauseBtn.setAttribute('aria-label', paused ? 'Resume automatic juggling' : 'Pause automatic juggling');
+                pauseBtn.textContent = paused ? 'auto · off ▶' : 'auto · on ⏸';
+                if (e.detail) pauseBtn.blur();
                 bumpIdle();
             });
         }
@@ -116,7 +125,7 @@
             if (e.matches && pauseBtn) {
                 paused = true;
                 pauseBtn.setAttribute('aria-pressed', 'true');
-                pauseBtn.textContent = '▶';
+                pauseBtn.textContent = 'auto · off ▶';
             }
             bumpIdle();
         });
@@ -124,6 +133,11 @@
         /* repaint with the right token values when the theme flips */
         document.addEventListener('jm:theme', function () { paint(false); });
 
+        if (paused && pauseBtn) {
+            pauseBtn.setAttribute('aria-pressed', 'true');
+            pauseBtn.setAttribute('aria-label', 'Resume automatic juggling');
+            pauseBtn.textContent = 'auto · off ▶';
+        }
         paint(false);
         bumpIdle();
     };
