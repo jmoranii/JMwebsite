@@ -255,8 +255,11 @@ body.past-hero .portrait .hand { opacity: 0; }
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
 }
 .hero-meta .sub {
-    font-size: 14px; line-height: 1.55;
-    opacity: 0.92; margin-bottom: 16px;
+    font-family: var(--font-hand);
+    font-size: 24px; line-height: 1.2;
+    opacity: 0.95; margin-bottom: 16px;
+    transform: rotate(-2.5deg); transform-origin: left center;
+    display: inline-block;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 .nav { display: flex; gap: 12px; align-items: center; }
@@ -304,6 +307,18 @@ body.past-hero .portrait .hand { opacity: 0; }
    STORY
    ---------------------------------------------------------- */
 .story .beat-block { min-height: 78vh; display: flex; flex-direction: column; justify-content: center; }
+.beat-ball {
+    --ball: #999;
+    width: 48px; height: 48px; border-radius: 50%;
+    margin-bottom: 16px;
+    background: var(--ball);
+    background:
+        radial-gradient(circle at 31% 28%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 14%, transparent 32%),
+        radial-gradient(circle at 50% 45%, var(--ball) 45%, color-mix(in srgb, var(--ball) 62%, #000) 100%);
+    box-shadow: 0 8px 14px -5px rgba(0, 0, 0, 0.3);
+    animation: ball-bob 3.8s ease-in-out infinite;
+}
+.beat-aside { display: block; margin-top: 12px; font-size: 20px; }
 .beat { font-size: clamp(17px, 2vw, 21px); line-height: 1.7; max-width: 62ch; }
 .beat span { opacity: 0.35; transition: opacity 500ms ease; }
 .beat.on span { opacity: 1; }
@@ -521,7 +536,7 @@ body.past-hero .theme-toggle {
     .slot.is-right { left: 87%; transform: translateX(-50%) scale(0.4); bottom: 36%; }
     .slot.is-back  { bottom: 42%; transform: translateX(-50%) scale(0.34); }
     .hero-meta { bottom: 18px; max-width: 250px; }
-    .hero-meta .sub { display: none; }
+    .hero-meta .sub { font-size: 20px; margin-bottom: 10px; }
     .contact { bottom: 18px; flex-direction: column; }
     .portrait { width: 64px; right: 78px; }
     .portrait img { width: 56px; height: 56px; }

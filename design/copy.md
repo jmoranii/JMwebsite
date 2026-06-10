@@ -13,7 +13,7 @@
 
 - **Ghost text:** JAMES MORAN
 - **Tagline (LOCKED 2026-06-09):** Engineer. Analyst. Builder. Human.
-- *(Runner-up, available as copy elsewhere: "Analytics leader. AI builder. Actual juggler." — candidate for the CV summary line or the Human-ball intro.)*
+- **Sub-line (2026-06-10, James's pass):** *(actual juggler)* — handwritten/Caveat, under the tagline.
 - **Sub-line:** Engineer turned analyst turned builder — Des Moines, Iowa. Four things in the air, none dropped.
 - **Contact:** email · LinkedIn · GitHub
 
@@ -21,24 +21,26 @@
 
 | # | Facet | Card line |
 |---|---|---|
-| 01 | Engineer | Eight years making aluminum better. $200K-a-month problems, solved. |
-| 02 | Analyst | Pharma media measurement. Eight-figure programs, one source of truth. |
-| 03 | Builder | Ships AI-ready data platforms — and games people actually play. |
-| 04 | Human | Juggler, grappler, reader. 168 books and counting. |
+| 01 | Engineer | Eight years making aluminum manufacturing better. Solved $200K-a-month problems. |
+| 02 | Analyst | Eight-figure pharma media campaigns measured, communicated, and steered. |
+| 03 | Builder | AI-ready data platforms and processes — and games people actually play. |
+| 04 | Human | Juggler, grappler, reader, organizer. |
 
 ## The Story (4 scroll-reveal beats)
 
-**1 · Made of metal**
-I started as a materials engineer — Iowa State, then eight years turning molten aluminum into precision sheet metal. Four roles at one plant, where I cut a chronic failure mode from ~30% to nearly zero (worth $200K a month), recovered ten million pounds of scrap, and built a defect-flagging system that's still running seven years later. The habit I never dropped: measure first, then fix.
+*(Each beat opens with a large facet ball; cascade arrivals match: Engineer → Human → Analyst → Builder — the facets in life order. Revised 2026-06-10, James's pass.)*
 
-**2 · The deliberate leap**
-In 2022 I did the scary thing on purpose: stopped, retrained in data analytics, and changed fields. Not a gap — a decision. The same leap carried me back home to Iowa, close to family. Best trade I've ever made.
+**1 · Made of metal** 🔵
+An Iowa State engineering degree, then eight years turning molten aluminum into precision sheet metal. Four roles of increasing responsibility at one plant, where I solved big, complex problems (the kind that save $200K a month). The approach I never dropped: understand first, solve, then track and iterate.
 
-**3 · Data in service of health**
-I joined a pharma-marketing startup as roughly its ninth hire and wore every hat on the rack — client services, ad operations, and finally business intelligence, where I rebuilt reporting "from a disorganized state to a valuable and controlled system." (My manager's words, not mine.)
+**2 · The Leap** 🩷
+In 2022 I took the risk: left the known engineering path, moved home to be near family, and retrained in data analytics. I was uncertain — but I wasn't going to drop the family ball, or the joy one.
 
-**4 · The AI era**
-Today I lead measurement for major pharmaceutical brands and build the systems underneath: data platforms AI agents can read, workflows where Claude Code is a teammate — and, after hours, games my friends actually play. Proof below.
+**3 · Data in service of health** 🟢
+I joined a scrappy pharma-marketing startup as the ninth hire, learning fast and juggling roles: client services, ad operations, and finally business intelligence, where I rebuilt reporting "from a disorganized state to a valuable and controlled system." (Leadership's words, not mine.)
+
+**4 · The AI era** 🟠
+Today I'm fixated on AI and its potential. I stay on top of the industry and build with the tools: at work, a data platform AI agents can read and workflows where Claude Code is a teammate; at home, AI woven into my life and games my friends actually play. Proof below! *(sorry — no juggling wordplay here)* ← Caveat aside
 
 ## Things I've Built (sticky-stack cards)
 
@@ -108,4 +110,4 @@ Intro line: **The through-line: I commit to things for years.**
 
 ## Footer (screen)
 
-© James Moran. Built with curiosity. *(The easter egg is the photo of James actually juggling — pulsing, clickable, unexplained — leading to the Keep It Up game.)*
+© James Moran · Des Moines, Iowa. Built with curiosity. *(The easter egg is the photo of James actually juggling — pulsing, clickable, unexplained — leading to the Keep It Up game.)*

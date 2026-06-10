@@ -11,7 +11,9 @@
     'use strict';
     window.JM = window.JM || {};
 
-    var BALLS = ['--c-engineer', '--c-analyst', '--c-builder', '--c-human'];
+    /* arrival order matches the story beats: metal, the leap (human),
+       health (analyst), AI era (builder) */
+    var BALLS = ['--c-engineer', '--c-human', '--c-analyst', '--c-builder'];
     var TRAY_W = 160;
 
     JM.initCascade = function () {
