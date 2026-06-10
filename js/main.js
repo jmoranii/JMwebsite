@@ -30,7 +30,18 @@
         io.observe(hero);
     }
 
+    /* visit /?debug to see what this device reports (helps diagnose
+       "animations don't play on my phone" — usually an OS setting) */
+    function debugBadge() {
+        if (!/[?&]debug/.test(location.search)) return;
+        var d = document.createElement('div');
+        d.style.cssText = 'position:fixed;bottom:70px;left:10px;z-index:999;background:#1C1B1A;color:#fff;font:12px/1.5 monospace;padding:8px 10px;border-radius:8px;opacity:0.92';
+        d.textContent = 'reduced-motion: ' + (JM.reducedMotion() ? 'ON (effects intentionally off)' : 'off (effects should play)');
+        document.body.appendChild(d);
+    }
+
     function init() {
+        debugBadge();
         JM.initTheme();
         JM.initCarousel();
         JM.initPortrait();
