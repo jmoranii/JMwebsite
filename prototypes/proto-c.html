@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Prototype C — ball cascade · sticky-stack | James Moran v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PROTOTYPE C — the two scroll mechanics, palette-neutral page.
+   Rev 2: post-review fixes (animationend guard, index-positioned
+   tray, replay cancels in-flight, progressive stack settle,
+   short-viewport floors, chips clear of tray, color-mix fallbacks).
+   Ball colors are placeholders — judge the MOTION, not the hue.
+   ============================================================ */
+:root {
+  --paper: #FAF7F2;
+  --ink: #1C1B1A;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --font-ui: 'Outfit', sans-serif;
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --font-hand: 'Caveat', cursive;
+  --b1: #7F8FA0; --b2: #2A9D8F; --b3: #E76F51; --b4: #E9C46A;
+}
+[data-theme="dark"] { --paper: #171411; --ink: #EDE7DD; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); background: var(--paper); color: var(--ink); }
+
+section { min-height: 92vh; display: flex; align-items: center; }
+.wrap { max-width: 680px; margin: 0 auto; padding: 48px 28px; }
+h1, h2 { font-family: var(--font-ui); font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; }
+h1 { font-size: clamp(34px, 6vw, 64px); line-height: 1.02; margin-bottom: 20px; }
+h2 { font-size: clamp(26px, 4.5vw, 44px); margin-bottom: 18px; }
+.kicker {
+  font-family: var(--font-ui); font-weight: 600; font-size: 12px;
+  letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.55;
+  margin-bottom: 10px;
+}
+p.beat { font-size: clamp(16px, 1.9vw, 20px); line-height: 1.7; }
+/* word-by-word reveal: unrevealed words stay legible (0.35) */
+.beat span { opacity: 0.35; transition: opacity 500ms ease; }
+.beat.on span { opacity: 1; }
+.hand { font-family: var(--font-hand); font-size: 21px; transform: rotate(-1.5deg); display: inline-block; margin-top: 14px; opacity: 0.9; }
+
+/* ============ BALL CASCADE ============ */
+/* landing zone — fixed, bottom-CENTER (so every flight crosses real
+   distance, and the cluster genuinely sits next to the footer 🤹);
+   balls sit at per-index slots (absolute positions, so arrival order
+   can never misplace them) */
+.tray {
+  position: fixed; left: 50%; margin-left: -72px; bottom: 16px; z-index: 90;
+  width: 144px; height: 50px;
+  pointer-events: none;
+}
+.tray .ball {
+  position: absolute; bottom: 0;
+  /* land with a squash, then never stop: a gentle perpetual
+     mini-cascade, phase-staggered per ball ("I don't drop balls") */
+  animation: settle 360ms var(--ease), mini-juggle 3.2s ease-in-out 600ms infinite;
+}
+@keyframes mini-juggle {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  8%       { transform: translateY(1px) scale(1.06, 0.94); }
+  50%      { transform: translateY(-14px) scale(0.98, 1.02); }
+}
+.ball {
+  --ball: #999;
+  width: 30px; height: 30px; border-radius: 50%;
+  /* fallback first for browsers without color-mix() */
+  background: var(--ball);
+  background:
+    radial-gradient(circle at 31% 28%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 14%, transparent 32%),
+    radial-gradient(circle at 50% 45%, var(--ball) 45%, color-mix(in srgb, var(--ball) 62%, #000) 100%);
+  box-shadow: 0 5px 9px -3px rgba(0, 0, 0, 0.4);
+}
+@keyframes settle {
+  0% { transform: scale(1.15, 0.8); }
+  45% { transform: scale(0.92, 1.1); }
+  100% { transform: scale(1, 1); }
+}
+/* flight rig: outer = X (linear), inner = Y (parabola) */
+.flight {
+  position: fixed; z-index: 95; pointer-events: none;
+  left: 0; bottom: 16px;
+}
+.fx { animation: fx-move var(--fdur, 950ms) linear forwards; }
+@keyframes fx-move {
+  from { transform: translateX(var(--sx)); }
+  to   { transform: translateX(0); }
+}
+.fy { animation: fy-arc var(--fdur, 950ms) forwards; }
+@keyframes fy-arc {
+  0%   { transform: translateY(-46vh); animation-timing-function: cubic-bezier(0.2, 0.6, 0.5, 1); }
+  42%  { transform: translateY(-62vh); animation-timing-function: cubic-bezier(0.45, 0, 0.8, 0.6); }
+  100% { transform: translateY(0); }
+}
+.flight .ball { animation: spinwobble var(--fdur, 950ms) linear; }
+@keyframes spinwobble {
+  0% { transform: rotate(0deg); } 100% { transform: rotate(280deg); }
+}
+
+/* ============ STICKY-STACK ============ */
+.stack-zone { display: block; min-height: 0; padding-bottom: 10vh; }
+.stack-head { padding-top: 14vh; }
+.stack-item { height: max(88vh, 620px); }
+.stack-card {
+  position: sticky;
+  top: var(--stick, 84px);
+  max-width: 760px; margin: 0 auto;
+  max-height: calc(100vh - var(--stick, 84px) - 24px);
+  overflow: hidden;
+  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 86%, #fff);
+  border: 2px solid var(--ink);
+  border-radius: 28px;
+  padding: clamp(20px, 4vw, 44px);
+  box-shadow: 0 18px 44px rgba(20, 15, 5, 0.14);
+  transform-origin: top center;
+  will-change: transform;
+}
+[data-theme="dark"] .stack-card { background: #221E19; }
+.stack-card .row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.stack-card .pnum { font-family: var(--font-ui); font-weight: 800; font-size: clamp(40px, 8vw, 84px); opacity: 0.18; line-height: 1; }
+.stack-card h3 { font-family: var(--font-ui); font-weight: 800; font-size: clamp(20px, 3vw, 30px); text-transform: uppercase; }
+.stack-card .tag { font-family: var(--font-ui); font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.55; }
+.stack-card p { margin-top: 14px; line-height: 1.65; font-size: clamp(14px, 1.7vw, 17px); }
+.stack-card .thumb {
+  margin-top: 18px; height: clamp(120px, 24vw, 260px); border-radius: 18px;
+  background: rgba(28, 27, 26, 0.08);
+  background:
+    repeating-linear-gradient(45deg, transparent 0 14px, rgba(28,27,26,0.05) 14px 28px),
+    linear-gradient(135deg, color-mix(in srgb, var(--accent, #999) 38%, var(--paper)), color-mix(in srgb, var(--accent, #999) 14%, var(--paper)));
+  display: grid; place-items: center;
+  font-family: var(--font-ui); font-weight: 600; font-size: 13px;
+  letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.9;
+}
+
+/* ============ FOOTER ============ */
+footer { padding: 96px 28px 72px; text-align: center; }
+footer .juggler { font-size: 42px; display: inline-block; }
+footer p { margin-top: 10px; opacity: 0.7; font-size: 14px; }
+footer .hint { font-family: var(--font-hand); font-size: 20px; opacity: 0.9; }
+
+/* ============ chips ============ */
+.chips {
+  position: fixed; bottom: 12px; right: 16px; z-index: 100;
+  display: flex; gap: 8px;
+}
+/* keep chips clear of the tray on narrow screens */
+@media (max-width: 560px) { .chips { bottom: 64px; } }
+.chips button, .chips a {
+  font-family: var(--font-ui); font-weight: 600; font-size: 12px;
+  padding: 8px 14px; border-radius: 999px; border: none; cursor: pointer;
+  background: rgba(20,17,12,0.78); color: #fff; text-decoration: none;
+  backdrop-filter: blur(4px);
+}
+@media (hover: hover) and (pointer: fine) {
+  .chips button:hover, .chips a:hover { background: rgba(20,17,12,0.95); }
+}
+.chips button:focus-visible, .chips a:focus-visible {
+  outline: 3px solid #fff; outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  .beat span { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- resting cluster (decorative; balls land here and wait by the footer) -->
+<div class="tray" id="tray" aria-hidden="true"></div>
+
+<section data-ball="0">
+  <div class="wrap">
+    <div class="kicker">Prototype C · scroll mechanics demo</div>
+    <h1>Watch the bottom of the screen.</h1>
+    <p class="beat">As you scroll into each section of the story, a new ball gets tossed in from a screen edge — alternating sides, arcing all the way across, like a juggler adding balls to a pattern. The first one just landed bottom-center. Three more are waiting below. And once a ball is in, it never stops moving.</p>
+    <span class="hand">scroll ↓ (slowly the first time)</span>
+  </div>
+</section>
+
+<section data-ball="1">
+  <div class="wrap">
+    <div class="kicker">Story beat · sample copy</div>
+    <h2>Made of metal</h2>
+    <p class="beat">Materials engineer out of Iowa State. Eight years at an aluminum mill across four roles — flagging systems still running seven years later, scrap problems measured in millions of pounds, solved. The words brighten as you read; the second ball just flew in from the other side.</p>
+  </div>
+</section>
+
+<section data-ball="2">
+  <div class="wrap">
+    <div class="kicker">Story beat · sample copy</div>
+    <h2>The deliberate leap</h2>
+    <p class="beat">In 2022 I stopped, retrained, and changed fields on purpose — and the same leap brought me back home to Iowa, close to family. Career move and human move in one. Ball three.</p>
+  </div>
+</section>
+
+<section data-ball="3">
+  <div class="wrap">
+    <div class="kicker">Story beat · sample copy</div>
+    <h2>The AI era</h2>
+    <p class="beat">Now I build measurement platforms that AI agents can read and query — and games my friends actually play. Fourth ball in. The pattern is complete — and it keeps going, because I don't drop balls.</p>
+  </div>
+</section>
+
+<div class="stack-zone">
+  <div class="wrap stack-head">
+    <div class="kicker">Mechanic two · sticky-stack</div>
+    <h2>Things I've Built</h2>
+    <p class="beat">Cards pop up from the bottom and stack. Earlier cards settle back — each new arrival nudges everything behind it. Three placeholders:</p>
+  </div>
+
+  <div class="stack-item">
+    <article class="stack-card" style="--accent: var(--b2); --stick: 84px;">
+      <div class="row"><span class="pnum">01</span><h3>Flagship data platform</h3><span class="tag">Work · systems</span></div>
+      <p>The eight-figure-program measurement platform — medallion architecture, AI-readable metadata, agents running the queries. (Real copy lands at Checkpoint 2; this card is about the stacking motion.)</p>
+      <div class="thumb">architecture diagram placeholder</div>
+    </article>
+  </div>
+  <div class="stack-item">
+    <article class="stack-card" style="--accent: var(--b3); --stick: 110px;">
+      <div class="row"><span class="pnum">02</span><h3>AI second brain</h3><span class="tag">Systems · personal</span></div>
+      <p>A markdown vault + AI assistant running daily life — same patterns as the work platform, life-sized. Notice card 01 settling backward as this one arrives.</p>
+      <div class="thumb">screenshot placeholder</div>
+    </article>
+  </div>
+  <div class="stack-item">
+    <article class="stack-card" style="--accent: var(--b4); --stick: 136px;">
+      <div class="row"><span class="pnum">03</span><h3>Games people play</h3><span class="tag">Play tier</span></div>
+      <p>A weekly puzzle game built on ten years of book-club history, a match-3 made for my sister, a bilingual community site. Live links on the real cards.</p>
+      <div class="thumb">screenshot placeholder</div>
+    </article>
+  </div>
+</div>
+
+<footer>
+  <span class="juggler">🤹</span>
+  <p class="hint">…and the pattern never stops — four balls, still in the air, right here next to the juggler.</p>
+  <p>© James Moran. Built with curiosity. (Prototype — <a href="proto-a.html">A</a> · <a href="proto-b.html">B</a>)</p>
+</footer>
+
+<div class="chips">
+  <button type="button" id="chip-replay">↺ Replay balls</button>
+  <button type="button" id="chip-theme" aria-label="Toggle dark mode" aria-pressed="false">☀ / 🌙</button>
+  <a href="proto-a.html" aria-label="Open prototype A">A →</a>
+  <a href="proto-b.html" aria-label="Open prototype B">B →</a>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var rmq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reducedMotion = rmq.matches;
+  if (rmq.addEventListener) {
+    rmq.addEventListener('change', function (e) { reducedMotion = e.matches; });
+  }
+
+  var BALLS = ['--b1', '--b2', '--b3', '--b4'];
+  var tray = document.getElementById('tray');
+  var landed = [false, false, false, false];
+
+  /* tray balls are absolutely positioned at their per-index slot,
+     so arrival order can never misplace them */
+  function staticBall(i) {
+    var b = document.createElement('div');
+    b.className = 'ball';
+    b.style.setProperty('--ball', 'var(' + BALLS[i] + ')');
+    b.style.left = (i * 38) + 'px';
+    /* stagger the perpetual mini-juggle so the four balls cascade
+       as a wave, not in unison (settle delay stays 0) */
+    b.style.animationDelay = '0ms, ' + (600 + i * 800) + 'ms';
+    return b;
+  }
+
+  function toss(i) {
+    if (landed[i]) return;
+    landed[i] = true;
+    if (reducedMotion) { tray.appendChild(staticBall(i)); return; }
+
+    var trayLeft = (window.innerWidth - 144) / 2;
+    var slotX = trayLeft + i * 38;           /* tray slot page-x (bottom-center) */
+    var fromRight = (i % 2 === 1);
+    var sx = fromRight
+      ? (window.innerWidth - slotX + 60) + 'px'
+      : (-slotX - 60) + 'px';
+    var dur = 900 + i * 90;
+
+    var flight = document.createElement('div');
+    flight.className = 'flight';
+    flight.style.transform = 'translateX(' + slotX + 'px)';
+    flight.style.setProperty('--sx', sx);
+    flight.style.setProperty('--fdur', dur + 'ms');
+    var fx = document.createElement('div'); fx.className = 'fx';
+    var fy = document.createElement('div'); fy.className = 'fy';
+    var ball = staticBall(i);
+    ball.style.left = '';                    /* in flight, position comes from the rig */
+    fy.appendChild(ball); fx.appendChild(fy); flight.appendChild(fx);
+    document.body.appendChild(flight);
+
+    /* three animations end simultaneously and animationend bubbles —
+       handle exactly one event (fx-move) and detach the listener */
+    function onEnd(e) {
+      if (e.animationName !== 'fx-move') return;
+      fx.removeEventListener('animationend', onEnd);
+      flight.remove();
+      if (flight.dataset.cancelled !== '1') {
+        tray.appendChild(staticBall(i)); /* .tray .ball runs the settle squash */
+      }
+    }
+    fx.addEventListener('animationend', onEnd);
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        toss(+e.target.dataset.ball);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  document.querySelectorAll('[data-ball]').forEach(function (s) { io.observe(s); });
+
+  /* replay: cancel anything mid-air first, then re-run from scratch */
+  document.getElementById('chip-replay').addEventListener('click', function () {
+    document.querySelectorAll('.flight').forEach(function (f) {
+      f.dataset.cancelled = '1';
+      f.remove();
+    });
+    tray.innerHTML = '';
+    landed = [false, false, false, false];
+    document.querySelectorAll('[data-ball]').forEach(function (s) {
+      var r = s.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.65) toss(+s.dataset.ball);
+      else io.observe(s);
+    });
+  });
+
+  /* word-by-word reveal — skipped entirely under reduced motion
+     (no DOM fragmentation for AT users) */
+  if (!reducedMotion) {
+    document.querySelectorAll('.beat').forEach(function (p) {
+      if (p.children.length) return; /* don't split if inline markup ever appears */
+      var words = p.textContent.trim().split(/\s+/);
+      p.textContent = '';
+      words.forEach(function (w, ix) {
+        var s = document.createElement('span');
+        s.textContent = w + ' ';
+        s.style.transitionDelay = Math.min(ix * 22, 900) + 'ms';
+        p.appendChild(s);
+      });
+    });
+    var rio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('on'); rio.unobserve(e.target); }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.beat').forEach(function (p) { rio.observe(p); });
+  }
+
+  /* sticky-stack: each later arrival nudges every earlier card
+     (accumulated progress, no per-depth multiplier) */
+  var items = Array.prototype.slice.call(document.querySelectorAll('.stack-item'));
+  var cards = items.map(function (w) { return w.querySelector('.stack-card'); });
+  var ticking = false;
+  function stackFrame() {
+    ticking = false;
+    if (reducedMotion) return;
+    var vh = window.innerHeight;
+    for (var i = 0; i < cards.length - 1; i++) {
+      var sumQ = 0;
+      for (var j = i + 1; j < items.length; j++) {
+        var r = items[j].getBoundingClientRect();
+        sumQ += Math.min(Math.max(1 - r.top / vh, 0), 1);
+      }
+      var scale = 1 - sumQ * 0.035;
+      cards[i].style.transform = 'scale(' + scale.toFixed(4) + ')';
+      cards[i].style.filter = 'brightness(' + (1 - sumQ * 0.05).toFixed(3) + ')';
+    }
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(stackFrame); }
+  }, { passive: true });
+  stackFrame();
+
+  var themeChip = document.getElementById('chip-theme');
+  themeChip.addEventListener('click', function () {
+    var cur = document.documentElement.getAttribute('data-theme');
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    themeChip.setAttribute('aria-pressed', String(next === 'dark'));
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Prototype A — LOCKED: warm palette · Outfit 800 | James Moran v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PROTOTYPE A — Daylight Studio, warm ball set, Anton display.
+   Rev 2: post-review fixes (contrast-safe hero backgrounds,
+   pointer-events hygiene, pause control, ARIA carousel pattern,
+   focus-visible, hover gating, short-viewport floors).
+   ============================================================ */
+:root {
+  --paper: #FAF7F2;
+  --ink: #1C1B1A;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 650ms;
+  --font-display: 'Outfit', sans-serif;
+  --font-ui: 'Outfit', sans-serif;
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --font-hand: 'Caveat', cursive;
+  /* Ball set A — warm (balls keep the bright values; hero
+     backgrounds use deepened variants so white text passes 3:1) */
+  --c-engineer: #6EB5FF;
+  --c-analyst:  #6BBF7A;
+  --c-builder:  #F4845F;
+  --c-human:    #E882B4;
+  --card-bg: #FAF7F2;
+  --card-ink: #1C1B1A;
+  --hero-text: #FFFFFF;
+}
+[data-theme="dark"] {
+  --paper: #171411;
+  --ink: #EDE7DD;
+  --card-bg: #221E19;
+  --card-ink: #EDE7DD;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--paper); color: var(--ink); }
+
+/* ---------- HERO ---------- */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  transition: background-color var(--dur) var(--ease);
+}
+.grain {
+  position: absolute; inset: 0; z-index: 50; pointer-events: none; opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+.ghost {
+  position: absolute; inset-inline: 0; top: 14%;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2; pointer-events: none; user-select: none;
+  font-family: var(--font-display);
+  font-weight: 800;
+  /* sized to FIT — v1 of this proto clipped the name at the edges */
+  font-size: clamp(56px, 12.6vw, 250px);
+  padding-inline: 2vw;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--hero-text);
+  opacity: 0.96;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-align: center;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.10);
+}
+@media (max-width: 639px) {
+  .ghost { white-space: normal; font-size: clamp(60px, 22vw, 130px); top: 8%; }
+}
+.brand-label {
+  position: absolute; top: 24px; left: 24px; z-index: 60;
+  font-family: var(--font-ui); font-weight: 600; font-size: 12px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--hero-text); opacity: 0.92;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+/* ---------- portrait badge (magnetic, top-right) ---------- */
+.portrait {
+  position: absolute; top: 22px; right: 24px; z-index: 60;
+  width: 84px; text-align: center;
+  will-change: transform;
+  transition: transform 300ms ease-out;
+}
+.portrait button {
+  all: unset; cursor: pointer; display: block; margin: 0 auto;
+}
+.portrait img {
+  width: 76px; height: 76px; border-radius: 50%;
+  object-fit: cover; border: 3px solid rgba(255,255,255,0.85);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  display: block;
+}
+.portrait .hand {
+  font-family: var(--font-hand); font-size: 17px; color: var(--hero-text);
+  opacity: 0.95; display: block; margin-top: 3px; transform: rotate(-4deg);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+/* ---------- carousel ---------- */
+.carousel { position: absolute; inset: 0; z-index: 3; }
+.slot {
+  position: absolute;
+  height: max(44vh, 300px); aspect-ratio: 0.72;
+  left: 50%; bottom: 9%;
+  transform: translateX(-50%) scale(1);
+  transition:
+    transform var(--dur) var(--ease),
+    filter var(--dur) var(--ease),
+    opacity var(--dur) var(--ease),
+    left var(--dur) var(--ease),
+    bottom var(--dur) var(--ease);
+  will-change: transform, filter, opacity, left;
+}
+.slot.is-center { left: 50%; bottom: 9%; transform: translateX(-50%) scale(1.32); z-index: 20; filter: none; opacity: 1; cursor: default; }
+.slot.is-left   { left: 27%; bottom: 17%; transform: translateX(-50%) scale(0.68); z-index: 10; filter: blur(2px); opacity: 0.88; cursor: pointer; }
+.slot.is-right  { left: 73%; bottom: 17%; transform: translateX(-50%) scale(0.68); z-index: 10; filter: blur(2px); opacity: 0.88; cursor: pointer; }
+.slot.is-back   { left: 50%; bottom: 25%; transform: translateX(-50%) scale(0.5); z-index: 1; filter: blur(5px); opacity: 0.9; cursor: pointer; }
+.slot:focus-visible {
+  outline: 3px solid var(--hero-text);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.4);
+}
+@media (max-width: 639px) {
+  .slot { height: max(30vh, 230px); }
+  .slot.is-center { transform: translateX(-50%) scale(1.12); bottom: 26%; }
+  .slot.is-left  { left: 13%; transform: translateX(-50%) scale(0.4); bottom: 36%; }
+  .slot.is-right { left: 87%; transform: translateX(-50%) scale(0.4); bottom: 36%; }
+  .slot.is-back  { bottom: 42%; transform: translateX(-50%) scale(0.34); }
+}
+.card {
+  width: 100%; height: 100%;
+  background: var(--card-bg); color: var(--card-ink);
+  border-radius: 22px;
+  box-shadow: 0 18px 50px rgba(20, 15, 5, 0.22);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 9% 8%;
+  text-align: center;
+  overflow: hidden;
+}
+@keyframes toss-arc {
+  0%   { transform: translateY(0) rotate(0deg); }
+  45%  { transform: translateY(-9%) rotate(-2.5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+.slot.toss .card { animation: toss-arc var(--dur) var(--ease); }
+.ball {
+  --ball: #999;
+  width: 38%; aspect-ratio: 1; border-radius: 50%;
+  margin-top: 4%;
+  flex-shrink: 0;
+  /* fallback first: solid ball for browsers without color-mix() */
+  background: var(--ball);
+  background:
+    radial-gradient(circle at 31% 28%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 14%, transparent 32%),
+    radial-gradient(circle at 50% 45%, var(--ball) 45%, color-mix(in srgb, var(--ball) 62%, #000) 100%);
+  box-shadow: 0 10px 18px -6px rgba(0, 0, 0, 0.35);
+}
+.card .num {
+  font-family: var(--font-ui); font-weight: 600; font-size: 11px;
+  letter-spacing: 0.22em; opacity: 0.55; margin-top: 8%;
+}
+.card h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(19px, 3.4vh, 36px);
+  letter-spacing: -0.01em; text-transform: uppercase;
+  margin-top: 2%;
+  color: var(--facet, var(--card-ink));
+}
+.card p {
+  font-size: clamp(12px, 1.75vh, 17px);
+  line-height: 1.45; margin-top: 5%; opacity: 0.85;
+  max-width: 95%;
+}
+@media (max-height: 520px) { .card p { display: none; } }
+/* ---------- bottom-left meta ---------- */
+.hero-meta {
+  position: absolute; left: 24px; bottom: 28px; z-index: 60;
+  max-width: 340px; color: var(--hero-text);
+  pointer-events: none; /* transparent box must not eat card clicks */
+}
+.hero-meta .tagline {
+  font-family: var(--font-ui); font-weight: 800;
+  font-size: clamp(17px, 2.1vw, 24px); line-height: 1.25;
+  text-transform: uppercase; letter-spacing: 0.02em;
+  margin-bottom: 8px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.28);
+}
+.hero-meta .sub {
+  font-family: var(--font-body); font-size: 14px; line-height: 1.55;
+  opacity: 0.92; margin-bottom: 16px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+.nav { display: flex; gap: 12px; }
+.nav button {
+  pointer-events: auto;
+  width: 54px; height: 54px; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.10);
+  border: 2px solid var(--hero-text);
+  color: var(--hero-text); font-size: 22px; cursor: pointer;
+  display: grid; place-items: center;
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+.nav button:focus-visible {
+  outline: 3px solid var(--hero-text);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.45);
+}
+/* ---------- bottom-right contact ---------- */
+.contact {
+  position: absolute; right: 24px; bottom: 32px; z-index: 60;
+  display: flex; gap: 10px;
+}
+.contact a {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.10);
+  border: 2px solid var(--hero-text); color: var(--hero-text);
+  display: grid; place-items: center; text-decoration: none;
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+.contact a:focus-visible {
+  outline: 3px solid var(--hero-text);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.45);
+}
+.contact svg { width: 20px; height: 20px; }
+@media (hover: hover) and (pointer: fine) {
+  .nav button:hover { transform: scale(1.08); background: rgba(0,0,0,0.22); }
+  .contact a:hover { transform: scale(1.08); background: rgba(0,0,0,0.22); }
+  .chips button:hover, .chips a:hover { background: rgba(20,17,12,0.95); }
+}
+@media (max-width: 639px) {
+  .hero-meta { bottom: 18px; max-width: 250px; }
+  .hero-meta .sub { display: none; }
+  .contact { bottom: 18px; flex-direction: column; }
+  .portrait { width: 64px; }
+  .portrait img { width: 56px; height: 56px; }
+}
+/* ---------- proto control chips ---------- */
+.chips {
+  position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 100; display: flex; gap: 8px;
+}
+.chips button, .chips a {
+  font-family: var(--font-ui); font-weight: 600; font-size: 12px;
+  padding: 8px 14px; border-radius: 999px; border: none; cursor: pointer;
+  background: rgba(20,17,12,0.78); color: #fff; text-decoration: none;
+  backdrop-filter: blur(4px);
+}
+.chips button:focus-visible, .chips a:focus-visible {
+  outline: 3px solid #fff; outline-offset: 2px;
+}
+/* ---------- below-hero review notes ---------- */
+.notes { max-width: 720px; margin: 0 auto; padding: 64px 24px 96px; }
+.notes h2 { font-family: var(--font-display); font-weight: 800; font-size: 30px; text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 18px; }
+.notes ul { margin-left: 20px; line-height: 1.7; }
+.notes .hand { font-family: var(--font-hand); font-size: 22px; transform: rotate(-1.5deg); display: inline-block; margin-top: 22px; }
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px;
+  clip-path: inset(50%); overflow: hidden; white-space: nowrap;
+}
+</style>
+</head>
+<body>
+
+<header class="hero" id="hero">
+  <h1 class="sr-only">James Moran — personal site prototype A</h1>
+  <div class="ghost" aria-hidden="true">James&nbsp;Moran</div>
+  <div class="brand-label">James Moran · v2 — locked direction</div>
+
+  <div class="portrait" id="portrait">
+    <button type="button" id="portrait-btn" aria-label="Cycle portrait photo">
+      <img id="portrait-img" src="https://jmoranii.github.io/JMwebsite/assets/James1.jpg" alt="James Moran">
+    </button>
+    <span class="hand" aria-hidden="true">me! (click)</span>
+  </div>
+
+  <div class="carousel" id="carousel" role="region" aria-roledescription="carousel" aria-label="Four facets of James">
+    <div class="slot" data-index="0" aria-roledescription="slide">
+      <div class="card" style="--facet: var(--c-engineer)">
+        <div class="ball" style="--ball: var(--c-engineer)" aria-hidden="true"></div>
+        <div class="num">01 / 04</div>
+        <h2>Engineer</h2>
+        <p>Eight years making aluminum better. $200K-a-month problems, solved.</p>
+      </div>
+    </div>
+    <div class="slot" data-index="1" aria-roledescription="slide">
+      <div class="card" style="--facet: var(--c-analyst)">
+        <div class="ball" style="--ball: var(--c-analyst)" aria-hidden="true"></div>
+        <div class="num">02 / 04</div>
+        <h2>Analyst</h2>
+        <p>Pharma media measurement. Eight-figure programs, one source of truth.</p>
+      </div>
+    </div>
+    <div class="slot" data-index="2" aria-roledescription="slide">
+      <div class="card" style="--facet: var(--c-builder)">
+        <div class="ball" style="--ball: var(--c-builder)" aria-hidden="true"></div>
+        <div class="num">03 / 04</div>
+        <h2>Builder</h2>
+        <p>Ships AI-ready data platforms — and games people actually play.</p>
+      </div>
+    </div>
+    <div class="slot" data-index="3" aria-roledescription="slide">
+      <div class="card" style="--facet: var(--c-human)">
+        <div class="ball" style="--ball: var(--c-human)" aria-hidden="true"></div>
+        <div class="num">04 / 04</div>
+        <h2>Human</h2>
+        <p>Juggler, grappler, reader. 168 books and counting.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-meta">
+    <p class="tagline" id="tagline">Engineer. Analyst. Builder. Human.</p>
+    <p class="sub">Engineer turned analyst turned builder — Des Moines, Iowa. Four things in the air, none dropped.</p>
+    <div class="nav">
+      <button type="button" id="prev" aria-label="Previous facet">←</button>
+      <button type="button" id="next" aria-label="Next facet">→</button>
+      <button type="button" id="pause" aria-label="Pause automatic rotation" aria-pressed="false">⏸</button>
+    </div>
+  </div>
+
+  <div class="contact" aria-label="Contact links">
+    <a href="mailto:JamesSheehanMoran@gmail.com" aria-label="Email James">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/james-moran-082629b7/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://github.com/jmoranii" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+    </a>
+  </div>
+
+  <div class="grain"></div>
+  <p class="sr-only" aria-live="polite" id="live"></p>
+</header>
+
+<section class="notes">
+  <h2>The locked direction</h2>
+  <ul>
+    <li><strong>Decided Tue 2026-06-09:</strong> warm palette (A) + Outfit 800 display (from B) + tagline <em>"Engineer. Analyst. Builder. Human."</em> + magnetic portrait badge cycling photos 1–7.</li>
+    <li><strong>Ghost text now sized to fit</strong> — it was clipping at the edges; check it clears both sides on your screen (the one thing to re-verify here).</li>
+    <li>Toss, crossfade, and pause behavior unchanged from the version you approved.</li>
+    <li>Reference: <a href="proto-b.html">Prototype B (the unchosen teal/silver palette)</a> stays around for comparison.</li>
+  </ul>
+  <span class="hand">— the reworked ball cascade lives in <a href="proto-c.html">Prototype C</a></span>
+</section>
+
+<div class="chips">
+  <button type="button" id="chip-tag">Tagline: A</button>
+  <button type="button" id="chip-theme" aria-label="Toggle dark mode" aria-pressed="false">☀ / 🌙</button>
+  <a href="proto-b.html" aria-label="Open prototype B">B →</a>
+  <a href="proto-c.html" aria-label="Open prototype C">C →</a>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var rmq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reducedMotion = rmq.matches;
+  var canHover = window.matchMedia('(hover: hover)').matches;
+
+  /* hero backgrounds: deepened facet colors (>=3:1 with white text) */
+  var FACETS = [
+    { name: 'Engineer', light: '#3F7ABF', dark: '#2F4A63' },
+    { name: 'Analyst',  light: '#3C8A4D', dark: '#2C4F36' },
+    { name: 'Builder',  light: '#C94F2B', dark: '#66351F' },
+    { name: 'Human',    light: '#C2548C', dark: '#5C2F47' }
+  ];
+
+  var hero = document.getElementById('hero');
+  var slots = Array.prototype.slice.call(document.querySelectorAll('.slot'));
+  var live = document.getElementById('live');
+  var active = 0;
+  var animating = false;
+
+  function theme() { return document.documentElement.getAttribute('data-theme'); }
+
+  function paint(announce) {
+    var f = FACETS[active];
+    hero.style.backgroundColor = (theme() === 'dark') ? f.dark : f.light;
+    slots.forEach(function (slot) {
+      var i = +slot.dataset.index;
+      slot.classList.remove('is-center', 'is-left', 'is-right', 'is-back', 'toss');
+      var role = (i === active) ? 'is-center'
+        : (i === (active + 3) % 4) ? 'is-left'
+        : (i === (active + 1) % 4) ? 'is-right' : 'is-back';
+      slot.classList.add(role);
+      /* non-center slots act as "show this facet" buttons */
+      if (role === 'is-center') {
+        slot.removeAttribute('role');
+        slot.setAttribute('tabindex', '-1');
+        slot.setAttribute('aria-label', (i + 1) + ' of 4: ' + FACETS[i].name + ' (current)');
+      } else {
+        slot.setAttribute('role', 'button');
+        slot.setAttribute('tabindex', '0');
+        slot.setAttribute('aria-label', 'Show facet: ' + FACETS[i].name);
+      }
+    });
+    if (announce) live.textContent = f.name + ' — facet ' + (active + 1) + ' of 4';
+  }
+
+  function goTo(target, announce) {
+    if (animating || target === active) return;
+    animating = true;
+    active = ((target % 4) + 4) % 4;
+    paint(announce);
+    if (!reducedMotion) {
+      var center = slots.filter(function (s) { return +s.dataset.index === active; })[0];
+      center.classList.add('toss');
+    }
+    setTimeout(function () { animating = false; }, reducedMotion ? 40 : 660);
+  }
+  function navigate(dir, announce) {
+    goTo(dir === 'next' ? active + 1 : active - 1, announce);
+    bumpIdle();
+  }
+
+  document.getElementById('next').addEventListener('click', function () { navigate('next', true); });
+  document.getElementById('prev').addEventListener('click', function () { navigate('prev', true); });
+
+  /* arrow keys: only while hero is on screen, never inside form fields */
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    var r = hero.getBoundingClientRect();
+    if (r.bottom < 80) return; /* hero scrolled away */
+    e.preventDefault();
+    navigate(e.key === 'ArrowRight' ? 'next' : 'prev', true);
+  });
+
+  function slotActivate(slot) {
+    if (slot.classList.contains('is-left')) { navigate('prev', true); }
+    else if (slot.classList.contains('is-right')) { navigate('next', true); }
+    else if (slot.classList.contains('is-back')) { goTo(active + 2, true); bumpIdle(); }
+  }
+  slots.forEach(function (slot) {
+    slot.addEventListener('click', function () { slotActivate(slot); });
+    slot.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); slotActivate(slot); }
+    });
+  });
+
+  /* ---------- idle auto-toss: 6s, with a real pause control ---------- */
+  var idleTimer = null;
+  var paused = reducedMotion; /* reduced-motion users never auto-rotate */
+  var pauseBtn = document.getElementById('pause');
+  function bumpIdle() {
+    if (idleTimer) { clearInterval(idleTimer); idleTimer = null; }
+    if (paused || reducedMotion) return;
+    idleTimer = setInterval(function () {
+      if (document.hidden) return;
+      if (canHover && hero.matches(':hover')) return;
+      if (hero.contains(document.activeElement)) return; /* don't rotate under keyboard users */
+      navigate('next', false); /* auto-advance: silent for screen readers */
+    }, 6000);
+  }
+  pauseBtn.addEventListener('click', function () {
+    paused = !paused;
+    pauseBtn.setAttribute('aria-pressed', String(paused));
+    pauseBtn.setAttribute('aria-label', paused ? 'Resume automatic rotation' : 'Pause automatic rotation');
+    pauseBtn.textContent = paused ? '▶' : '⏸';
+    bumpIdle();
+  });
+  bumpIdle();
+
+  /* react to OS-level reduced-motion changes mid-session */
+  if (rmq.addEventListener) {
+    rmq.addEventListener('change', function (e) {
+      reducedMotion = e.matches;
+      if (reducedMotion) { paused = true; pauseBtn.setAttribute('aria-pressed', 'true'); pauseBtn.textContent = '▶'; }
+      bumpIdle();
+    });
+  }
+
+  /* ---------- theme chip ---------- */
+  var themeChip = document.getElementById('chip-theme');
+  themeChip.addEventListener('click', function () {
+    var next = theme() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    themeChip.setAttribute('aria-pressed', String(next === 'dark'));
+    paint(false);
+  });
+
+  /* ---------- tagline chip ---------- */
+  var TAGS = [
+    'Analytics leader. AI builder. Actual juggler.',
+    'Engineer. Analyst. Builder. Human.'
+  ];
+  var tagIx = 1; /* LOCKED: tagline B is the pick; chip kept for one last compare */
+  document.getElementById('chip-tag').addEventListener('click', function () {
+    tagIx = 1 - tagIx;
+    document.getElementById('tagline').textContent = TAGS[tagIx];
+    this.textContent = 'Tagline: ' + (tagIx === 0 ? 'A' : 'B');
+  });
+
+  /* ---------- portrait: magnetic + click-to-cycle ---------- */
+  var portrait = document.getElementById('portrait');
+  var pimg = document.getElementById('portrait-img');
+  var pIx = 1;
+  /* LOCKED: badge cycles photos 1-7 only (8+ contain text too small to read at badge size) */
+  var P_MAX = 7;
+  document.getElementById('portrait-btn').addEventListener('click', function () {
+    pIx = pIx >= P_MAX ? 1 : pIx + 1;
+    pimg.src = 'https://jmoranii.github.io/JMwebsite/assets/James' + pIx + '.jpg';
+    var nxt = new Image();
+    nxt.src = 'https://jmoranii.github.io/JMwebsite/assets/James' + (pIx >= P_MAX ? 1 : pIx + 1) + '.jpg';
+  });
+  if (!reducedMotion && canHover) {
+    document.addEventListener('mousemove', function (e) {
+      var r = portrait.getBoundingClientRect();
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      var dx = e.clientX - cx, dy = e.clientY - cy;
+      var dist = Math.hypot(dx, dy);
+      if (dist < 1) return; /* avoid 0/0 -> NaN at dead center */
+      var range = 140;
+      if (dist < range) {
+        var pull = (1 - dist / range) * 12;
+        portrait.style.transform = 'translate(' + (dx / dist * pull) + 'px,' + (dy / dist * pull) + 'px)';
+      } else {
+        portrait.style.transform = '';
+      }
+    }, { passive: true });
+  }
+
+  var pre = new Image(); pre.src = 'https://jmoranii.github.io/JMwebsite/assets/James2.jpg';
+
+  paint(false);
+})();
+</script>
+</body>
+</html>
