@@ -1,29 +1,34 @@
-# James Moran - Personal Website
+# jamesmoran — personal site (v2)
 
-My personal professional website serving as an online resume. Also a playground for exploring AI coding tools like Claude Code.
+Story-first personal site + printable CV for James Moran. Vanilla HTML/CSS/JS, no frameworks, no build step. Live at **[jmoranii.github.io/JMwebsite](https://jmoranii.github.io/JMwebsite/)**.
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+## The idea
 
-## About
-
-A single-page resume site built with vanilla HTML, CSS, and JavaScript. No build process or dependencies - just open `index.html` in a browser.
+Four facets — **Engineer · Analyst · Builder · Human** — each a juggling ball with its own color. The hero juggles them in a toss-arc carousel; as you scroll the story, each ball arcs into a bottom-center cluster that **never stops moving**. The 🤹 in the footer has been the brand all along (it still hides the Memory Match game).
 
 ## Features
 
-- **Dark Mode** - Toggle between light and dark themes with system preference detection and localStorage persistence
-- **Photo Gallery Easter Egg** - Click the profile photo to cycle through 16 different images
-- **Memory Match Game** - Hidden game accessible via the juggler emoji at the bottom of the page
-- **Responsive Design** - Mobile-first with tablet and desktop breakpoints
-- **Mobile Experience Highlights** - Timeline items highlight as you scroll on mobile
-- **Scroll Animations** - Fade-in effects using Intersection Observer
-- **Print Optimized** - Clean output when printing as a resume
+- **Facet carousel** — toss-arc transitions, full-bleed background crossfade, idle auto-toss with a pause control, full keyboard + screen-reader support (APG carousel pattern)
+- **Ball cascade** — IntersectionObserver-triggered flights with catch-up logic; landed balls run a perpetual phase-staggered mini-juggle
+- **Sticky-stack project cards** — earlier cards settle backward as new ones arrive (rAF, no scroll-jank)
+- **Printable CV** — `@media print` shows a dedicated one-page CV block with a QR code back to this site
+- **Dark mode** — system-aware + persisted (`localStorage`), shared with the game
+- **Magnetic portrait** — click to cycle photos
+- **Fully reduced-motion safe** — every animation disabled, all content reachable
+- **Memory Match** — find the pulsing juggler 🤹
 
-## Built With Claude Code
+## Development
 
-This site serves as a learning project for exploring AI-assisted development. Features like dark mode, the photo cycling easter egg, the Memory Match game, and mobile scroll highlights were pair-programmed with [Claude Code](https://claude.ai/code).
+No build step — serve statically and open:
 
----
+```bash
+python3 -m http.server 8000
+```
 
-Built with curiosity.
+(Plain `file://` works too; the inlined architecture diagram falls back to an `<img>` without `fetch`.)
+
+## Design docs
+
+`design/brand-brief.md` (palette, type, motion principles) · `design/build-spec.md` (implementation spec) · `design/copy.md` (every public string). v1 of the site is preserved at git tag `v1`.
+
+Designed and built collaboratively with [Claude Code](https://claude.com/claude-code).

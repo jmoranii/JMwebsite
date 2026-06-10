@@ -1,351 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- 
-    =====================================================
-    James Moran - Personal Professional Website
-    A minimalist, modern single-page resume site
-    =====================================================
-    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
-    <title>James Moran | Data Professional & AI Enthusiast</title>
-    <meta name="description" content="James Moran is a data professional and AI enthusiast with expertise in pharmaceutical digital marketing, data analysis, and SQL/Snowflake. Engineer turned analytics leader.">
-    <meta name="keywords" content="James Moran, Data Analyst, Analytics Manager, Pharmaceutical Marketing, SQL, Snowflake, AI">
+
+    <title>James Moran — Analytics Leader & AI Builder</title>
+    <meta name="description" content="Engineer turned analytics leader. I build AI-ready data platforms for pharma media measurement — and games people actually play. Des Moines, Iowa.">
     <meta name="author" content="James Moran">
-    
-    <!-- Open Graph Tags for Link Previews -->
-    <meta property="og:title" content="James Moran | Data Professional & AI Enthusiast">
-    <meta property="og:description" content="Engineer turned data professional with expertise in pharmaceutical digital marketing and a passion for AI-driven solutions.">
+
+    <meta property="og:title" content="James Moran — Analytics Leader & AI Builder">
+    <meta property="og:description" content="Engineer. Analyst. Builder. Human. Four things in the air, none dropped.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://jamesmoran.github.io">
-    <meta property="og:image" content="assets/headshot.jpg">
-    
-    <!-- Twitter Card Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="James Moran | Data Professional & AI Enthusiast">
-    <meta name="twitter:description" content="Engineer turned data professional with expertise in pharmaceutical digital marketing.">
-    
-    <!-- Favicon - Replace with favicon.ico for production -->
+    <meta property="og:url" content="https://jmoranii.github.io/JMwebsite/">
+    <meta property="og:image" content="https://jmoranii.github.io/JMwebsite/assets/James1.jpg">
+    <meta name="twitter:card" content="summary">
+
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    
-    <!-- Google Fonts - Distinctive typography choices -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Outfit:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
-    
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/print.css" media="print">
 </head>
 <body>
-    <!-- 
-    =====================================================
-    HEADER / HERO SECTION
-    The first impression - name, photo, and contact
-    =====================================================
-    -->
-    <header class="hero" id="top">
-        <div class="hero__container">
-            <!-- Profile Photo - Replace headshot.svg with your own headshot.jpg -->
-            <div class="hero__image-wrapper">
-                <img
-                    src="assets/James1.jpg"
-                    alt="James Moran - Professional headshot"
-                    class="hero__image"
-                    loading="eager"
-                    id="hero-image"
-                    style="cursor: pointer;"
-                    data-image-index="1"
-                >
-                <span class="hero__click-hint" aria-hidden="true">
-                    Click me
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 12H5M12 5l-7 7 7 7"/>
-                    </svg>
-                </span>
-            </div>
-            
-            <!-- Hero Content -->
-            <div class="hero__content">
-                <h1 class="hero__name">James Moran</h1>
-                <p class="hero__headline">Data Professional & AI Enthusiast</p>
-                
-                <!-- Contact Links -->
-                <div class="hero__contact">
-                    <a href="mailto:JamesSheehanMoran@gmail.com" class="hero__email" aria-label="Send email to James">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                        <span>JamesSheehanMoran@gmail.com</span>
-                    </a>
-                    
-                    <a href="https://www.linkedin.com/in/james-moran-082629b7/" 
-                       target="_blank" 
-                       rel="noopener noreferrer" 
-                       class="hero__linkedin"
-                       aria-label="View James Moran's LinkedIn profile (opens in new tab)">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
-                        <span>LinkedIn</span>
-                    </a>
-                </div>
+
+<h1 class="sr-only">James Moran — analytics leader and AI builder in Des Moines, Iowa</h1>
+
+<!-- ====================================================
+     HERO — the four facets, juggled
+     ==================================================== -->
+<header class="hero" id="top">
+    <div class="ghost" aria-hidden="true">James&nbsp;Moran</div>
+    <div class="brand-label">James Moran</div>
+
+    <div class="portrait" id="portrait">
+        <button type="button" id="portrait-btn" aria-label="Cycle portrait photo">
+            <img id="portrait-img" src="assets/James1.jpg" alt="James Moran" fetchpriority="high">
+        </button>
+        <span class="hand" aria-hidden="true">me! (click)</span>
+    </div>
+
+    <div class="carousel" id="carousel" role="region" aria-roledescription="carousel" aria-label="Four facets of James">
+        <div class="slot" data-index="0" aria-roledescription="slide">
+            <div class="card" style="--facet: var(--c-engineer)">
+                <div class="ball" style="--ball: var(--c-engineer)" aria-hidden="true"></div>
+                <div class="num">01 / 04</div>
+                <h2>Engineer</h2>
+                <p>Eight years making aluminum better. $200K-a-month problems, solved.</p>
             </div>
         </div>
-        
-        <!-- Scroll Indicator -->
-        <div class="hero__scroll-indicator" aria-hidden="true">
-            <span>Scroll</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 5v14M19 12l-7 7-7-7"/>
-            </svg>
-        </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main id="main-content">
-        <!-- 
-        =====================================================
-        ABOUT ME SECTION
-        Professional summary with personality
-        =====================================================
-        -->
-        <section class="section about" id="about" aria-labelledby="about-heading">
-            <div class="section__container">
-                <h2 class="section__heading" id="about-heading">About Me</h2>
-                <div class="about__content">
-                    <p class="about__text">
-                        I'm an engineer turned data professional who found my niche at the intersection of
-                        process, analytics, and strategy. With an Engineering degree and nearly a decade in
-                        manufacturing, I pivoted to leading analytics initiatives in pharmaceutical digital
-                        marketing that improve decisions and support patient outcomes.
-                    </p>
-                    <p class="about__text">
-                        I build measurement frameworks and practical processes that make insights smart, timely,
-                        and actionable. I love to keep up with the latest AI capabilities and apply them in
-                        responsible and effective ways.
-                    </p>
-                </div>
+        <div class="slot" data-index="1" aria-roledescription="slide">
+            <div class="card" style="--facet: var(--c-analyst)">
+                <div class="ball" style="--ball: var(--c-analyst)" aria-hidden="true"></div>
+                <div class="num">02 / 04</div>
+                <h2>Analyst</h2>
+                <p>Pharma media measurement. Eight-figure programs, one source of truth.</p>
             </div>
-        </section>
+        </div>
+        <div class="slot" data-index="2" aria-roledescription="slide">
+            <div class="card" style="--facet: var(--c-builder)">
+                <div class="ball" style="--ball: var(--c-builder)" aria-hidden="true"></div>
+                <div class="num">03 / 04</div>
+                <h2>Builder</h2>
+                <p>Ships AI-ready data platforms — and games people actually play.</p>
+            </div>
+        </div>
+        <div class="slot" data-index="3" aria-roledescription="slide">
+            <div class="card" style="--facet: var(--c-human)">
+                <div class="ball" style="--ball: var(--c-human)" aria-hidden="true"></div>
+                <div class="num">04 / 04</div>
+                <h2>Human</h2>
+                <p>Juggler, grappler, reader. 168 books and counting.</p>
+            </div>
+        </div>
+    </div>
 
-        <!-- 
-        =====================================================
-        SKILLS SECTION
-        Technical capabilities displayed as pills/tags
-        =====================================================
-        -->
-        <section class="section skills" id="skills" aria-labelledby="skills-heading">
-            <div class="section__container">
-                <h2 class="section__heading" id="skills-heading">Skills & Technologies</h2>
-                <ul class="skills__list" role="list">
-                    <li class="skills__item">SQL / Snowflake</li>
-                    <li class="skills__item">Data Analysis & Reporting</li>
-                    <li class="skills__item">Pharmaceutical Marketing</li>
-                    <li class="skills__item">AI Tools</li>
-                    <li class="skills__item">Business Data Management</li>
-                    <li class="skills__item">Campaign Analytics</li>
-                    <li class="skills__item">Process Engineering</li>
+    <div class="hero-meta">
+        <p class="tagline">Engineer. Analyst. Builder. Human.</p>
+        <p class="sub">Engineer turned analyst turned builder — Des Moines, Iowa. Four things in the air, none dropped.</p>
+        <div class="nav">
+            <button type="button" id="prev" aria-label="Previous facet">←</button>
+            <button type="button" id="next" aria-label="Next facet">→</button>
+            <button type="button" id="pause" aria-label="Pause automatic rotation" aria-pressed="false">⏸</button>
+        </div>
+    </div>
+
+    <div class="contact" aria-label="Contact links">
+        <a href="mailto:JamesSheehanMoran@gmail.com" aria-label="Email James">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/james-moran-082629b7/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://github.com/jmoranii" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+    </div>
+
+    <div class="grain" aria-hidden="true"></div>
+    <p class="sr-only" aria-live="polite" id="live"></p>
+    <div class="hero-scroll" aria-hidden="true"><span>Scroll</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+</header>
+
+<main id="main">
+
+    <!-- ====================================================
+         THE STORY — four beats, one ball lands per beat
+         ==================================================== -->
+    <section class="section story" id="story" aria-label="The story">
+        <div class="wrap beat-block" data-ball="0">
+            <div class="kicker">The story · 1 of 4</div>
+            <h2>Made of metal</h2>
+            <p class="beat">I started as a materials engineer — Iowa State, then eight years turning molten aluminum into precision sheet metal. Four roles at one plant, where I cut a chronic failure mode from ~30% to nearly zero (worth $200K a month), recovered ten million pounds of scrap, and built a defect-flagging system that's still running seven years later. The habit I never dropped: measure first, then fix.</p>
+        </div>
+        <div class="wrap beat-block" data-ball="1">
+            <div class="kicker">The story · 2 of 4</div>
+            <h2>The deliberate leap</h2>
+            <p class="beat">In 2022 I did the scary thing on purpose: stopped, retrained in data analytics, and changed fields. Not a gap — a decision. The same leap carried me back home to Iowa, close to family. Best trade I've ever made.</p>
+        </div>
+        <div class="wrap beat-block" data-ball="2">
+            <div class="kicker">The story · 3 of 4</div>
+            <h2>Data in service of health</h2>
+            <p class="beat">I joined a pharma-marketing startup as roughly its ninth hire and wore every hat on the rack — client services, ad operations, and finally business intelligence, where I rebuilt reporting "from a disorganized state to a valuable and controlled system." (My manager's words, not mine.)</p>
+        </div>
+        <div class="wrap beat-block" data-ball="3">
+            <div class="kicker">The story · 4 of 4</div>
+            <h2>The AI era</h2>
+            <p class="beat">Today I lead measurement for major pharmaceutical brands and build the systems underneath: data platforms AI agents can read, workflows where Claude Code is a teammate — and, after hours, games my friends actually play. Proof below.</p>
+        </div>
+    </section>
+
+    <!-- ====================================================
+         THINGS I'VE BUILT — sticky-stack cards
+         ==================================================== -->
+    <section class="section built" id="built" aria-label="Things I've built">
+        <div class="wrap stack-head">
+            <div class="kicker">Show, don't tell</div>
+            <h2 class="section-title">Things I've Built</h2>
+        </div>
+
+        <div class="stack-item">
+            <article class="stack-card" style="--accent: var(--c-analyst); --stick: 76px;">
+                <div class="row"><span class="pnum">01</span><h3>An AI-ready measurement platform</h3><span class="tag">Work · systems</span></div>
+                <p>Built my team's data platform end-to-end: bronze → silver → gold Snowflake tiers unifying ~20 media data sources behind eight-figure pharma media programs. Every table ships with AI-readable metadata — so AI agents (Snowflake Cortex + Claude Code) query, profile, and QA the data directly. One-off analyst queries became a shared, version-controlled library that humans and AI both read.</p>
+                <div class="diagram" data-inline-svg="assets/diagrams/bi-platform.svg"></div>
+            </article>
+        </div>
+        <div class="stack-item">
+            <article class="stack-card" style="--accent: var(--c-builder); --stick: 96px;">
+                <div class="row"><span class="pnum">02</span><h3>An AI second brain</h3><span class="tag">Systems · personal</span></div>
+                <p>A markdown vault + Claude Code assistant running my actual life: projects, knowledge, journal, people — captured, cross-linked, and queryable. The same patterns as the work platform, life-sized. Git-backed, plain text, built to last decades.</p>
+                <pre class="treecode" aria-label="Vault folder structure">second-brain/
+├── gtd/          ← projects, tasks, weekly review
+├── reference/    ← the wiki that compounds
+├── media/        ← generated artifacts
+└── CLAUDE.md     ← how the assistant behaves</pre>
+            </article>
+        </div>
+        <div class="stack-item">
+            <article class="stack-card" style="--accent: var(--c-engineer); --stick: 116px;">
+                <div class="row"><span class="pnum">03</span><h3>Factory systems that outlived me</h3><span class="tag">Engineering · systems</span></div>
+                <p>At the aluminum plant: a material-flagging system that automatically catches problem products before they ship — still in production 7+ years after I built it — and a customer-returns database with automatic validation.</p>
+                <div class="statrow" role="list">
+                    <div role="listitem"><strong>7+ yrs</strong><span>still in production</span></div>
+                    <div role="listitem"><strong>~0%</strong><span>earing failures, from ~30%</span></div>
+                    <div role="listitem"><strong>10MM+ lbs</strong><span>scrap recovered</span></div>
+                </div>
+            </article>
+        </div>
+        <div class="stack-item">
+            <article class="stack-card" style="--accent: var(--c-human); --stick: 136px;">
+                <div class="row"><span class="pnum">04</span><h3>Cool Club Connections</h3><span class="tag">Play</span></div>
+                <p>A weekly NYT-Connections-style puzzle built on my book club's real ten-year, 168-book reading history. 52 puzzles, one per week, perpetually cycling. <a href="https://jmoranii.github.io/cool-club-connections/" target="_blank" rel="noopener noreferrer">Play it live ↗</a></p>
+                <img class="shot" src="assets/projects/cool-club-connections.jpg" alt="Cool Club Connections puzzle board — sixteen book titles waiting to be grouped" loading="lazy">
+            </article>
+        </div>
+        <div class="stack-item">
+            <article class="stack-card" style="--accent: var(--c-builder); --stick: 156px;">
+                <div class="row"><span class="pnum">05</span><h3>Rolfe Match</h3><span class="tag">Play</span></div>
+                <p>A cozy match-3 built as a gift for my sister — her farm-town world in six themed tiles, with little notes from me at score milestones. <a href="https://jmoranii.github.io/rolfe-match/" target="_blank" rel="noopener noreferrer">Play it live ↗</a></p>
+                <img class="shot" src="assets/projects/rolfe-match.jpg" alt="Rolfe Match game board — corn, tractors, soccer balls, and hearts" loading="lazy">
+            </article>
+        </div>
+        <div class="stack-item">
+            <article class="stack-card" style="--accent: var(--c-analyst); --stick: 176px;">
+                <div class="row"><span class="pnum">06</span><h3>DSM Russian Conversation Club</h3><span class="tag">Community</span></div>
+                <p>Bilingual site for the weekly Russian conversation meetup I run at the Des Moines Public Library — light/dark themes, an auto-calculating schedule banner, and a hedgehog mascot with a secret room. <a href="https://dsmrussianconversationclub.com" target="_blank" rel="noopener noreferrer">Visit ↗</a></p>
+                <img class="shot" src="assets/projects/dsm-russian-club.jpg" alt="Des Moines Russian Conversation Club website with hedgehog mascot" loading="lazy">
+            </article>
+        </div>
+        <div class="stack-item">
+            <article class="stack-card" style="--accent: var(--c-human); --stick: 196px;">
+                <div class="row"><span class="pnum">07</span><h3>This site</h3><span class="tag">Meta</span></div>
+                <p>Designed and built in collaboration with Claude Code — vanilla HTML/CSS/JS, no frameworks, no build step. The juggling is CSS. <a href="https://github.com/jmoranii/JMwebsite" target="_blank" rel="noopener noreferrer">View source ↗</a> — it's commented.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- ====================================================
+         EXPERIENCE
+         ==================================================== -->
+    <section class="section experience" id="experience" aria-label="Experience">
+        <div class="wrap">
+            <div class="kicker">The record</div>
+            <h2 class="section-title">Experience</h2>
+
+            <article class="xp">
+                <div class="xp-head">
+                    <h3>Spring &amp; Bond <span class="arc">→</span> Real Chemistry</h3>
+                    <span class="years">2023 – present</span>
+                </div>
+                <p class="role">Digital Media Account Manager → Ad Ops Analyst → <strong>Beyond Insights Manager</strong> <span class="note">(acquired mid-tenure; same desk, bigger company)</span></p>
+                <ul>
+                    <li>~Ninth hire at the startup; client services → ad operations → business intelligence, building processes from scratch at every stop.</li>
+                    <li>Built the BI data flow, measurement frameworks, and reporting processes end-to-end; now integrating agentic AI (Snowflake Cortex + Claude Code) into all three.</li>
+                    <li>"Transformed reporting from a disorganized state to a valuable and controlled system" — 2024 manager review.</li>
                 </ul>
-            </div>
-        </section>
+            </article>
 
-        <!-- 
-        =====================================================
-        WORK EXPERIENCE SECTION
-        Professional history from current to earliest
-        =====================================================
-        -->
-        <section class="section experience" id="experience" aria-labelledby="experience-heading">
-            <div class="section__container">
-                <h2 class="section__heading" id="experience-heading">Experience</h2>
-                
-                <div class="experience__timeline">
-                    <!-- Spring & Bond - Analytics Manager -->
-                    <article class="experience__item">
-                        <div class="experience__header">
-                            <h3 class="experience__company">Spring & Bond</h3>
-                            <span class="experience__years">2024 – Present</span>
-                        </div>
-                        <p class="experience__title">Analytics Manager</p>
-                        <p class="experience__description">
-                            Lead analytics initiatives for pharmaceutical marketing campaigns, performing advanced 
-                            data analysis and campaign performance optimization using Snowflake SQL. Manage healthcare 
-                            provider targeting and prescription data analysis for major pharmaceutical clients.
-                        </p>
-                    </article>
-
-                    <!-- Spring & Bond - Operations Analyst -->
-                    <article class="experience__item">
-                        <div class="experience__header">
-                            <h3 class="experience__company">Spring & Bond</h3>
-                            <span class="experience__years">2023 – 2024</span>
-                        </div>
-                        <p class="experience__title">Operations Analyst</p>
-                        <p class="experience__description">
-                            Conducted campaign analysis across programmatic advertising, paid search, and branded 
-                            media channels. Provided data-driven insights to optimize pharmaceutical marketing strategies.
-                        </p>
-                    </article>
-
-                    <!-- Kaiser Aluminum -->
-                    <article class="experience__item">
-                        <div class="experience__header">
-                            <h3 class="experience__company">Kaiser Aluminum</h3>
-                            <span class="experience__years">2021 – 2022</span>
-                        </div>
-                        <p class="experience__title">Sr. Metallurgical Engineer</p>
-                        <p class="experience__description">
-                            Advanced metallurgical engineering in aluminum manufacturing operations, providing 
-                            technical leadership in process optimization and quality control.
-                        </p>
-                    </article>
-
-                    <!-- Alcoa - Senior -->
-                    <article class="experience__item">
-                        <div class="experience__header">
-                            <h3 class="experience__company">Alcoa</h3>
-                            <span class="experience__years">2018 – 2021</span>
-                        </div>
-                        <p class="experience__title">Sr. Metallurgical Engineer</p>
-                        <p class="experience__description">
-                            Senior technical leadership in metallurgical operations, driving process improvements 
-                            and engineering problem-solving initiatives across production teams.
-                        </p>
-                    </article>
-
-                    <!-- Alcoa - Engineer -->
-                    <article class="experience__item">
-                        <div class="experience__header">
-                            <h3 class="experience__company">Alcoa</h3>
-                            <span class="experience__years">2015 – 2018</span>
-                        </div>
-                        <p class="experience__title">Metallurgical Engineer</p>
-                        <p class="experience__description">
-                            Metallurgical process engineering and quality control, collaborating with 
-                            cross-functional teams to maintain and improve production standards.
-                        </p>
-                    </article>
-
-                    <!-- Stellar Industries -->
-                    <article class="experience__item">
-                        <div class="experience__header">
-                            <h3 class="experience__company">Stellar Industries</h3>
-                            <span class="experience__years">2014 – 2015</span>
-                        </div>
-                        <p class="experience__title">Materials Engineer</p>
-                        <p class="experience__description">
-                            Materials engineering for manufacturing operations, providing quality assurance 
-                            and process support in industrial equipment production.
-                        </p>
-                    </article>
+            <article class="xp">
+                <div class="xp-head">
+                    <h3>Alcoa Warrick <span class="arc">→</span> Kaiser Aluminum</h3>
+                    <span class="years">2015 – 2022</span>
                 </div>
-            </div>
-        </section>
+                <p class="role">Metallurgical Engineer → Sr. Metallurgical Engineer <span class="note">(also acquired mid-tenure — it keeps happening)</span></p>
+                <ul>
+                    <li>Reduced earing failures from ~30% to ~0%, saving $200K+ per month.</li>
+                    <li>Improved as-cast metal recovery 3% — 10MM+ lbs of scrap eliminated.</li>
+                    <li>Built a material-flagging system still in use 7+ years later.</li>
+                    <li>Selected for the plant-wide 3-year roadmap team (1,100+ employees) — the only member with under 20 years' experience.</li>
+                </ul>
+            </article>
 
-        <!-- 
-        =====================================================
-        EDUCATION SECTION
-        Academic background
-        =====================================================
-        -->
-        <section class="section education" id="education" aria-labelledby="education-heading">
-            <div class="section__container">
-                <h2 class="section__heading" id="education-heading">Education</h2>
-                <article class="education__item">
-                    <h3 class="education__school">Iowa State University</h3>
-                    <p class="education__degree">Bachelor of Science in Materials Engineering</p>
-                    <span class="education__years">2010 – 2014</span>
-                </article>
-            </div>
-        </section>
-
-        <!-- 
-        =====================================================
-        HIGHLIGHTS SECTION
-        Volunteering and personal interests
-        =====================================================
-        -->
-        <section class="section highlights" id="highlights" aria-labelledby="highlights-heading">
-            <div class="section__container">
-                <h2 class="section__heading" id="highlights-heading">Beyond Work</h2>
-                
-                <div class="highlights__grid">
-                    <!-- Volunteering -->
-                    <div class="highlights__category">
-                        <h3 class="highlights__subtitle">Community Involvement</h3>
-                        <ul class="highlights__list">
-                            <li>
-                                <strong>Big Brothers Big Sisters</strong> – Mentor (3 years)
-                            </li>
-                            <li>
-                                <strong>Iowa FIRST Lego League</strong> – Planning Team Member
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Interests -->
-                    <div class="highlights__category">
-                        <h3 class="highlights__subtitle">Interests</h3>
-                        <ul class="highlights__list">
-                            <li>Brazilian Jiu-Jitsu practitioner</li>
-                            <li>Book club member (10+ years, 165+ books)</li>
-                            <li>AI tools experimenter</li>
-                        </ul>
-                    </div>
+            <article class="xp">
+                <div class="xp-head">
+                    <h3>Stellar Industries</h3>
+                    <span class="years">2014 – 2015</span>
                 </div>
-            </div>
-        </section>
+                <p class="role">Materials Engineer</p>
+                <ul>
+                    <li>Drove a stainless-steel corrosion investigation to a formal conclusion: supplier restitution and a supplier change.</li>
+                    <li>AWS welding certification.</li>
+                </ul>
+            </article>
 
-        <!-- Easter Egg -->
-        <div class="easter-egg-container">
-            <a href="game.html" class="easter-egg" aria-label="Secret game">🤹</a>
+            <p class="edu"><strong>Education:</strong> B.S. Materials Engineering, Iowa State University (2014) · Google Data Analytics Certificate (2022)</p>
         </div>
-    </main>
+    </section>
 
-    <!-- 
-    =====================================================
-    FOOTER
-    Simple closing with copyright
-    =====================================================
-    -->
-    <footer class="footer">
-        <div class="footer__container">
-            <p class="footer__copyright">
-                © <span id="current-year">2025</span> James Moran. Built with curiosity.
-            </p>
-            <a href="#top" class="footer__back-to-top" aria-label="Back to top">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <path d="M12 19V5M5 12l7-7 7 7"/>
-                </svg>
-            </a>
+    <!-- ====================================================
+         THE HUMAN BALL
+         ==================================================== -->
+    <section class="section human" id="human" aria-label="Beyond work">
+        <div class="wrap">
+            <div class="kicker">The fourth ball</div>
+            <h2 class="section-title">Beyond Work</h2>
+            <p class="lede">The through-line: <strong>I commit to things for years.</strong></p>
+            <ul class="practices">
+                <li><strong>Juggling</strong> — ISU Juggling &amp; Unicycle Club president (3 years); St. Louis Jugglefest club-passing champion, 2018. The footer emoji is literal.</li>
+                <li><strong>Brazilian Jiu-Jitsu</strong> — on the mats for years; grappling-tournament gold, 2021.</li>
+                <li><strong>Books</strong> — one book club, every week, 10+ years, 168 books. (It has its own game now — card 04 above.)</li>
+                <li><strong>Languages</strong> — Spanish and Russian; I run the weekly Des Moines Russian Conversation Club.</li>
+                <li><strong>Mentoring</strong> — Big Brothers Big Sisters (3 years); FIRST Lego League planning committee.</li>
+            </ul>
         </div>
-    </footer>
+    </section>
 
-    <!-- Theme Toggle Button -->
-    <button class="theme-toggle" aria-label="Toggle dark mode" type="button">
-        <!-- Sun icon (shown in dark mode) -->
-        <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-        <!-- Moon icon (shown in light mode) -->
-        <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-    </button>
+    <!-- ====================================================
+         CV
+         ==================================================== -->
+    <section class="section cv" id="cv" aria-label="Printable CV">
+        <div class="wrap">
+            <div class="kicker">For the recruiters</div>
+            <h2 class="section-title">Need the one-pager?</h2>
+            <p>Everything above, condensed to a clean printable page — with a QR code that leads right back here.</p>
+            <button type="button" class="print-btn" id="print-cv">Print my CV</button>
+            <span class="hand" aria-hidden="true">(or save as PDF from the print dialog)</span>
+        </div>
+    </section>
+</main>
 
-    <!-- JavaScript - Minimal, for enhancements only -->
-    <script src="app.js"></script>
+<!-- ====================================================
+     PRINT-ONLY CV — the only thing the printer sees
+     ==================================================== -->
+<div id="cv-print" aria-hidden="true">
+    <div class="cv-head">
+        <div>
+            <h2>James Moran</h2>
+            <p>Analytics leader &amp; AI builder — Des Moines, Iowa<br>
+            JamesSheehanMoran@gmail.com · linkedin.com/in/james-moran-082629b7 · github.com/jmoranii</p>
+        </div>
+        <div class="cv-qr">
+            <img src="assets/qr-site.svg" alt="QR code linking to jmoranii.github.io/JMwebsite" width="86" height="86">
+            <span>scan for the full story<br>+ live projects + one hidden game</span>
+        </div>
+    </div>
+    <p class="cv-summary">Engineer turned analytics leader. Ten years of quantified results across manufacturing and pharma media measurement; currently building AI-ready data platforms queried by AI agents (Snowflake Cortex, Claude Code).</p>
+
+    <h3>Experience</h3>
+    <div class="cv-job">
+        <p class="cv-jobhead"><strong>Spring &amp; Bond → Real Chemistry</strong> — Beyond Insights Manager <em>(prior: Ad Ops Analyst; Digital Media Account Manager)</em> <span>2023 – present</span></p>
+        <ul>
+            <li>~Ninth hire; built BI data flow, measurement frameworks, and reporting processes from scratch for eight-figure pharma media programs.</li>
+            <li>Designed a medallion-architecture Snowflake platform (~20 data sources) with AI-readable metadata; AI agents query, profile, and QA it directly.</li>
+            <li>"Transformed reporting from a disorganized state to a valuable and controlled system" — 2024 manager review.</li>
+        </ul>
+    </div>
+    <div class="cv-job">
+        <p class="cv-jobhead"><strong>Alcoa Warrick → Kaiser Aluminum</strong> — Metallurgical Engineer → Sr. Metallurgical Engineer <span>2015 – 2022</span></p>
+        <ul>
+            <li>Cut earing failures ~30% → ~0% ($200K+/month); improved as-cast recovery 3% (10MM+ lbs scrap eliminated).</li>
+            <li>Built a material-flagging system still in production 7+ years later; only sub-20-year member of the plant-wide 3-year roadmap team.</li>
+        </ul>
+    </div>
+    <div class="cv-job">
+        <p class="cv-jobhead"><strong>Stellar Industries</strong> — Materials Engineer <span>2014 – 2015</span></p>
+        <ul>
+            <li>Corrosion investigation to formal conclusion → supplier restitution + supplier change. AWS welding certification.</li>
+        </ul>
+    </div>
+
+    <h3>Education &amp; skills</h3>
+    <p>B.S. Materials Engineering, Iowa State University (2014) · Google Data Analytics Certificate (2022)</p>
+    <p>SQL / Snowflake · data architecture · measurement frameworks · agentic AI workflows (Cortex, Claude Code) · Python · process engineering</p>
+
+    <h3>Beyond work</h3>
+    <p>Juggling (ISU club president; 2018 St. Louis Jugglefest passing champion) · Brazilian Jiu-Jitsu (2021 tournament gold) · book club (10+ yrs, 168 books) · Spanish &amp; Russian (runs the DSM Russian Conversation Club) · Big Brothers Big Sisters mentor (3 yrs)</p>
+</div>
+
+<!-- ====================================================
+     FOOTER — where the balls come to rest (they don't)
+     ==================================================== -->
+<footer class="footer" data-ball="3">
+    <span class="juggler-zone"><a href="game.html" class="easter-egg" aria-label="Secret game">🤹</a></span>
+    <p class="footer-line">© <span id="current-year">2026</span> James Moran. Built with curiosity — and with <a href="https://claude.com/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a>.</p>
+    <a href="#top" class="back-to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+</footer>
+
+<!-- the cascade landing zone: balls arrive as you read, then never stop -->
+<div class="tray" id="tray" aria-hidden="true"></div>
+
+<!-- Theme toggle (fixed, top-right) -->
+<button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" type="button">
+    <svg class="tt-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="tt-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+
+<script src="js/theme.js" defer></script>
+<script src="js/carousel.js" defer></script>
+<script src="js/portrait.js" defer></script>
+<script src="js/reveal.js" defer></script>
+<script src="js/stack.js" defer></script>
+<script src="js/cascade.js" defer></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>

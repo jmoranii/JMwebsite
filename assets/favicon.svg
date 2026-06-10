@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- four facet balls mid-juggle: Engineer / Analyst / Builder / Human -->
+  <defs>
+    <radialGradient id="g1" cx="0.34" cy="0.3" r="0.9"><stop offset="0" stop-color="#B7DAFF"/><stop offset="0.45" stop-color="#6EB5FF"/><stop offset="1" stop-color="#3D6E9E"/></radialGradient>
+    <radialGradient id="g2" cx="0.34" cy="0.3" r="0.9"><stop offset="0" stop-color="#B5E3BE"/><stop offset="0.45" stop-color="#6BBF7A"/><stop offset="1" stop-color="#3E7449"/></radialGradient>
+    <radialGradient id="g3" cx="0.34" cy="0.3" r="0.9"><stop offset="0" stop-color="#FBC4AF"/><stop offset="0.45" stop-color="#F4845F"/><stop offset="1" stop-color="#9A4A30"/></radialGradient>
+    <radialGradient id="g4" cx="0.34" cy="0.3" r="0.9"><stop offset="0" stop-color="#F6C2DC"/><stop offset="0.45" stop-color="#E882B4"/><stop offset="1" stop-color="#92486D"/></radialGradient>
+  </defs>
+  <circle cx="20" cy="14" r="11" fill="url(#g1)"/>
+  <circle cx="46" cy="22" r="11" fill="url(#g2)"/>
+  <circle cx="14" cy="42" r="11" fill="url(#g3)"/>
+  <circle cx="40" cy="50" r="11" fill="url(#g4)"/>
+</svg>
