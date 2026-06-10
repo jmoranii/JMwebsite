@@ -32,19 +32,21 @@ body {
 }
 #arena { position: fixed; inset: 0; }
 .kball {
+    /* the HITBOX — twice the visual ball; transparent, very forgiving */
+    position: absolute; width: 116px; height: 116px;
+    display: grid; place-items: center;
+    cursor: pointer; will-change: transform;
+}
+.kball .viz {
     --ball: #999;
-    position: absolute; width: 58px; height: 58px; border-radius: 50%;
+    width: 58px; height: 58px; border-radius: 50%;
     background: var(--ball);
     background:
         radial-gradient(circle at 31% 28%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 14%, transparent 32%),
         radial-gradient(circle at 50% 45%, var(--ball) 45%, color-mix(in srgb, var(--ball) 62%, #000) 100%);
     box-shadow: 0 8px 14px -5px rgba(0,0,0,0.35);
-    cursor: pointer;
-    will-change: transform;
-    /* generous tap target */
-    outline: 14px solid transparent;
 }
-.kball.tapped { filter: brightness(1.18); }
+.kball.tapped .viz { filter: brightness(1.18); }
 .kball.dropping { opacity: 0; transition: opacity 500ms ease; }
 
 .hud {
@@ -160,25 +162,29 @@ body {
     try { best = +localStorage.getItem(BEST_KEY) || 0; } catch (e) {}
     bestEl.textContent = best;
 
-    var balls = [];          /* {el,x,y,vx,vy,r,alive} */
+    var balls = [];          /* {el,x,y,vx,vy,r,hitR,alive} */
     var score = 0, drops = 0, running = false, lastT = null, rafId = null;
-    var GRAV = 1500;         /* px/s^2, scales gently with score */
+    var GRAV = 1150;         /* px/s^2 — floaty; scales gently with score */
 
     function spawnBall(i) {
         var el = document.createElement('div');
         el.className = 'kball';
-        el.style.setProperty('--ball', COLORS[i % 4]);
+        var viz = document.createElement('div');
+        viz.className = 'viz';
+        viz.style.setProperty('--ball', COLORS[i % 4]);
+        el.appendChild(viz);
         arena.appendChild(el);
         var b = {
-            el: el, r: 29,
+            el: el, r: 29, hitR: 58,
             x: window.innerWidth * (0.3 + 0.4 * Math.random()),
             y: window.innerHeight - 20,            /* enters from the bottom edge */
-            vx: (Math.random() - 0.5) * 160,
-            vy: -(980 + Math.random() * 240),
+            vx: (Math.random() - 0.5) * 110,
+            vy: -(980 + Math.random() * 200),
             alive: true
         };
         el.addEventListener('pointerdown', function (e) {
             e.preventDefault();
+            e.stopPropagation();                   /* arena assist must not double-count */
             tap(b);
         });
         balls.push(b);
@@ -187,17 +193,29 @@ body {
 
     function tap(b) {
         if (!running || !b.alive) return;
-        b.vy = -(820 + Math.random() * 240 + Math.min(score * 6, 280));
-        b.vx += (Math.random() - 0.5) * 240;
+        b.vy = -(880 + Math.random() * 200 + Math.min(score * 5, 240));
+        b.vx += (Math.random() - 0.5) * 170;
         score++;
         scoreEl.textContent = score;
         b.el.classList.add('tapped');
         setTimeout(function () { b.el.classList.remove('tapped'); }, 120);
         /* more balls join as you go (max 4 — the four facets) */
-        var target = score >= 34 ? 4 : score >= 18 ? 3 : score >= 7 ? 2 : 1;
+        var target = score >= 40 ? 4 : score >= 22 ? 3 : score >= 9 ? 2 : 1;
         var aliveCount = balls.filter(function (x) { return x.alive; }).length;
         if (aliveCount < target) spawnBall(balls.length);
     }
+
+    /* near-miss assist: a tap anywhere close to a ball still counts */
+    arena.addEventListener('pointerdown', function (e) {
+        if (!running) return;
+        var nearest = null, nd = 1e9;
+        balls.forEach(function (b) {
+            if (!b.alive) return;
+            var d = Math.hypot(e.clientX - b.x, e.clientY - b.y);
+            if (d < nd) { nd = d; nearest = b; }
+        });
+        if (nearest && nd < 110) tap(nearest);
+    });
 
     /* keyboard: space rescues the lowest airborne ball */
     document.addEventListener('keydown', function (e) {
@@ -224,7 +242,7 @@ body {
         if (lastT === null) lastT = now;
         var dt = Math.min((now - lastT) / 1000, 0.04);
         lastT = now;
-        var g = GRAV + Math.min(score * 8, 700);
+        var g = GRAV + Math.min(score * 5, 500);
         var W = window.innerWidth, H = window.innerHeight;
 
         balls.forEach(function (b) {
@@ -236,7 +254,7 @@ body {
             if (b.x > W - b.r) { b.x = W - b.r; b.vx = -Math.abs(b.vx) * 0.9; }
             if (b.y < b.r) { b.y = b.r; b.vy = Math.abs(b.vy) * 0.4; }
             if (b.vy > 0 && b.y > H + b.r + 50) { loseBall(b); return; }
-            b.el.style.transform = 'translate(' + (b.x - b.r) + 'px,' + (b.y - b.r) + 'px)';
+            b.el.style.transform = 'translate(' + (b.x - b.hitR) + 'px,' + (b.y - b.hitR) + 'px)';
         });
         if (running) rafId = requestAnimationFrame(frame);
     }
