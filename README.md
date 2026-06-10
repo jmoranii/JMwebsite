@@ -15,7 +15,7 @@ Four facets — **Engineer · Analyst · Builder · Human** — each a juggling 
 - **Dark mode** — system-aware + persisted (`localStorage`), shared with the game
 - **Magnetic portrait** — click to cycle photos
 - **Fully reduced-motion safe** — every animation disabled, all content reachable
-- **Memory Match** — find the pulsing juggler 🤹
+- **Keep It Up** — find the pulsing juggler 🤹 for the juggling game (the original Memory Match lives on behind it)
 
 ## Development
 

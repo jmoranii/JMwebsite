@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Keep It Up — a juggling game | James Moran</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   KEEP IT UP — the site's hero mechanic, playable.
+   Tap the facet balls to keep them in the air. Self-contained;
+   shares the 'theme' localStorage key with the main site.
+   ============================================================ */
+:root {
+    --paper: #FAF7F2; --ink: #1C1B1A; --soft: rgba(28,27,26,0.08);
+    --c1: #6EB5FF; --c2: #6BBF7A; --c3: #F4845F; --c4: #E882B4;
+    --font-ui: 'Outfit', sans-serif;
+    --font-body: 'Source Serif 4', Georgia, serif;
+    --font-hand: 'Caveat', cursive;
+}
+[data-theme="dark"] { --paper: #171411; --ink: #EDE7DD; --soft: rgba(237,231,221,0.10); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+    font-family: var(--font-body); background: var(--paper); color: var(--ink);
+    overflow: hidden; touch-action: manipulation; user-select: none;
+    -webkit-user-select: none;
+}
+#arena { position: fixed; inset: 0; }
+.kball {
+    --ball: #999;
+    position: absolute; width: 58px; height: 58px; border-radius: 50%;
+    background: var(--ball);
+    background:
+        radial-gradient(circle at 31% 28%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 14%, transparent 32%),
+        radial-gradient(circle at 50% 45%, var(--ball) 45%, color-mix(in srgb, var(--ball) 62%, #000) 100%);
+    box-shadow: 0 8px 14px -5px rgba(0,0,0,0.35);
+    cursor: pointer;
+    will-change: transform;
+    /* generous tap target */
+    outline: 14px solid transparent;
+}
+.kball.tapped { filter: brightness(1.18); }
+.kball.dropping { opacity: 0; transition: opacity 500ms ease; }
+
+.hud {
+    position: fixed; top: 16px; left: 0; right: 0; z-index: 5;
+    display: flex; justify-content: center; gap: 26px;
+    font-family: var(--font-ui); font-weight: 600; font-size: 14px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    pointer-events: none;
+}
+.hud b { font-weight: 800; }
+.hud .drops span { opacity: 0.92; }
+.hud .drops span.lost { opacity: 0.22; }
+
+.overlay {
+    position: fixed; inset: 0; z-index: 10;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; text-align: center; padding: 24px;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(3px);
+}
+.overlay.hidden { display: none; }
+.overlay h1 {
+    font-family: var(--font-ui); font-weight: 800;
+    font-size: clamp(40px, 9vw, 84px); text-transform: uppercase;
+    letter-spacing: -0.02em; line-height: 1;
+}
+.overlay h1 .b1 { color: var(--c1); } .overlay h1 .b2 { color: var(--c2); }
+.overlay h1 .b3 { color: var(--c3); } .overlay h1 .b4 { color: var(--c4); }
+.overlay p { max-width: 46ch; font-size: 16px; line-height: 1.6; }
+.overlay .hand { font-family: var(--font-hand); font-size: 21px; transform: rotate(-2deg); opacity: 0.9; }
+.overlay .score-line { font-family: var(--font-ui); font-weight: 800; font-size: 26px; }
+.btn {
+    font-family: var(--font-ui); font-weight: 800; font-size: 15px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 15px 32px; border-radius: 999px;
+    border: 2px solid var(--ink); background: var(--ink); color: var(--paper);
+    cursor: pointer;
+}
+.btn.ghost { background: transparent; color: var(--ink); }
+.links { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; font-size: 14px; }
+.links a { color: inherit; text-underline-offset: 3px; }
+.foot-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 20;
+    width: 42px; height: 42px; border-radius: 50%;
+    border: 2px solid var(--ink); background: var(--paper); color: var(--ink);
+    cursor: pointer; font-size: 17px;
+}
+@media (prefers-reduced-motion: reduce) {
+    .overlay .motion-note { display: block; }
+}
+.motion-note { display: none; font-size: 13px; opacity: 0.7; }
+</style>
+</head>
+<body>
+
+<div id="arena" aria-label="Game arena"></div>
+
+<div class="hud" aria-hidden="true">
+    <div>score <b id="score">0</b></div>
+    <div>best <b id="best">0</b></div>
+    <div class="drops" id="drops"><span>●</span> <span>●</span> <span>●</span></div>
+</div>
+
+<div class="overlay" id="start">
+    <h1><span class="b1">K</span><span class="b2">E</span><span class="b3">E</span><span class="b4">P</span> IT UP</h1>
+    <p>The site's juggling — now it's your problem. <strong>Tap the balls to toss them back up.</strong> Every toss scores. More balls join as you go. Drop three and the set ends.</p>
+    <p class="hand">space bar rescues the lowest ball, if you're a keyboard juggler</p>
+    <p class="motion-note">Heads-up: this game is all motion — no still version exists. The rest of the site respects reduced-motion fully.</p>
+    <button class="btn" id="play">Toss the first ball</button>
+    <div class="links">
+        <a href="game.html">feeling nostalgic? the original Memory Match lives here →</a>
+        <a href="index.html">← back to the site</a>
+    </div>
+</div>
+
+<div class="overlay hidden" id="over">
+    <h1>Dropped.</h1>
+    <p class="score-line">score <span id="final">0</span> · best <span id="final-best">0</span></p>
+    <p class="hand" id="quip">even the best jugglers drop. the trick is picking them back up.</p>
+    <button class="btn" id="again">Run it back</button>
+    <div class="links">
+        <a href="game.html">play the original Memory Match →</a>
+        <a href="index.html">← back to the site</a>
+    </div>
+</div>
+
+<button class="foot-toggle" id="theme-toggle" aria-label="Toggle dark mode">☾</button>
+
+<script>
+(function () {
+    'use strict';
+    /* theme: same key as the main site */
+    var KEY = 'theme';
+    function applyTheme(t) { document.documentElement.setAttribute('data-theme', t); }
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    applyTheme(saved === 'dark' ? 'dark' : (saved === 'light' ? 'light'
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')));
+    document.getElementById('theme-toggle').addEventListener('click', function () {
+        var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+        try { localStorage.setItem(KEY, next); } catch (e) {}
+    });
+
+    var COLORS = ['var(--c1)', 'var(--c2)', 'var(--c3)', 'var(--c4)'];
+    var arena = document.getElementById('arena');
+    var scoreEl = document.getElementById('score');
+    var bestEl = document.getElementById('best');
+    var dropsEl = document.getElementById('drops');
+    var BEST_KEY = 'jm-keepitup-best';
+
+    var best = 0;
+    try { best = +localStorage.getItem(BEST_KEY) || 0; } catch (e) {}
+    bestEl.textContent = best;
+
+    var balls = [];          /* {el,x,y,vx,vy,r,alive} */
+    var score = 0, drops = 0, running = false, lastT = null, rafId = null;
+    var GRAV = 1500;         /* px/s^2, scales gently with score */
+
+    function spawnBall(i) {
+        var el = document.createElement('div');
+        el.className = 'kball';
+        el.style.setProperty('--ball', COLORS[i % 4]);
+        arena.appendChild(el);
+        var b = {
+            el: el, r: 29,
+            x: window.innerWidth * (0.3 + 0.4 * Math.random()),
+            y: window.innerHeight - 20,            /* enters from the bottom edge */
+            vx: (Math.random() - 0.5) * 160,
+            vy: -(980 + Math.random() * 240),
+            alive: true
+        };
+        el.addEventListener('pointerdown', function (e) {
+            e.preventDefault();
+            tap(b);
+        });
+        balls.push(b);
+        return b;
+    }
+
+    function tap(b) {
+        if (!running || !b.alive) return;
+        b.vy = -(820 + Math.random() * 240 + Math.min(score * 6, 280));
+        b.vx += (Math.random() - 0.5) * 240;
+        score++;
+        scoreEl.textContent = score;
+        b.el.classList.add('tapped');
+        setTimeout(function () { b.el.classList.remove('tapped'); }, 120);
+        /* more balls join as you go (max 4 — the four facets) */
+        var target = score >= 34 ? 4 : score >= 18 ? 3 : score >= 7 ? 2 : 1;
+        var aliveCount = balls.filter(function (x) { return x.alive; }).length;
+        if (aliveCount < target) spawnBall(balls.length);
+    }
+
+    /* keyboard: space rescues the lowest airborne ball */
+    document.addEventListener('keydown', function (e) {
+        if (e.key !== ' ' || !running) return;
+        e.preventDefault();
+        var lowest = null;
+        balls.forEach(function (b) { if (b.alive && (!lowest || b.y > lowest.y)) lowest = b; });
+        if (lowest) tap(lowest);
+    });
+
+    function loseBall(b) {
+        b.alive = false;
+        b.el.classList.add('dropping');
+        setTimeout(function () { b.el.remove(); }, 520);
+        drops++;
+        var dots = dropsEl.querySelectorAll('span');
+        for (var i = 0; i < drops && i < 3; i++) dots[i].classList.add('lost');
+        if (drops >= 3) return gameOver();
+        /* the set continues: replacement ball after a beat */
+        setTimeout(function () { if (running) spawnBall(balls.length); }, 700);
+    }
+
+    function frame(now) {
+        if (lastT === null) lastT = now;
+        var dt = Math.min((now - lastT) / 1000, 0.04);
+        lastT = now;
+        var g = GRAV + Math.min(score * 8, 700);
+        var W = window.innerWidth, H = window.innerHeight;
+
+        balls.forEach(function (b) {
+            if (!b.alive) return;
+            b.vy += g * dt;
+            b.x += b.vx * dt;
+            b.y += b.vy * dt;
+            if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx) * 0.9; }
+            if (b.x > W - b.r) { b.x = W - b.r; b.vx = -Math.abs(b.vx) * 0.9; }
+            if (b.y < b.r) { b.y = b.r; b.vy = Math.abs(b.vy) * 0.4; }
+            if (b.vy > 0 && b.y > H + b.r + 50) { loseBall(b); return; }
+            b.el.style.transform = 'translate(' + (b.x - b.r) + 'px,' + (b.y - b.r) + 'px)';
+        });
+        if (running) rafId = requestAnimationFrame(frame);
+    }
+
+    function start() {
+        balls.forEach(function (b) { b.el.remove(); });
+        balls = []; score = 0; drops = 0; lastT = null;
+        scoreEl.textContent = '0';
+        dropsEl.querySelectorAll('span').forEach(function (d) { d.classList.remove('lost'); });
+        document.getElementById('start').classList.add('hidden');
+        document.getElementById('over').classList.add('hidden');
+        running = true;
+        spawnBall(0);
+        rafId = requestAnimationFrame(frame);
+    }
+
+    var QUIPS = [
+        'even the best jugglers drop. the trick is picking them back up.',
+        'the 168-book club took ten years too. run it back.',
+        'measure first, then fix. (your timing, probably.)',
+        'four balls is a fountain. you’ll get there.'
+    ];
+    function gameOver() {
+        running = false;
+        if (rafId) cancelAnimationFrame(rafId);
+        if (score > best) {
+            best = score;
+            try { localStorage.setItem(BEST_KEY, String(best)); } catch (e) {}
+        }
+        bestEl.textContent = best;
+        document.getElementById('final').textContent = score;
+        document.getElementById('final-best').textContent = best;
+        document.getElementById('quip').textContent = QUIPS[Math.floor(Math.random() * QUIPS.length)];
+        document.getElementById('over').classList.remove('hidden');
+    }
+
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden && running) { running = false; if (rafId) cancelAnimationFrame(rafId); }
+        else if (!document.hidden && !running && drops < 3 && balls.length) {
+            running = true; lastT = null; rafId = requestAnimationFrame(frame);
+        }
+    });
+
+    document.getElementById('play').addEventListener('click', start);
+    document.getElementById('again').addEventListener('click', start);
+})();
+</script>
+</body>
+</html>

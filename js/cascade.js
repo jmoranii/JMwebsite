@@ -32,35 +32,74 @@
            Parametric positions per pattern; amplitudes kept small so
            the corner stays charming rather than busy. x/y are offsets
            from tray bottom-center, in px (y negative = up). */
-        var T = 2400; /* ms per cycle */
+        var T = 2400; /* ms per cycle (1-3 ball patterns) */
         function pose(n, k, t) {
             var th = (2 * Math.PI * t) / T;
             switch (n) {
                 case 1: /* bounce */
-                    return { x: 0, y: -22 * Math.abs(Math.sin(th)) };
+                    return { x: 0, y: -24 * Math.abs(Math.sin(th)) };
                 case 2: /* shower: both balls around one circle, opposite phases */
                     var a2 = th + k * Math.PI;
-                    return { x: 26 * Math.cos(a2), y: -14 - 12 * Math.sin(a2) };
-                case 3: /* cascade: one arched path, three phases */
+                    return { x: 26 * Math.cos(a2), y: -16 - 14 * Math.sin(a2) };
+                default: /* cascade: one arched path, three phases */
                     var a3 = th + (k * 2 * Math.PI) / 3;
-                    return { x: 30 * Math.cos(a3), y: -24 * Math.abs(Math.sin(a3)) };
-                default: /* fountain: two balls per hand, hands mirrored */
-                    var hand = k % 2;                 /* 0 = right, 1 = left */
-                    var dir = hand === 0 ? 1 : -1;
-                    var ph = th * 1.15 + (k < 2 ? 0 : Math.PI);
-                    return {
-                        x: dir * 24 + dir * 10 * Math.cos(ph),
-                        y: -14 - 13 * (1 + Math.sin(ph)) / 2 - 4 * Math.abs(Math.sin(ph))
-                    };
+                    return { x: 30 * Math.cos(a3), y: -26 * Math.abs(Math.sin(a3)) };
             }
+        }
+
+        /* ---------- 4 balls: a real siteswap — 5551 ----------
+           Three high crossing 5s, then the quick 1 hand-across.
+           Beat-based simulation: hands alternate each beat; a throw of
+           height h lands h beats later (odd heights cross hands). */
+        var SS = null;
+        function ssApex(h) { return h === 1 ? 10 : 66; }   /* bigger loops */
+        function ssHandX(hand) { return hand === 0 ? 30 : -30; }
+        function ssInit(now) {
+            SS = { pattern: [5, 5, 5, 1], tau: 300, t0: now, beat: 0, landAt: {}, pool: inPattern.slice(), flights: new Map() };
+        }
+        function ssProcessBeats(now) {
+            while (SS.t0 + SS.beat * SS.tau <= now) {
+                var b = SS.beat;
+                var h = SS.pattern[b % SS.pattern.length];
+                var hand = b % 2;
+                var ball = SS.landAt[b] || SS.pool.shift();
+                delete SS.landAt[b];
+                if (ball) {
+                    var tB = SS.t0 + b * SS.tau;
+                    SS.flights.set(ball, {
+                        t0: tB, t1: SS.t0 + (b + h) * SS.tau,
+                        x0: ssHandX(hand), x1: ssHandX((hand + h) % 2),
+                        apex: ssApex(h)
+                    });
+                    SS.landAt[b + h] = ball;
+                }
+                SS.beat++;
+            }
+        }
+        function ssPose(ball, now) {
+            var f = SS.flights.get(ball);
+            if (!f) return { x: 0, y: 0 };
+            var u = Math.min(Math.max((now - f.t0) / (f.t1 - f.t0), 0), 1);
+            return {
+                x: f.x0 + (f.x1 - f.x0) * u,
+                y: -6 - f.apex * 4 * u * (1 - u)
+            };
         }
 
         function frame(now) {
             var n = inPattern.length;
-            for (var k = 0; k < n; k++) {
-                var p = pose(n, k, now % T);
-                inPattern[k].style.transform =
-                    'translate(' + (p.x - 14) + 'px,' + p.y + 'px)';
+            if (n >= 4) {
+                if (!SS) ssInit(now);
+                ssProcessBeats(now);
+                for (var k = 0; k < n; k++) {
+                    var p = ssPose(inPattern[k], now);
+                    inPattern[k].style.transform = 'translate(' + (p.x - 14) + 'px,' + p.y + 'px)';
+                }
+            } else {
+                for (var j = 0; j < n; j++) {
+                    var q = pose(n, j, now % T);
+                    inPattern[j].style.transform = 'translate(' + (q.x - 14) + 'px,' + q.y + 'px)';
+                }
             }
             rafId = requestAnimationFrame(frame);
         }
