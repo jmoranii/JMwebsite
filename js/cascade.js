@@ -166,25 +166,33 @@
             fx.addEventListener('animationend', onEnd);
         }
 
-        /* trigger when a beat sits mid-screen (not at first sight) —
-           the -38% margins make a center band; catch-up still lands
-           every earlier ball on jump-scrolls */
+        /* trigger when the beat's actual text block (not the tall
+           wrapper) reaches the middle band of the screen, then hold
+           half a beat before the throw */
+        var TOSS_DELAY = 500;
         var io = new IntersectionObserver(function (entries) {
             entries.forEach(function (e) {
                 if (e.isIntersecting) {
-                    var upto = +e.target.dataset.ball;
-                    for (var j = 0; j <= upto; j++) toss(j);
+                    var block = e.target.closest('[data-ball]');
+                    var upto = +block.dataset.ball;
+                    setTimeout(function () {
+                        for (var j = 0; j <= upto; j++) toss(j);
+                    }, TOSS_DELAY);
                     io.unobserve(e.target);
                 }
             });
-        }, { rootMargin: '-38% 0px -38% 0px', threshold: 0 });
-        document.querySelectorAll('.beat-block[data-ball]').forEach(function (s) { io.observe(s); });
+        }, { rootMargin: '-42% 0px -42% 0px', threshold: 0 });
+        document.querySelectorAll('.beat-block[data-ball]').forEach(function (s) {
+            io.observe(s.querySelector('.beat') || s);
+        });
 
         /* footer backstop: plain visibility, lands everything */
         var ioFoot = new IntersectionObserver(function (entries) {
             entries.forEach(function (e) {
                 if (e.isIntersecting) {
-                    for (var j = 0; j < 4; j++) toss(j);
+                    setTimeout(function () {
+                        for (var j = 0; j < 4; j++) toss(j);
+                    }, TOSS_DELAY);
                     ioFoot.unobserve(e.target);
                 }
             });

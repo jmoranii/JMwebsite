@@ -1,11 +1,12 @@
-/* portrait.js — magnetic badge, click-cycles photos 1-7.
-   (Photos 8-16 stay in assets for the Memory Match game but contain
-   text too small to read at badge size, so the cycle stops at 7.) */
+/* portrait.js — magnetic badge, click-cycles a curated set:
+   the one real photo first, then the generated alter egos that don't
+   already live on the facet cards, ending on the stylized poster.
+   (James8-16 stay in assets for the Memory Match game.) */
 (function () {
     'use strict';
     window.JM = window.JM || {};
 
-    var P_MAX = 7;
+    var CYCLE = ['James1.jpg', 'James3.jpg', 'James4.jpg', 'James7.jpg', 'James2.jpg', 'bjj-v2.jpg', 'stylized-poster.jpg'];
 
     JM.initPortrait = function () {
         var portrait = document.getElementById('portrait');
@@ -13,16 +14,16 @@
         var img = document.getElementById('portrait-img');
         if (!portrait || !btn || !img) return;
 
-        var ix = 1;
-        function src(n) { return 'assets/James' + n + '.jpg'; }
+        var ix = 0;
+        function src(i) { return 'assets/' + CYCLE[i % CYCLE.length]; }
         btn.addEventListener('click', function () {
-            ix = ix >= P_MAX ? 1 : ix + 1;
+            ix = (ix + 1) % CYCLE.length;
             img.src = src(ix);
             var pre = new Image();
-            pre.src = src(ix >= P_MAX ? 1 : ix + 1);
+            pre.src = src(ix + 1);
         });
         var pre = new Image();
-        pre.src = src(2);
+        pre.src = src(1);
 
         if (!JM.reducedMotion() && JM.canHover) {
             document.addEventListener('mousemove', function (e) {
