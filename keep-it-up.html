@@ -273,21 +273,26 @@ body {
 
     var QUIPS = [
         'even the best jugglers drop. the trick is picking them back up.',
-        'the 168-book club took ten years too. run it back.',
-        'measure first, then fix. (your timing, probably.)',
-        'four balls is called a fountain. you’ll get there.'
+        'the 168-book club took ten years. run it back.',
+        'understand first, solve, then track and iterate. (the timing, mostly.)',
+        'four balls is called a fountain. you’ll get there.',
+        '"(actual juggler)" is on the resume. prove it.',
+        'the footer pattern is a 5551 siteswap. no pressure.'
     ];
     function gameOver() {
         running = false;
         if (rafId) cancelAnimationFrame(rafId);
-        if (score > best) {
+        var record = score > best;
+        if (record) {
             best = score;
             try { localStorage.setItem(BEST_KEY, String(best)); } catch (e) {}
         }
         bestEl.textContent = best;
         document.getElementById('final').textContent = score;
         document.getElementById('final-best').textContent = best;
-        document.getElementById('quip').textContent = QUIPS[Math.floor(Math.random() * QUIPS.length)];
+        document.getElementById('quip').textContent = record && score > 0
+            ? 'new best. the pattern grows.'
+            : QUIPS[Math.floor(Math.random() * QUIPS.length)];
         document.getElementById('over').classList.remove('hidden');
     }
 
