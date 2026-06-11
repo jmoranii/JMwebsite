@@ -15,7 +15,7 @@
             words.forEach(function (w, ix) {
                 var s = document.createElement('span');
                 s.textContent = w + ' ';
-                s.style.transitionDelay = Math.min(ix * 18, 900) + 'ms';
+                s.style.transitionDelay = Math.min(ix * 54, 2700) + 'ms'; /* ~1/3 speed per James */
                 p.appendChild(s);
             });
         });
