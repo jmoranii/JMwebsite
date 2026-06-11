@@ -119,6 +119,7 @@ body {
     <div class="links">
         <a href="game.html">feeling nostalgic? the original Memory Match lives here →</a>
         <a href="index.html">← back to the site</a>
+        <span style="opacity:0.6; font-size:12.5px;">♪ "Four In The Air" (homemade, with Suno)</span>
     </div>
 </div>
 
@@ -133,6 +134,7 @@ body {
     </div>
 </div>
 
+<button class="foot-toggle" id="mute" aria-label="Mute music" aria-pressed="false" style="right: 68px;">🔊</button>
 <button class="foot-toggle" id="theme-toggle" aria-label="Toggle dark mode">☾</button>
 
 <script>
@@ -165,6 +167,36 @@ body {
     var balls = [];          /* {el,x,y,vx,vy,r,hitR,alive} */
     var score = 0, drops = 0, running = false, lastT = null, rafId = null;
     var GRAV = 1150;         /* px/s^2 — floaty; scales gently with score */
+
+    /* music: zero bytes until the first Play click; mute remembered */
+    var MUTE_KEY = 'jm-keepitup-muted';
+    var music = null;
+    var muted = false;
+    try { muted = localStorage.getItem(MUTE_KEY) === '1'; } catch (e) {}
+    var muteBtn = document.getElementById('mute');
+    function syncMute() {
+        muteBtn.textContent = muted ? '🔇' : '🔊';
+        muteBtn.setAttribute('aria-pressed', String(muted));
+        muteBtn.setAttribute('aria-label', muted ? 'Unmute music' : 'Mute music');
+        if (music) music.muted = muted;
+    }
+    muteBtn.addEventListener('click', function () {
+        muted = !muted;
+        try { localStorage.setItem(MUTE_KEY, muted ? '1' : '0'); } catch (e) {}
+        syncMute();
+    });
+    syncMute();
+    function startMusic() {
+        if (!music) {
+            music = new Audio('assets/keep-it-up-theme.mp3');
+            music.loop = true;
+            music.volume = 0.35;
+        }
+        music.muted = muted;
+        music.currentTime = 0;
+        music.play().catch(function () { /* blocked: stay silent */ });
+    }
+    function stopMusic() { if (music) music.pause(); }
 
     function spawnBall(i) {
         var el = document.createElement('div');
@@ -267,6 +299,7 @@ body {
         document.getElementById('start').classList.add('hidden');
         document.getElementById('over').classList.add('hidden');
         running = true;
+        startMusic();
         spawnBall(0);
         rafId = requestAnimationFrame(frame);
     }
@@ -281,6 +314,7 @@ body {
     ];
     function gameOver() {
         running = false;
+        stopMusic();
         if (rafId) cancelAnimationFrame(rafId);
         var record = score > best;
         if (record) {
@@ -297,9 +331,13 @@ body {
     }
 
     document.addEventListener('visibilitychange', function () {
-        if (document.hidden && running) { running = false; if (rafId) cancelAnimationFrame(rafId); }
-        else if (!document.hidden && !running && drops < 3 && balls.length) {
-            running = true; lastT = null; rafId = requestAnimationFrame(frame);
+        if (document.hidden && running) {
+            running = false; stopMusic();
+            if (rafId) cancelAnimationFrame(rafId);
+        } else if (!document.hidden && !running && drops < 3 && balls.length) {
+            running = true; lastT = null;
+            if (music) music.play().catch(function () {});
+            rafId = requestAnimationFrame(frame);
         }
     });
 
