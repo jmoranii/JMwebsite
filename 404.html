@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>404 · This page dropped | James Moran</title>
+<link rel="icon" type="image/svg+xml" href="/JMwebsite/assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --paper: #FAF7F2; --ink: #1C1B1A;
+    --ball: #F4845F;
+    --font-ui: 'Outfit', sans-serif;
+    --font-body: 'Source Serif 4', Georgia, serif;
+    --font-hand: 'Caveat', cursive;
+}
+[data-theme="dark"] { --paper: #171411; --ink: #EDE7DD; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+    font-family: var(--font-body); background: var(--paper); color: var(--ink);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; text-align: center; padding: 24px; overflow: hidden;
+}
+h1 {
+    font-family: var(--font-ui); font-weight: 800;
+    font-size: clamp(72px, 18vw, 180px); line-height: 1;
+    letter-spacing: -0.03em;
+}
+/* the zero is the ball's empty seat */
+h1 .seat {
+    display: inline-block; width: 0.78em; height: 0.78em;
+    border: 0.07em dashed currentColor; border-radius: 50%;
+    opacity: 0.35; vertical-align: baseline;
+    transform: translateY(0.08em);
+}
+p { font-size: 18px; max-width: 40ch; }
+.hand { font-family: var(--font-hand); font-size: 22px; transform: rotate(-2deg); opacity: 0.9; }
+a.btn {
+    font-family: var(--font-ui); font-weight: 800; font-size: 15px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 15px 32px; border-radius: 999px;
+    border: 2px solid var(--ink); background: var(--ink); color: var(--paper);
+    text-decoration: none; margin-top: 8px;
+}
+/* the dropped ball: falls in, bounces, rolls away to a stop */
+.dropped {
+    position: fixed; left: 50%; bottom: 36px; width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--ball);
+    background:
+        radial-gradient(circle at 31% 28%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 14%, transparent 32%),
+        radial-gradient(circle at 50% 45%, var(--ball) 45%, color-mix(in srgb, var(--ball) 62%, #000) 100%);
+    box-shadow: 0 6px 12px -4px rgba(0,0,0,0.4);
+    animation: drop-roll 2.6s cubic-bezier(0.3, 0, 0.7, 1) forwards;
+}
+@keyframes drop-roll {
+    0%   { transform: translate(-50%, -90vh) rotate(0deg); }
+    38%  { transform: translate(-50%, 0) rotate(180deg); animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1); }
+    52%  { transform: translate(-30%, -16vh) rotate(280deg); animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.6); }
+    66%  { transform: translate(-10%, 0) rotate(380deg); }
+    74%  { transform: translate(30%, -5vh) rotate(440deg); }
+    82%  { transform: translate(70%, 0) rotate(500deg); }
+    100% { transform: translate(160%, 0) rotate(560deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .dropped { animation: none; transform: translate(160%, 0); }
+}
+</style>
+</head>
+<body>
+<h1 aria-label="404">4<span class="seat" aria-hidden="true"></span>4</h1>
+<p><strong>This page dropped.</strong> Even the best jugglers do it; the trick is picking it back up.</p>
+<p class="hand">(the rest of the pattern is still in the air)</p>
+<a class="btn" href="/JMwebsite/">Back to the site</a>
+<div class="dropped" aria-hidden="true"></div>
+<script>
+(function () {
+    var t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+})();
+</script>
+</body>
+</html>
