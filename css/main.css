@@ -171,7 +171,7 @@ body.past-hero .portrait .hand { opacity: 0; }
 .carousel { position: absolute; inset: 0; z-index: 3; perspective: 1300px; }
 .slot {
     position: absolute;
-    height: max(44vh, 300px); aspect-ratio: 0.72;
+    height: max(44vh, 300px); aspect-ratio: 0.78;
     left: 50%; bottom: 9%;
     transform: translateX(-50%) scale(1);
     transition:
@@ -183,9 +183,9 @@ body.past-hero .portrait .hand { opacity: 0; }
     will-change: transform, filter, opacity, left;
 }
 .slot.is-center { left: 50%; bottom: 9%; transform: translateX(-50%) scale(1.32); z-index: 20; filter: none; opacity: 1; cursor: default; }
-.slot.is-left   { left: 27%; bottom: 17%; transform: translateX(-50%) scale(0.68) rotateY(16deg); z-index: 10; filter: blur(2px); opacity: 0.88; cursor: pointer; }
-.slot.is-right  { left: 73%; bottom: 17%; transform: translateX(-50%) scale(0.68) rotateY(-16deg); z-index: 10; filter: blur(2px); opacity: 0.88; cursor: pointer; }
-.slot.is-back   { left: 50%; bottom: 25%; transform: translateX(-50%) scale(0.5); z-index: 1; filter: blur(5px); opacity: 0.9; cursor: pointer; }
+.slot.is-left   { left: 27%; bottom: 17%; transform: translateX(-50%) scale(0.68) rotate(-4deg); z-index: 10; filter: blur(2px); opacity: 0.88; cursor: pointer; }
+.slot.is-right  { left: 73%; bottom: 17%; transform: translateX(-50%) scale(0.68) rotate(4deg); z-index: 10; filter: blur(2px); opacity: 0.88; cursor: pointer; }
+.slot.is-back   { left: 50%; bottom: 25%; transform: translateX(-50%) scale(0.5) rotate(2deg); z-index: 1; filter: blur(5px); opacity: 0.9; cursor: pointer; }
 .slot:focus-visible {
     outline: 3px solid var(--hero-text);
     outline-offset: 4px;
@@ -194,26 +194,29 @@ body.past-hero .portrait .hand { opacity: 0; }
 .card {
     width: 100%; height: 100%;
     background: var(--card-bg); color: var(--card-ink);
-    /* arch crown: the card silhouette echoes the toss parabola */
-    border-radius: 50% 50% 22px 22px / 30% 30% 22px 22px;
+    /* polaroid print: photo window + caption strip */
+    border-radius: 12px;
     box-shadow: 0 18px 50px rgba(20, 15, 5, 0.22);
-    display: flex; flex-direction: column; align-items: center;
-    padding: 0 0 6%;
+    display: flex; flex-direction: column;
+    padding: 4.5%;
     text-align: center;
     overflow: hidden;
 }
 .card-photo {
-    width: 100%; height: 48%;
-    flex-shrink: 0;
+    width: 100%;
+    flex: 1 1 auto; min-height: 0;
     position: relative;
+    border-radius: 6px; overflow: hidden;
+    background: var(--soft);
 }
 .card-photo img {
     width: 100%; height: 100%;
-    object-fit: cover; object-position: center 22%;
+    object-fit: cover; object-position: center top;
 }
-.card-photo::after { /* gentle fade into the card body */
-    content: ''; position: absolute; inset: auto 0 0 0; height: 26%;
-    background: linear-gradient(to bottom, transparent, var(--card-bg));
+.card-strip {
+    flex-shrink: 0;
+    padding-top: 5%;
+    display: flex; flex-direction: column; align-items: center;
 }
 @keyframes toss-arc {
     0%   { transform: translateY(0) rotate(0deg); }
@@ -228,15 +231,16 @@ body.past-hero .portrait .hand { opacity: 0; }
 .slot.is-center .ball { animation: ball-bob 3.4s ease-in-out infinite; }
 .ball {
     --ball: #999;
-    width: 16%; aspect-ratio: 1; border-radius: 50%;
-    margin-top: -8%; /* seam badge: straddles the photo edge */
-    flex-shrink: 0;
-    position: relative; z-index: 2;
+    border-radius: 50%;
     background: var(--ball); /* fallback for browsers without color-mix() */
     background:
         radial-gradient(circle at 31% 28%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.35) 14%, transparent 32%),
         radial-gradient(circle at 50% 45%, var(--ball) 45%, color-mix(in srgb, var(--ball) 62%, #000) 100%);
-    box-shadow: 0 6px 12px -4px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 4px 8px -3px rgba(0, 0, 0, 0.35);
+}
+.ball.chip {
+    display: inline-block; width: 0.62em; height: 0.62em;
+    margin-right: 0.3em; vertical-align: baseline;
 }
 .card .num {
     font-family: var(--font-ui); font-weight: 600; font-size: 10.5px;
@@ -245,16 +249,14 @@ body.past-hero .portrait .hand { opacity: 0; }
 }
 .card h2 {
     font-family: var(--font-display); font-weight: 800;
-    font-size: clamp(19px, 3.4vh, 36px);
+    font-size: clamp(17px, 2.8vh, 28px);
     letter-spacing: -0.01em; text-transform: uppercase;
-    margin-top: 2%;
     color: var(--facet, var(--card-ink));
+    line-height: 1.1;
 }
 .card p {
-    font-size: clamp(12px, 1.75vh, 17px);
-    line-height: 1.45; margin-top: 4%; opacity: 0.85;
-    max-width: 88%;
-    padding-inline: 2%;
+    font-size: clamp(11.5px, 1.5vh, 15px);
+    line-height: 1.42; margin-top: 2.5%; opacity: 0.85;
 }
 
 /* hero meta (bottom-left) */
@@ -548,13 +550,11 @@ body.past-hero .theme-toggle {
 @media (max-width: 639px) {
     .ghost { white-space: normal; font-size: clamp(52px, 20vw, 120px); top: 14%; line-height: 0.92; } /* clears the fixed badge row */
     .slot { height: max(31vh, 240px); }
-    /* tighter card interior so all four card lines fit on phones */
-    .card { padding: 0 0 4%; }
-    .card-photo { height: 35%; }
-    .ball { width: 15%; margin-top: -7%; }
-    .card .num { margin-top: 5%; font-size: 9.5px; letter-spacing: 0.14em; }
-    .card h2 { font-size: 17px; margin-top: 1%; }
-    .card p { font-size: 11.5px; line-height: 1.38; margin-top: 3.5%; }
+    /* tighter polaroid interior so all four card lines fit on phones */
+    .card { padding: 4%; }
+    .card .num { display: none; }
+    .card h2 { font-size: 15px; }
+    .card p { font-size: 10.5px; line-height: 1.35; margin-top: 2.5%; }
     .slot.is-center { transform: translateX(-50%) scale(1.12); bottom: 26%; }
     .slot.is-left  { left: 13%; transform: translateX(-50%) scale(0.4); bottom: 36%; }
     .slot.is-right { left: 87%; transform: translateX(-50%) scale(0.4); bottom: 36%; }
