@@ -530,7 +530,13 @@ body.past-hero .theme-toggle {
    ---------------------------------------------------------- */
 @media (max-width: 639px) {
     .ghost { white-space: normal; font-size: clamp(52px, 20vw, 120px); top: 14%; line-height: 0.92; } /* clears the fixed badge row */
-    .slot { height: max(30vh, 230px); }
+    .slot { height: max(31vh, 240px); }
+    /* tighter card interior so all four card lines fit on phones */
+    .card { padding: 6.5% 7%; }
+    .ball { width: 29%; margin-top: 2%; }
+    .card .num { margin-top: 5%; font-size: 9.5px; letter-spacing: 0.14em; }
+    .card h2 { font-size: 17px; margin-top: 1%; }
+    .card p { font-size: 11.5px; line-height: 1.38; margin-top: 3.5%; }
     .slot.is-center { transform: translateX(-50%) scale(1.12); bottom: 26%; }
     .slot.is-left  { left: 13%; transform: translateX(-50%) scale(0.4); bottom: 36%; }
     .slot.is-right { left: 87%; transform: translateX(-50%) scale(0.4); bottom: 36%; }

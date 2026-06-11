@@ -2,6 +2,8 @@
 
 *Every public-facing string on the site. Public file — ships in a public repo. Items marked ⚪ OPTION await James's call at Checkpoint 2.*
 
+*(Voice rule, 2026-06-10: **no em-dashes** anywhere in site copy — James's voice uses parentheses, commas, colons. En-dash year ranges and → arrows are fine.)*
+
 ## Meta
 
 - **Title:** `James Moran — Analytics Leader & AI Builder`
@@ -23,7 +25,7 @@
 |---|---|---|
 | 01 | Engineer | Eight years making aluminum manufacturing better. Solved $200K-a-month problems. |
 | 02 | Analyst | Eight-figure pharma media campaigns measured, communicated, and steered. |
-| 03 | Builder | AI-ready data platforms and processes — and games people actually play. |
+| 03 | Builder | AI-ready data platforms and processes. Along with games people actually play. |
 | 04 | Human | Juggler, grappler, reader, organizer. |
 
 ## The Story (4 scroll-reveal beats)
@@ -34,13 +36,13 @@
 An Iowa State engineering degree, then eight years turning molten aluminum into precision sheet metal. Four roles of increasing responsibility at one plant, where I solved big, complex problems (the kind that save $200K a month). The approach I never dropped: understand first, solve, then track and iterate.
 
 **2 · The Leap** 🩷
-In 2022 I took the risk: left the known engineering path, moved home to be near family, and retrained in data analytics. I was uncertain — but I wasn't going to drop the family ball, or the joy one.
+In 2022 I took the risk: left the known engineering path, moved home to be near family, and retrained in data analytics. I was uncertain, but I wasn't going to drop the family ball, or the joy one.
 
 **3 · Data in service of health** 🟢
 I joined a scrappy pharma-marketing startup as the ninth hire, learning fast and juggling roles: client services, ad operations, and finally business intelligence, where I rebuilt reporting "from a disorganized state to a valuable and controlled system." (Leadership's words, not mine.)
 
 **4 · The AI era** 🟠
-Today I'm fixated on AI and its potential. I stay on top of the industry and build with the tools: at work, a data platform AI agents can read and workflows where Claude Code is a teammate; at home, AI woven into my life and games my friends actually play. Proof below! *(sorry — no juggling wordplay here)* ← Caveat aside
+Today I'm fixated on AI and its potential. I stay on top of the industry and build with the tools: at work, a data platform AI agents can read and workflows where Claude Code is a teammate; at home, AI woven into my life and games my friends actually play. Proof below! *(sorry, no juggling wordplay here)* ← Caveat aside
 
 ## Things I've Built (sticky-stack cards)
 
