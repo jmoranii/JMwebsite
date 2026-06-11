@@ -12,8 +12,8 @@ James Moran's personal site, v2 ("Daylight Studio" / juggling brand system). Sta
 - `css/main.css` — all design tokens in `:root` (`[data-theme="dark"]` overrides). **Tokens are the single source of truth** — JS reads them via `JM.cssVar()`; never duplicate color values in scripts.
 - `css/print.css` — loaded with `media="print"`; hides everything except `#cv-print`.
 - `js/*.js` — classic `<script defer>` IIFEs on a shared `window.JM` namespace (NOT ES modules — keeps `file://` viewing working). Load order matters: `theme.js` first (defines helpers), `main.js` last (orchestrates init).
-- `keep-it-up.html` — self-contained juggling game (the 🤹 easter-egg target); links onward to `game.html` (the original self-contained Memory Match). Both share the `'theme'` localStorage key with the main site. **Do not rename that key.**
-- `assets/` — photos James1–16.jpg (cycle uses 1–7 only; 8–16 belong to the game), `projects/` screenshots, `diagrams/bi-platform.svg` (inlined at runtime for theming), `qr-site.svg`, `favicon.svg`.
+- `keep-it-up.html` — self-contained juggling game (the footer easter-egg target); plays `assets/keep-it-up-theme.mp3` (lazy-loaded on Play, mute remembered at `'jm-keepitup-muted'`); links onward to `game.html` (the original self-contained Memory Match). All pages share the `'theme'` localStorage key. **Do not rename these keys.**
+- `assets/` — generated facet portraits (`engineer-v2/analyst-v2/builder-v2/human-v2.jpg` on the carousel cards), legacy photos James1–16.jpg (badge cycle uses a curated subset in `js/portrait.js`; 8–16 belong to Memory Match), `bjj-v2.jpg` + `stylized-poster.jpg` (badge cycle), `og-card.jpg` (1200×630 social card), `keep-it-up-theme.mp3`, `projects/` screenshots, `diagrams/bi-platform.svg` (inlined at runtime for theming), `qr-site.svg`, `favicon.svg`.
 - `design/` — brand brief, build spec, copy doc. Copy changes should go through `design/copy.md` first.
 
 ## Hard rules
@@ -23,6 +23,10 @@ James Moran's personal site, v2 ("Daylight Studio" / juggling brand system). Sta
 3. **Accessibility:** keep the APG carousel semantics, the pause control, focus-visible styles, and the scoped arrow-key handler.
 4. **The print CV must stay one page.** Test with print emulation after any content change.
 5. Animate only `transform`/`opacity`; IntersectionObserver class-toggles over scroll handlers.
+
+## Post-launch evolution
+
+`design/build-spec.md` describes the launch build; the carousel has since become polaroid photo cards, the cascade runs real siteswaps (see `js/cascade.js` header), the builds section is a single-container deck, and a 404 page + game music shipped. Treat the live code as the source of truth for behavior; the design docs for intent. **Voice rule: no em-dashes in any user-facing copy** (see `design/copy.md`).
 
 ## Development
 
