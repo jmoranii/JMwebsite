@@ -56,17 +56,14 @@ A markdown vault + Claude Code assistant running my actual life: projects, knowl
 **03 · Factory systems that outlived me** — *Engineering · systems*
 At the aluminum plant: a material-flagging system that automatically catches problem products before they ship — still in production 7+ years after I built it — and a customer-returns database with automatic validation.
 
-**04 · Cool Club Connections** — *Play* — [live ↗](https://jmoranii.github.io/cool-club-connections/)
-A weekly NYT-Connections-style puzzle built on my book club's real ten-year, 168-book reading history. 52 puzzles, one per week, perpetually cycling.
+**04 · Cool Club Book Club** — *Ten years in* — [game ↗](https://jmoranii.github.io/cool-club-connections/)
+Ten years ago I started a book club. It's still going every week, 168 books deep. I build the things that run it: a weekly voting system (with a dashboard) to pick our next read, and a game spun from our whole reading history.
 
-**05 · Rolfe Legends** — *Play* — [live ↗](https://jmoranii.github.io/rolfe-legends/)
-A Hearthstone-style card battler built as a gift for my nephew's 10th birthday: every boss is someone in his family, the Rolfe farm supplies the cards, and beating all eight crowns him the 10th Legend of Rolfe. Original art, a full soundtrack, and a hand-tuned AI for each opponent.
+**05 · Rolfe Legends** — *AI · build* — [live ↗](https://jmoranii.github.io/rolfe-legends/)
+A full card battler I built end to end: a game engine, a distinct hand-tuned AI for all eight bosses, original art, and an original soundtrack. The hook: it's a birthday gift for my nephew, where his family is the boss ladder.
 
 **06 · DSM Russian Conversation Club** — *Community* — [live ↗](https://dsmrussianconversationclub.com)
 Bilingual site for the weekly Russian conversation meetup I run at the Des Moines Public Library — light/dark themes, auto-calculating schedule banner, and a hedgehog mascot with a secret room.
-
-**07 · This site** — *Meta* — [source ↗](https://github.com/jmoranii/JMwebsite)
-Designed and built in collaboration with Claude Code — vanilla HTML/CSS/JS, no frameworks, no build step. The juggling is CSS. View source; it's commented.
 
 *(Decided 2026-06-09: consulting side-projects omitted from this section.)*
 
@@ -94,7 +91,8 @@ Designed and built in collaboration with Claude Code — vanilla HTML/CSS/JS, no
 
 ## The Human Ball (Beyond Work)
 
-Intro line: **The through-line: I commit to things for years.**
+Intro line: **The through-line: I commit deeply, and I stay for years.**
+Closing callback (after the list): *I go deep, and I don't drop things.* (echoes the hero's "none dropped")
 
 - **Juggling** — ISU Juggling & Unicycle Club president (3 years); St. Louis Jugglefest club-passing champion, 2018. The tagline is literal.
 - **Brazilian Jiu-Jitsu** — on the mats for years; grappling-tournament gold, 2021.
