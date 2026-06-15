@@ -59,8 +59,8 @@ At the aluminum plant: a material-flagging system that automatically catches pro
 **04 · Cool Club Connections** — *Play* — [live ↗](https://jmoranii.github.io/cool-club-connections/)
 A weekly NYT-Connections-style puzzle built on my book club's real ten-year, 168-book reading history. 52 puzzles, one per week, perpetually cycling.
 
-**05 · Rolfe Match** — *Play* — [live ↗](https://jmoranii.github.io/rolfe-match/)
-A cozy match-3 built as a gift for my sister — her farm-town world, six themed tiles, little notes from me at score milestones.
+**05 · Rolfe Legends** — *Play* — [live ↗](https://jmoranii.github.io/rolfe-legends/)
+A Hearthstone-style card battler built as a gift for my nephew's 10th birthday: every boss is someone in his family, the Rolfe farm supplies the cards, and beating all eight crowns him the 10th Legend of Rolfe. Original art, a full soundtrack, and a hand-tuned AI for each opponent.
 
 **06 · DSM Russian Conversation Club** — *Community* — [live ↗](https://dsmrussianconversationclub.com)
 Bilingual site for the weekly Russian conversation meetup I run at the Des Moines Public Library — light/dark themes, auto-calculating schedule banner, and a hedgehog mascot with a secret room.
