@@ -8,7 +8,7 @@ Four facets — **Engineer · Analyst · Builder · Human** — each a juggling 
 
 ## Features
 
-- **Facet carousel** — four polaroid cards (one photo per facet), toss-arc transitions, full-bleed background crossfade, idle auto-toss with a pause control, full keyboard + screen-reader support (APG carousel pattern)
+- **Facet carousel** — four polaroid cards (one photo per facet), toss-arc transitions, full-bleed background crossfade, idle auto-toss with a pause control, touch-swipe on mobile, full keyboard + screen-reader support (APG carousel pattern)
 - **Ball cascade** — a ball arcs in as each story beat reaches mid-screen (with catch-up logic for jump-scrolls); landed balls juggle real patterns that never stop: 1 bounces, 2 run a 31 shower, 3 cascade, 4 run a **5551 siteswap**
 - **Deck-stacked project cards** — all cards pin in one container and bury their predecessors, leaving color-coded top edges peeking (rAF, no scroll-jank)
 - **Printable CV** — `@media print` shows a dedicated one-page CV block with a QR code back to this site

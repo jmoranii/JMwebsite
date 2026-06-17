@@ -168,7 +168,7 @@ body.past-hero .portrait .hand { opacity: 0; }
 }
 
 /* carousel */
-.carousel { position: absolute; inset: 0; z-index: 3; perspective: 1300px; }
+.carousel { position: absolute; inset: 0; z-index: 3; perspective: 1300px; touch-action: pan-y; }
 .slot {
     position: absolute;
     height: max(44vh, 300px); aspect-ratio: 0.78;

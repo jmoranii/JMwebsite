@@ -24,6 +24,7 @@
         var animating = false;
         var paused = JM.reducedMotion();
         var idleTimer = null;
+        var swipeGuard = false; /* set briefly after a swipe to swallow the trailing synthetic tap */
         /* distinguish keyboard focus (pause rotation) from mouse clicks
            (which would otherwise leave focus parked in the hero forever) */
         var keyboardFocus = false;
@@ -85,6 +86,7 @@
         });
 
         function slotActivate(slot) {
+            if (swipeGuard) return; /* a swipe just fired — ignore the trailing tap */
             if (slot.classList.contains('is-left')) { navigate('prev', true); }
             else if (slot.classList.contains('is-right')) { navigate('next', true); }
             else if (slot.classList.contains('is-back')) { goTo(active + 2, true); bumpIdle(); }
@@ -95,6 +97,33 @@
                 if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); slotActivate(slot); }
             });
         });
+
+        /* touch swipe (touchscreens): a horizontal flick navigates; vertical
+           gestures fall through to page scroll, and taps are left alone so the
+           slot click handlers still fire. left → next, right → prev. */
+        var carousel = document.getElementById('carousel');
+        if (carousel) {
+            var SWIPE_MIN = 45; /* px of horizontal travel to register as a swipe */
+            var sx = 0, sy = 0, tracking = false;
+            carousel.addEventListener('touchstart', function (e) {
+                if (e.touches.length !== 1) { tracking = false; return; } /* ignore pinch / multi-touch */
+                sx = e.touches[0].clientX; sy = e.touches[0].clientY; tracking = true;
+            }, { passive: true });
+            carousel.addEventListener('touchmove', function (e) {
+                if (tracking && e.touches.length > 1) tracking = false; /* became a pinch */
+            }, { passive: true });
+            carousel.addEventListener('touchend', function (e) {
+                if (!tracking) return;
+                tracking = false;
+                var dx = e.changedTouches[0].clientX - sx;
+                var dy = e.changedTouches[0].clientY - sy;
+                if (Math.abs(dx) >= SWIPE_MIN && Math.abs(dx) > Math.abs(dy) * 1.4) {
+                    navigate(dx < 0 ? 'next' : 'prev', true);
+                    swipeGuard = true;
+                    setTimeout(function () { swipeGuard = false; }, 350);
+                }
+            }, { passive: true });
+        }
 
         /* idle auto-toss: 6s, silent for screen readers, with a real
            pause control; never rotates under hover/focus/hidden */
