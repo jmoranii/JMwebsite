@@ -218,14 +218,77 @@
           <p class="sc-body">Ten years ago I started a book club. It still meets every week, 177 books deep. I build the things that run it: a weekly voting system with a dashboard to pick the next read, and a connections game spun from our entire reading history.</p>
           <p class="running"><a class="cta-line" href="https://jmoranii.github.io/cool-club-connections/" target="_blank" rel="noopener">Play the connections game</a></p>
         </div>
-        <div class="proof-rest__wide sc-stack" data-sc-in data-sc-stagger="70">
+      </div>
+
+      <hr class="sc-rule proof__rule">
+
+      <div class="proof-brain">
+        <div class="proof-brain__copy sc-stack" data-sc-in data-sc-stagger="70">
           <h3 class="sc-display sc-display--md">An AI second brain</h3>
-          <p class="sc-body">A markdown vault plus a Claude Code assistant running my actual life: projects, knowledge, journal, people. Captured, cross-linked, queryable. The same patterns as the work platform, life-sized. Plain text, git-backed, built to last decades.</p>
+          <p class="sc-body">A markdown vault plus a Claude Code assistant running my actual life: projects, knowledge, journal, people. Captured, cross-linked, queryable. The same three planes as the work platform, life-sized. Plain text, git-backed, built to last decades.</p>
         </div>
-        <div class="proof-rest__narrow sc-stack" data-sc-in data-sc-stagger="70">
-          <h3 class="sc-display sc-display--md">The analytics workspace</h3>
-          <p class="sc-body">The one from the previous chapter: data, knowledge, and agents in one version-controlled repo. The work-sized version of the same idea.</p>
-        </div>
+        <figure class="proof-brain__fig diagram" data-sc-in>
+          <svg class="diagram__svg diagram__svg--vault" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" role="img" aria-labelledby="vd-title vd-desc" font-family="Outfit, sans-serif">
+  <title id="vd-title">The second brain, three columns</title>
+  <desc id="vd-desc">Knowledge: a reference wiki, one file per person, one journal file per day, and a media folder of songs, images, and podcasts. Execution: a mission statement, projects linked to its principles, tasks with hatch dates, and a weekly review that produces a scorecard and a podcast. Agent: Claude Code with skills and hooks, reading Drive, Gmail, and Calendar just in time, reading and writing both columns. All plain markdown, git-backed.</desc>
+  <defs>
+    <marker id="vah" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M1,1 L8,4.5 L1,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker>
+    <marker id="vah2" markerWidth="9" markerHeight="9" refX="2" refY="4.5" orient="auto"><path d="M8,1 L1,4.5 L8,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker>
+  </defs>
+  <text x="90" y="34" class="band">KNOWLEDGE</text>
+  <text x="310" y="34" class="band">EXECUTION</text>
+  <text x="540" y="34" class="band">AGENT</text>
+
+  <rect x="90" y="50" width="190" height="56" rx="10" class="box"/>
+  <text x="185" y="73" text-anchor="middle" class="lbl" font-size="13">reference wiki</text>
+  <text x="185" y="90" text-anchor="middle" class="sub">health · finances · career · tools</text>
+  <rect x="90" y="120" width="190" height="56" rx="10" class="box"/>
+  <text x="185" y="143" text-anchor="middle" class="lbl" font-size="13">people</text>
+  <text x="185" y="160" text-anchor="middle" class="sub">one file per person</text>
+  <rect x="90" y="190" width="190" height="56" rx="10" class="box"/>
+  <text x="185" y="213" text-anchor="middle" class="lbl" font-size="13">journal</text>
+  <text x="185" y="230" text-anchor="middle" class="sub">one file per day</text>
+  <rect x="90" y="260" width="190" height="56" rx="10" class="box" stroke-dasharray="5 4"/>
+  <text x="185" y="283" text-anchor="middle" class="lbl" font-size="13">media</text>
+  <text x="185" y="300" text-anchor="middle" class="sub">songs · images · podcasts</text>
+
+  <rect x="310" y="50" width="170" height="44" rx="10" fill="#B9C2CC"/>
+  <text x="395" y="70" text-anchor="middle" class="tier-lbl" font-size="13">MISSION</text>
+  <text x="395" y="85" text-anchor="middle" class="tier-sub">four roles, the principles</text>
+  <path d="M395 96 V 106" class="arrow" marker-end="url(#vah)"/>
+  <rect x="310" y="110" width="170" height="44" rx="10" class="box"/>
+  <text x="395" y="130" text-anchor="middle" class="lbl" font-size="13">projects</text>
+  <text x="395" y="145" text-anchor="middle" class="sub">each linked to a principle</text>
+  <path d="M395 156 V 166" class="arrow" marker-end="url(#vah)"/>
+  <rect x="310" y="170" width="170" height="44" rx="10" class="box"/>
+  <text x="395" y="190" text-anchor="middle" class="lbl" font-size="13">tasks · incubator</text>
+  <text x="395" y="205" text-anchor="middle" class="sub">next actions, hatch dates</text>
+  <path d="M395 216 V 226" class="arrow" marker-end="url(#vah)"/>
+  <rect x="310" y="230" width="170" height="56" rx="10" fill="#E2B53E"/>
+  <text x="395" y="253" text-anchor="middle" class="tier-lbl" font-size="13">WEEKLY REVIEW</text>
+  <text x="395" y="271" text-anchor="middle" class="tier-sub">scorecard + podcast, Sundays</text>
+  <path d="M308 274 H 284" class="arrow" marker-end="url(#vah)" opacity="0.6"/>
+
+  <rect x="540" y="110" width="180" height="64" rx="12" fill="var(--c-builder, #F4845F)"/>
+  <text x="630" y="137" text-anchor="middle" class="tier-lbl">CLAUDE CODE</text>
+  <text x="630" y="156" text-anchor="middle" class="tier-sub">the assistant, on the same files</text>
+  <path d="M630 176 V 186" class="arrow" marker-end="url(#vah)"/>
+  <rect x="540" y="190" width="180" height="56" rx="10" class="box"/>
+  <text x="630" y="213" text-anchor="middle" class="lbl" font-size="13">skills + hooks</text>
+  <text x="630" y="230" text-anchor="middle" class="sub">review · audit · lint · capture · backup</text>
+  <path d="M630 248 V 258" class="arrow" marker-end="url(#vah)"/>
+  <rect x="540" y="262" width="180" height="54" rx="10" class="box" stroke-dasharray="5 4"/>
+  <text x="630" y="284" text-anchor="middle" class="lbl" font-size="13">Drive · Gmail · Calendar</text>
+  <text x="630" y="301" text-anchor="middle" class="sub">read just in time</text>
+  <path d="M536 142 H 484" class="arrow2" marker-start="url(#vah2)" marker-end="url(#vah)"/>
+  <path d="M540 122 C 470 60, 340 30, 284 62" class="arrow2" marker-start="url(#vah2)" marker-end="url(#vah)" opacity="0.7"/>
+
+  <text x="380" y="356" text-anchor="middle" class="lbl" font-size="12.5">plain markdown · git-backed · one folder, built for decades</text>
+  <text x="380" y="372" text-anchor="middle" class="sub">captured, cross-linked, and queryable by a person or an agent</text>
+</svg>
+
+          <figcaption class="sc-label">The vault, drawn the same way as the workspace</figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -256,11 +319,11 @@
     </div>
   </section>
 
-  <!-- ═══ COLOPHON: the close, held ═══ -->
-  <section class="chapter chapter--colophon" data-sc-act="pin" data-sc-span="1.15" data-chapter="Colophon" id="colophon">
+  <!-- ═══ LAST PAGE: the close, held ═══ -->
+  <section class="chapter chapter--colophon" data-sc-act="pin" data-sc-span="1.15" data-chapter="Last page" id="colophon">
     <div data-sc-stage>
       <div class="colophon sc-wrap" data-sc-cue="0 1 0 0">
-        <img class="colophon__portrait" src="assets/portrait-clubs.jpg" width="1080" height="1350" alt="James juggling three clubs" loading="lazy">
+        <div class="colophon__loop"><video class="colophon__video" id="clubs-loop" muted loop playsinline preload="none" poster="assets/clubs-poster.jpg" width="480" height="600" aria-label="James juggling three clubs, slowed down"><source src="assets/clubs-loop.mp4" type="video/mp4"></video></div>
         <div class="colophon__text">
           <p class="sc-label">James Moran · Des Moines, Iowa</p>
           <p class="running running--lg">If you are hiring, or building something real, <a class="cta-line" href="mailto:JamesSheehanMoran@gmail.com">email me with opportunities</a>. Or <a class="cta-line" href="#" id="print-cv">read the one-page CV</a>.</p>

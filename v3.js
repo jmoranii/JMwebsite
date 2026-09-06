@@ -186,11 +186,17 @@
     /* the close: the pattern resolves and holds */
     var colophon = document.getElementById('colophon');
     if (colophon) {
+      var loop = document.getElementById('clubs-loop');
       var ioC = new IntersectionObserver(function (es) {
         es.forEach(function (e) {
           holding = e.isIntersecting && e.intersectionRatio > 0.6;
           document.body.classList.toggle('is-close', holding);
           verify();
+          /* the clubs loop plays only while the last page is on screen, never under reduced motion */
+          if (loop) {
+            if (e.isIntersecting && !reduce.matches) { var pr = loop.play(); if (pr && pr.catch) pr.catch(function () {}); }
+            else loop.pause();
+          }
         });
       }, { threshold: [0, 0.6, 1] });
       ioC.observe(colophon.querySelector('[data-sc-stage]') || colophon);

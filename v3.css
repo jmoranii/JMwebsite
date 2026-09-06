@@ -134,11 +134,13 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sc-accent); out
 .phone__play:active, .phone__close:active { transform: scale(0.97); }
 .phone.is-playing .phone__poster { opacity: 0; }
 .proof__rule { margin-block: clamp(3rem, 8vh, 6rem); }
-.proof-rest { display: grid; grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr); grid-template-areas: "ccc book" "platform brain"; column-gap: clamp(2.5rem, 7vw, 7rem); row-gap: clamp(3rem, 7vh, 5rem); align-items: center; }
+.proof-rest { display: grid; grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr); grid-template-areas: "ccc book"; column-gap: clamp(2.5rem, 7vw, 7rem); row-gap: clamp(3rem, 7vh, 5rem); align-items: center; }
 .proof-rest > .media { grid-area: ccc; justify-self: center; }
 .proof-rest__copy { grid-area: book; max-width: 58ch; }
-.proof-rest__wide { grid-area: brain; max-width: 58ch; }
-.proof-rest__narrow { grid-area: platform; max-width: 40ch; }
+.proof-brain { display: grid; grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
+.proof-brain__copy { max-width: 52ch; }
+.proof-brain__fig { margin: 0; }
+.proof-brain__fig figcaption { margin-top: var(--sc-4); }
 
 /* ---------------------------------------------------------------- human -- */
 .human { height: 100%; display: grid; grid-template-columns: minmax(0, 0.44fr) minmax(0, 0.56fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; padding-block: clamp(2rem, 6vh, 4rem); }
@@ -152,7 +154,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sc-accent); out
 
 /* ------------------------------------------------------------- colophon -- */
 .colophon { height: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: 1fr auto; column-gap: clamp(2rem, 5vw, 4rem); align-items: center; padding-block: clamp(2rem, 6vh, 4rem) calc(var(--tray-bottom) + var(--ball) + 5.5rem); }
-.colophon__portrait { width: clamp(120px, 14vw, 180px); height: auto; border-radius: var(--sc-r-md); box-shadow: var(--sc-e2), var(--sc-edge); }
+.colophon__loop { width: clamp(130px, 15vw, 200px); aspect-ratio: 4 / 5; border-radius: var(--sc-r-md); overflow: hidden; box-shadow: var(--sc-e2), var(--sc-edge); background: #cfd6c4; }
+.colophon__video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .colophon__text { max-width: 56ch; }
 .colophon__text > * + * { margin-top: var(--sc-4); }
 .colophon__links a { color: var(--sc-ink-soft); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-color: var(--sc-hairline-strong); }
@@ -182,7 +185,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sc-accent); out
 @media (max-width: 860px) {
   .folio { display: none; }
   .spread, .spread--media-first, .proof-lead, .proof-rest, .turn, .human, .colophon { grid-template-columns: minmax(0, 1fr); }
-  .proof-rest { grid-template-areas: "ccc" "book" "brain" "platform"; }
+  .proof-rest { grid-template-areas: "ccc" "book"; }
+  .proof-brain { grid-template-columns: minmax(0, 1fr); }
   .spread__copy--trail { justify-self: start; }
   .spread > .media { max-width: 420px; }
   .human { align-content: center; gap: var(--sc-5); padding-block: clamp(1rem, 3vh, 2rem); }
