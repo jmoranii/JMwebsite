@@ -15,7 +15,7 @@ The title reads **Engineer. Analyst. Builder. Human.** and the four periods are 
 - **The AI era**: the frame holds while the analytics-workspace diagram draws itself stroke by stroke under the wheel (`pathLength="1"` per stroke, offset driven from the engine's `--sc-p`).
 - **Proof** (the peak): an iris opens on Rolfe Legends 2, playable in the page on request, then the book club game and the second brain, drawn in the same three-plane language as the workspace.
 - **Beyond work**: the one scrubbed clip, real juggling footage, in a captioned column.
-- **Last page**: small type, the email line, the print-CV line, a slow-motion clubs loop, the balls settle and hold.
+- **Contact me** (the last page): small type, the email line, the print-CV line, a slow-motion clubs loop, the balls settle and hold.
 
 ## Development
 

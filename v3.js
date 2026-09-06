@@ -204,6 +204,21 @@
   }
   verify();
 
+  /* the turn holds on the finished diagram: tell the harness the silence is authored */
+  var turn = document.querySelector('.chapter--turn');
+  if (turn) {
+    var lastHold = null;
+    var tick = function () {
+      var p = parseFloat(turn.style.getPropertyValue('--sc-p')) || 0;
+      var hold = p > 0.62 && p < 0.93;
+      if (hold !== lastHold) {
+        lastHold = hold;
+        if (hold) turn.setAttribute('data-sc-verify-hold', 'true'); else turn.removeAttribute('data-sc-verify-hold');
+      }
+    };
+    addEventListener('scroll', tick, { passive: true }); tick();
+  }
+
   /* ----------------------------------------------------------- 3. peak -- */
   var phone = document.getElementById('phone');
   var play = document.getElementById('phone-play');
