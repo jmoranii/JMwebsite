@@ -39,7 +39,7 @@ An Iowa State engineering degree, then eight years turning molten aluminum into 
 In 2022 I took the risk: left the known engineering path, moved home to be near family, and retrained in data analytics. I was uncertain, but I wasn't going to drop the family ball, or the joy one.
 
 **3 · Data in service of health** 🟢
-I joined a scrappy pharma-marketing startup as the ninth hire, learning fast and juggling roles: client services, ad operations, and finally business intelligence, where I rebuilt reporting "from a disorganized state to a valuable and controlled system." (Leadership's words, not mine.)
+I joined a scrappy pharma-marketing startup as the fifteenth hire, learning fast and juggling roles: client services, ad operations, and finally business intelligence, where I rebuilt reporting "from a disorganized state to a valuable and controlled system." (Leadership's words, not mine.)
 
 **4 · The AI era** 🟠
 Today I'm fixated on AI and its potential. I stay on top of the industry and build with the tools: at work, a data platform AI agents can read and workflows where Claude Code is a teammate; at home, AI woven into my life and games my friends actually play. Proof below! *(sorry, no juggling wordplay here)* ← Caveat aside
@@ -73,7 +73,7 @@ Bilingual site for the weekly Russian conversation meetup I run at the Des Moine
 
 **Real Chemistry** (via Spring & Bond) · *2023 – present*
 *Digital Media Account Manager → Ad Ops Analyst → **Beyond Insights Manager***
-- ~Ninth hire at the startup; client services → ad operations → business intelligence, building processes from scratch at every stop.
+- Fifteenth hire at the startup (exact, per records found Sun 2026-09-06); client services → ad operations → business intelligence, building processes from scratch at every stop.
 - Built the BI data flow, measurement frameworks, and reporting processes end-to-end; now integrating agentic AI (Snowflake Cortex + Claude Code) into all three.
 - "Transformed reporting from a disorganized state to a valuable and controlled system" — 2024 manager review.
 
