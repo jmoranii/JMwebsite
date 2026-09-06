@@ -1,295 +1,279 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>James Moran · Analytics Leader & AI Builder</title>
-    <meta name="description" content="Engineer turned analytics leader. I build AI-ready data platforms for pharma media measurement, and games people actually play. Des Moines, Iowa.">
-    <meta name="author" content="James Moran">
-
-    <meta property="og:title" content="James Moran · Analytics Leader & AI Builder">
-    <meta property="og:description" content="Engineer. Analyst. Builder. Human. Four things in the air, none dropped.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://jmoranii.github.io/JMwebsite/">
-    <meta property="og:image" content="https://jmoranii.github.io/JMwebsite/assets/og-card.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/print.css" media="print">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>James Moran · Engineer. Analyst. Builder. Human.</title>
+<meta name="description" content="Engineer turned analytics leader and AI builder in Des Moines, Iowa. Processes that actually work, made by a real person whose life works too.">
+<meta property="og:title" content="James Moran · Engineer. Analyst. Builder. Human.">
+<meta property="og:description" content="Engineer turned analytics leader and AI builder. Four things in the air, none dropped.">
+<meta property="og:url" content="https://jmoranii.github.io/JMwebsite/">
+<meta property="og:image" content="https://jmoranii.github.io/JMwebsite/assets/og-card.jpg">
+<meta name="theme-color" content="#FAF7F2">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="v3.css">
+<link rel="stylesheet" href="print.css" media="print">
 </head>
 <body>
 
-<h1 class="sr-only">James Moran, analytics leader and AI builder in Des Moines, Iowa</h1>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
 
-<!-- ====================================================
-     HERO — the four facets, juggled
-     ==================================================== -->
-<header class="hero" id="top">
-    <div class="ghost" aria-hidden="true"><span>James</span> <span>Moran</span></div>
-    <div class="brand-label">James Moran</div>
+<!-- fixed chrome: the folio (chapter title in the margin) and the props layer -->
+<aside class="folio" aria-live="polite" aria-atomic="true"><span class="folio__name">James Moran</span><span class="folio__sep" aria-hidden="true"></span><span class="folio__chapter" id="folio-chapter">Title page</span></aside>
+<div class="props" id="props" aria-hidden="true"><div class="tray" id="tray" data-sc-verify-state="landed=0"></div></div>
 
-    <div class="portrait" id="portrait">
-        <button type="button" id="portrait-btn" aria-label="Cycle portrait photo">
-            <img id="portrait-img" src="assets/James1.jpg" alt="James Moran" fetchpriority="high">
-        </button>
-        <span class="hand" aria-hidden="true">click me</span>
+<main id="top">
+
+  <!-- ═══ TITLE PAGE ═══ -->
+  <section class="chapter chapter--title" data-chapter="Title page">
+    <div class="sc-wrap title" data-sc-in data-sc-stagger="90">
+      <p class="masthead sc-label">James Moran <span class="masthead__loc">Des Moines, Iowa</span></p>
+      <h1 class="title__h1">
+        <span class="title__line"><span class="title__word">Engineer<span class="prop" data-prop="engineer"><span class="prop__dot"></span><span class="sr">.</span></span></span> <span class="title__word">Analyst<span class="prop" data-prop="analyst"><span class="prop__dot"></span><span class="sr">.</span></span></span></span>
+        <span class="title__line"><span class="title__word">Builder<span class="prop" data-prop="builder"><span class="prop__dot"></span><span class="sr">.</span></span></span> <span class="title__word">Human<span class="prop" data-prop="human"><span class="prop__dot"></span><span class="sr">.</span></span></span></span>
+      </h1>
+      <p class="sc-lede title__deck">Engineer turned analyst turned AI builder. Four things in the air, none dropped.</p>
+      <p class="running title__cta">Hiring, or building something real? <a class="cta-line" href="mailto:JamesSheehanMoran@gmail.com">Email me with opportunities</a></p>
     </div>
+  </section>
 
-    <div class="carousel" id="carousel" role="region" aria-roledescription="carousel" aria-label="Four facets of James">
-        <div class="slot" data-index="0" aria-roledescription="slide">
-            <div class="card" style="--facet: var(--c-engineer)">
-                <div class="card-photo"><img src="assets/engineer-v2.jpg" alt="James in safety glasses holding a rolled aluminum coil and a micrometer" loading="eager"></div>
-                <div class="card-strip">
-                    <h2><span class="ball chip" style="--ball: var(--c-engineer)" aria-hidden="true"></span>Engineer</h2>
-                    <p>Eight years making aluminum manufacturing better. Solved $200K-a-month problems.</p>
-                    <div class="num">juggling ball 01 / 04</div>
-                </div>
-            </div>
-        </div>
-        <div class="slot" data-index="1" aria-roledescription="slide">
-            <div class="card" style="--facet: var(--c-analyst)">
-                <div class="card-photo"><img src="assets/analyst-v2.jpg" alt="James holding up a clear acrylic panel with a colorful bar chart" loading="eager"></div>
-                <div class="card-strip">
-                    <h2><span class="ball chip" style="--ball: var(--c-analyst)" aria-hidden="true"></span>Analyst</h2>
-                    <p>Eight-figure pharma media campaigns measured, communicated, and steered.</p>
-                    <div class="num">juggling ball 02 / 04</div>
-                </div>
-            </div>
-        </div>
-        <div class="slot" data-index="2" aria-roledescription="slide">
-            <div class="card" style="--facet: var(--c-builder)">
-                <div class="card-photo"><img src="assets/builder-v2.jpg" alt="James at his desk with a mechanical keyboard and a glowing coral asterisk lamp" loading="eager"></div>
-                <div class="card-strip">
-                    <h2><span class="ball chip" style="--ball: var(--c-builder)" aria-hidden="true"></span>Builder</h2>
-                    <p>AI-ready data platforms and processes. Along with games people actually play.</p>
-                    <div class="num">juggling ball 03 / 04</div>
-                </div>
-            </div>
-        </div>
-        <div class="slot" data-index="3" aria-roledescription="slide">
-            <div class="card" style="--facet: var(--c-human)">
-                <div class="card-photo"><img src="assets/human-v2.jpg" alt="James juggling four balls in the site’s four colors" loading="eager"></div>
-                <div class="card-strip">
-                    <h2><span class="ball chip" style="--ball: var(--c-human)" aria-hidden="true"></span>Human</h2>
-                    <p>Juggler, grappler, reader, organizer.</p>
-                    <div class="num">juggling ball 04 / 04</div>
-                </div>
-            </div>
-        </div>
+  <!-- ═══ CHAPTER: THE ARC, movement one: metal ═══ -->
+  <section class="chapter chapter--metal" data-sc-act="flow" data-chapter="Made of metal" data-prop-toss="engineer">
+    <div class="sc-wrap spread">
+      <div class="spread__copy sc-stack" data-sc-in data-sc-stagger="70">
+        <h2 class="sc-display sc-display--lg chapter__title">Made of metal</h2>
+        <p class="sc-body">An Iowa State engineering degree, then eight years in an aluminum plant turning molten metal into precision sheet. Four roles of increasing responsibility, one plant, a lot of hard problems.</p>
+        <p class="sc-body">What I actually learned there was process. Understand the system before you touch it. Fix the cause, not the symptom. Then measure, and keep iterating until the fix holds without you. The material changed later. The approach never did.</p>
+        <dl class="figures">
+          <div><dt>Years on the plant floor</dt><dd><span class="num" data-sc-count="0 8" data-sc-count-at="0.1 0.3">0</span></dd></div>
+          <div><dt>Saved per month, one defect cut from about 30% to about zero</dt><dd>$<span class="num" data-sc-count="0 200" data-sc-count-at="0.1 0.3">0</span>K+</dd></div>
+          <div><dt>Years my material-flagging system has run since I left</dt><dd><span class="num" data-sc-count="0 7" data-sc-count-at="0.1 0.3">0</span>+</dd></div>
+        </dl>
+      </div>
+      <figure class="media media--wide" data-sc-reveal="up" data-sc-reveal-at="0.1 0.4">
+        <div class="media__frame"><img src="assets/metal-coil.jpg" width="880" height="767" alt="A single finished aluminum coil on the plant floor, chalk-marked, catching the overhead light" data-sc-parallax="-0.5" loading="lazy"></div>
+        <figcaption class="sc-label">The real thing, on the plant floor</figcaption>
+      </figure>
     </div>
+  </section>
 
-    <div class="hero-meta">
-        <p class="tagline">Engineer. Analyst. Builder. Human.</p>
-        <p class="sub" aria-hidden="true">(actual juggler)</p>
-        <div class="nav">
-            <button type="button" id="prev" aria-label="Previous facet">←</button>
-            <button type="button" id="next" aria-label="Next facet">→</button>
-            <button type="button" id="pause" class="auto-pill" aria-label="Pause automatic juggling" aria-pressed="false">auto · on ⏸</button>
-        </div>
+  <!-- ═══ movement two: the leap ═══ -->
+  <section class="chapter chapter--leap" data-sc-act="flow" data-chapter="The leap" data-prop-toss="human">
+    <div class="sc-wrap spread spread--media-first">
+      <figure class="media media--short" data-sc-reveal="right" data-sc-reveal-at="0.1 0.4">
+        <div class="media__frame"><img src="assets/leap-iowa.jpg" width="1200" height="1600" alt="James grinning in a field in Iowa, a painted school bus and a tarp shelter behind him" data-sc-parallax="-0.4" loading="lazy"></div>
+        <figcaption class="sc-label">Iowa, the first summer back</figcaption>
+      </figure>
+      <div class="spread__copy spread__copy--trail sc-stack" data-sc-in data-sc-stagger="70">
+        <h2 class="sc-display sc-display--lg chapter__title">The leap</h2>
+        <p class="sc-body">In 2022 I left the known engineering path. I moved home to Iowa to be near family and friends, retrained in data analytics, and started over at the bottom of a new field.</p>
+        <p class="sc-body">It was a risk and I was uncertain about most of it. I was certain about one thing: some balls you do not put down to catch a career. The people, and the joy, stayed in the air.</p>
+      </div>
     </div>
+  </section>
 
-    <div class="contact" aria-label="Contact links">
-        <a href="mailto:JamesSheehanMoran@gmail.com" aria-label="Email James">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        </a>
-        <a href="https://www.linkedin.com/in/james-moran-082629b7/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <a href="https://github.com/jmoranii" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-        </a>
+  <!-- ═══ movement three: the startup ═══ -->
+  <section class="chapter chapter--startup" data-sc-act="flow" data-chapter="Data in service of health" data-prop-toss="analyst">
+    <div class="sc-wrap spread">
+      <div class="spread__copy sc-stack" data-sc-in data-sc-stagger="70">
+        <h2 class="sc-display sc-display--lg chapter__title">Data in service of health</h2>
+        <p class="sc-body">I joined a scrappy pharma-marketing startup as the ninth hire and juggled whatever it needed next: client services, then ad operations, then business intelligence, building the process from scratch at every stop.</p>
+        <p class="sc-body">We grew it into a real company, and Real Chemistry, a major healthcare marketing firm, acquired it. Along the way I rebuilt our reporting <q>from a disorganized state to a valuable and controlled system.</q> Leadership's words, not mine.</p>
+        <dl class="figures figures--row">
+          <div><dt>Hire number</dt><dd><span class="num" data-sc-count="0 9" data-sc-count-at="0.1 0.3">0</span></dd></div>
+          <div><dt>Media data sources unified</dt><dd>~<span class="num" data-sc-count="0 20" data-sc-count-at="0.1 0.3">0</span></dd></div>
+          <div><dt>Annual media programs measured</dt><dd>eight figures</dd></div>
+        </dl>
+      </div>
+      <figure class="media media--tall" data-sc-reveal="up" data-sc-reveal-at="0.1 0.4">
+        <div class="media__frame"><img src="assets/startup.jpg" width="1024" height="1536" alt="A small open-plan office in the morning: one long shared table, open laptops, a whiteboard wall of sticky notes" data-sc-parallax="-0.5" loading="lazy"></div>
+        <figcaption class="sc-label">Ninth desk from the door</figcaption>
+      </figure>
     </div>
+  </section>
 
-    <div class="grain" aria-hidden="true"></div>
-    <p class="sr-only" aria-live="polite" id="live"></p>
-    <div class="hero-scroll" aria-hidden="true"><span>Scroll</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
-</header>
-
-<main id="main">
-
-    <!-- ====================================================
-         THE STORY — four beats, one ball lands per beat
-         ==================================================== -->
-    <section class="section story" id="story" aria-label="The story">
-        <div class="wrap beat-block" data-ball="0">
-            <div class="beat-ball" style="--ball: var(--c-engineer)" aria-hidden="true"></div>
-            <div class="kicker">The story · 1 of 4</div>
-            <h2>Made of metal</h2>
-            <p class="beat">An Iowa State engineering degree, then eight years turning molten aluminum into precision sheet metal. Four roles of increasing responsibility at one plant, where I solved big, complex problems (the kind that save $200K a month). The approach I never dropped: understand first, solve, then track and iterate.</p>
+  <!-- ═══ THE TURN: pin, the diagram draws itself ═══ -->
+  <section class="chapter chapter--turn" data-sc-act="pin" data-sc-span="1.7" data-chapter="The AI era" data-prop-toss="builder">
+    <div data-sc-stage>
+      <div class="turn sc-wrap">
+        <div class="turn__copy sc-stack" data-sc-cue="0 1 0 0.08">
+          <h2 class="sc-display sc-display--lg chapter__title">The AI era</h2>
+          <p class="sc-body">Today I am fixated on AI and what it makes possible, and I build with it every day. At work I built my team's analytics workspace end to end, in three planes: a governed SQL codebase over bronze, silver, and gold tiers in Snowflake (about twenty media sources behind eight-figure pharma media programs), a knowledge layer that documents the data and the brands in plain text, and an agent layer.</p>
+          <p class="sc-body">In that agent layer, Claude Code runs the QA suites and the reporting rituals as skills, under rules, a compliance hook, and a permission sandbox, reading the same files the analysts read. One-off queries became a shared, version-controlled library that humans and agents both use.</p>
+          <p class="sc-body">At home, the same patterns run my life. The proof is next.</p>
         </div>
-        <div class="wrap beat-block" data-ball="1">
-            <div class="beat-ball" style="--ball: var(--c-human)" aria-hidden="true"></div>
-            <div class="kicker">The story · 2 of 4</div>
-            <h2>The Leap</h2>
-            <p class="beat">In 2022 I took the risk: left the known engineering path, moved home to be near family, and retrained in data analytics. I was uncertain, but I wasn't going to drop the family ball, or the joy one.</p>
+        <figure class="turn__diagram diagram" data-sc-cue="0 1 0 0.08">
+          <svg class="diagram__svg" style="--step-s:0.0308;--step-t:0.0221" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 450" role="img" aria-labelledby="bp-title bp-desc" font-family="Outfit, sans-serif">
+  <title id="bp-title">The analytics workspace, three planes</title>
+  <desc id="bp-desc">Data plane: about twenty media sources flow into bronze, silver, and gold tables in Snowflake, with reference lists feeding gold. Knowledge plane: a plain-text data knowledge bundle and LLM-maintained brand wikis. Agent plane: Claude Code runs skills for QA and reporting under rules, a compliance hook, and a permission sandbox, reading the data and the knowledge and delivering checked tables, reports, and answers that analysts also read.</desc>
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M1,1 L8,4.5 L1,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker>
+    <marker id="ah2" markerWidth="9" markerHeight="9" refX="2" refY="4.5" orient="auto"><path d="M8,1 L1,4.5 L8,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker>
+  </defs>
+  <!-- DATA -->
+  <text x="22" y="104" class="band" style="--i:0">DATA</text>
+  <rect x="110" y="68" width="100" height="24" rx="6" class="box" opacity="0.45" pathLength="1" style="--i:0"/>
+  <rect x="116" y="78" width="100" height="24" rx="6" class="box" opacity="0.7" pathLength="1" style="--i:1"/>
+  <rect x="122" y="88" width="100" height="24" rx="6" class="box" pathLength="1" style="--i:2"/>
+  <text x="166" y="130" text-anchor="middle" class="lbl" font-size="12" style="--i:1">media vendors</text>
+  <text x="166" y="145" text-anchor="middle" class="sub" style="--i:2">~20 sources</text>
+  <path d="M226 100 H 246" class="arrow" pathLength="1" style="--i:3"/>
+  <rect x="250" y="72" width="110" height="56" rx="10" fill="#C08552" pathLength="1" style="--i:4"/>
+  <text x="305" y="96" text-anchor="middle" class="tier-lbl" style="--i:3">BRONZE</text>
+  <text x="305" y="114" text-anchor="middle" class="tier-sub" style="--i:4">as delivered</text>
+  <path d="M362 100 H 396" class="arrow" pathLength="1" style="--i:5"/>
+  <rect x="400" y="72" width="110" height="56" rx="10" fill="#B9C2CC" pathLength="1" style="--i:6"/>
+  <text x="455" y="96" text-anchor="middle" class="tier-lbl" style="--i:5">SILVER</text>
+  <text x="455" y="114" text-anchor="middle" class="tier-sub" style="--i:6">standardized</text>
+  <path d="M512 100 H 546" class="arrow" pathLength="1" style="--i:7"/>
+  <rect x="550" y="72" width="110" height="56" rx="10" fill="#E2B53E" pathLength="1" style="--i:8"/>
+  <text x="605" y="96" text-anchor="middle" class="tier-lbl" style="--i:7">GOLD</text>
+  <text x="605" y="114" text-anchor="middle" class="tier-sub" style="--i:8">reporting-ready</text>
+  <rect x="400" y="140" width="260" height="22" rx="6" class="box" stroke-dasharray="5 4" pathLength="1" style="--i:9"/>
+  <text x="530" y="155" text-anchor="middle" class="sub" style="--i:9">reference lists: target · prescriber · field</text>
+  <path d="M605 140 V 132" class="arrow" opacity="0.6" pathLength="1" style="--i:10"/>
+  <line x1="22" y1="178" x2="738" y2="178" class="rule" pathLength="1" style="--i:11"/>
+  <!-- KNOWLEDGE -->
+  <text x="22" y="232" class="band" style="--i:10">KNOWLEDGE</text>
+  <path d="M350 134 V 192" class="arrow" opacity="0.6" pathLength="1" style="--i:12"/>
+  <rect x="250" y="196" width="200" height="60" rx="10" class="box" pathLength="1" style="--i:13"/>
+  <text x="350" y="219" text-anchor="middle" class="lbl" font-size="13" style="--i:11">data knowledge bundle</text>
+  <text x="350" y="236" text-anchor="middle" class="sub" style="--i:12">7 domains · shared metrics · conventions</text>
+  <text x="350" y="250" text-anchor="middle" class="sub" style="--i:13">plain text, typed, indexed, logged</text>
+  <rect x="470" y="196" width="190" height="60" rx="10" class="box" pathLength="1" style="--i:14"/>
+  <text x="565" y="219" text-anchor="middle" class="lbl" font-size="13" style="--i:14">brand wikis</text>
+  <text x="565" y="236" text-anchor="middle" class="sub" style="--i:15">LLM-maintained from readouts,</text>
+  <text x="565" y="250" text-anchor="middle" class="sub" style="--i:16">decks, and meeting transcripts</text>
+  <line x1="22" y1="284" x2="738" y2="284" class="rule" pathLength="1" style="--i:15"/>
+  <!-- AGENT -->
+  <text x="22" y="338" class="band" style="--i:17">AGENT</text>
+  <rect x="300" y="304" width="160" height="56" rx="12" fill="var(--c-builder, #F4845F)" pathLength="1" style="--i:16"/>
+  <text x="380" y="327" text-anchor="middle" class="tier-lbl" style="--i:18">CLAUDE CODE</text>
+  <text x="380" y="345" text-anchor="middle" class="tier-sub" style="--i:19">the agent, on the same files</text>
+  <rect x="110" y="306" width="170" height="52" rx="10" class="box" pathLength="1" style="--i:17"/>
+  <text x="195" y="325" text-anchor="middle" class="lbl" font-size="12" style="--i:20">11 skills</text>
+  <text x="195" y="340" text-anchor="middle" class="sub" style="--i:21">QA suites · report rituals</text>
+  <text x="195" y="353" text-anchor="middle" class="sub" style="--i:22">wiki ingest · deck scrub</text>
+  <path d="M282 332 H 296" class="arrow" pathLength="1" style="--i:18"/>
+  <rect x="480" y="306" width="180" height="52" rx="10" class="box" pathLength="1" style="--i:19"/>
+  <text x="570" y="325" text-anchor="middle" class="lbl" font-size="12" style="--i:23">guardrails</text>
+  <text x="570" y="340" text-anchor="middle" class="sub" style="--i:24">rules · compliance hook</text>
+  <text x="570" y="353" text-anchor="middle" class="sub" style="--i:25">permission sandbox</text>
+  <path d="M478 332 H 464" class="arrow" pathLength="1" style="--i:20"/>
+  <path d="M380 300 V 262" class="arrow2" pathLength="1" style="--i:21"/>
+  <path d="M462 316 C 720 316, 720 100, 666 100" class="arrow" opacity="0.6" pathLength="1" style="--i:22"/>
+  <path d="M380 362 V 392" class="arrow" pathLength="1" style="--i:23"/>
+  <text x="380" y="412" text-anchor="middle" class="lbl" font-size="12.5" style="--i:26">checked tables · reports and decks · answers</text>
+  <text x="380" y="428" text-anchor="middle" class="sub" style="--i:27">and the analysts read the same library, in plain language</text>
+</svg>
+
+
+
+          <figcaption class="sc-label">The workspace, drawn as you scroll</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ the silence before the peak ═══ -->
+  <section class="chapter chapter--intertitle" data-chapter="Proof">
+    <div class="sc-wrap intertitle" data-sc-in>
+      <p class="intertitle__line">All four in the air.</p>
+    </div>
+  </section>
+
+  <!-- ═══ PROOF: the peak ═══ -->
+  <section class="chapter chapter--proof" data-sc-act="flow" data-chapter="Things I've built" id="built">
+    <div class="sc-wrap">
+      <div class="proof-lead">
+        <div class="phone" data-sc-reveal="iris" data-sc-reveal-at="0.08 0.38" id="phone">
+          <img class="phone__poster" src="assets/rl2-phone.jpg" width="1170" height="2532" alt="Rolfe Legends 2 title screen: a red barn, a windmill, geese on a farm road, and a twister on the horizon">
+          <button class="phone__play" type="button" id="phone-play">Play it here</button>
+          <button class="phone__close" type="button" id="phone-close" hidden>Close the game</button>
         </div>
-        <div class="wrap beat-block" data-ball="2">
-            <div class="beat-ball" style="--ball: var(--c-analyst)" aria-hidden="true"></div>
-            <div class="kicker">The story · 3 of 4</div>
-            <h2>Data in service of health</h2>
-            <p class="beat">I joined a scrappy pharma-marketing startup as the ninth hire, learning fast and juggling roles: client services, ad operations, and finally business intelligence, where I rebuilt reporting "from a disorganized state to a valuable and controlled system." (Leadership's words, not mine.)</p>
+        <div class="proof-lead__copy sc-stack" data-sc-in data-sc-stagger="70">
+          <h2 class="sc-display sc-display--lg chapter__title">Things I've built</h2>
+          <h3 class="sc-display sc-display--md">Rolfe Legends 2: Defend the Farm</h3>
+          <p class="sc-body">A roguelike deckbuilder made as a gift for my nephews, the sequel they asked for after the first one. They play as themselves and defend the family farm across three acts, from the far fields at morning to the big twister at night. Family members run the shop, the rest stop, and the treasure deliveries.</p>
+          <p class="sc-body">Tuned hard on purpose: about a 30% win rate per hero, verified by simulating hundreds of full runs, so every sung victory anthem is earned. Built with AI pair-programming, a DOM-free engine, and 1,390 unit tests. It installs on a phone and plays offline.</p>
+          <p class="spec sc-label">2 heroes · 3 acts · 40+ cards · 25+ enemies · 15 relics · original art and music</p>
+          <p class="running"><a class="cta-line" href="https://jmoranii.github.io/rolfe-legends-2/" target="_blank" rel="noopener">Open it full screen</a></p>
         </div>
-        <div class="wrap beat-block" data-ball="3">
-            <div class="beat-ball" style="--ball: var(--c-builder)" aria-hidden="true"></div>
-            <div class="kicker">The story · 4 of 4</div>
-            <h2>The AI era</h2>
-            <p class="beat">Today I'm fixated on AI and its potential. I stay on top of the industry and build with the tools: at work, a data platform AI agents can read and workflows where Claude Code is a teammate; at home, AI woven into my life and games my friends actually play. Proof below!</p>
-            <span class="hand beat-aside" aria-hidden="true">(sorry, no juggling wordplay here)</span>
+      </div>
+
+      <hr class="sc-rule proof__rule">
+
+      <div class="proof-rest">
+        <figure class="media media--phone" data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+          <div class="media__frame"><img src="assets/ccc-phone.jpg" width="1170" height="2532" alt="Cool Club Connections, a word-grouping game built from ten years of book club reading" loading="lazy"></div>
+          <figcaption class="sc-label">Cool Club Connections</figcaption>
+        </figure>
+        <div class="proof-rest__copy sc-stack" data-sc-in data-sc-stagger="70">
+          <h3 class="sc-display sc-display--md">A book club, ten years in</h3>
+          <p class="sc-body">Ten years ago I started a book club. It still meets every week, 177 books deep. I build the things that run it: a weekly voting system with a dashboard to pick the next read, and a connections game spun from our entire reading history.</p>
+          <p class="running"><a class="cta-line" href="https://jmoranii.github.io/cool-club-connections/" target="_blank" rel="noopener">Play the connections game</a></p>
         </div>
-    </section>
-
-    <!-- ====================================================
-         THINGS I'VE BUILT — sticky-stack cards
-         ==================================================== -->
-    <section class="section built" id="built" aria-label="Things I've built">
-        <div class="wrap stack-head">
-            <div class="kicker">Show, don't tell</div>
-            <h2 class="section-title">Things I've Built</h2>
+        <div class="proof-rest__wide sc-stack" data-sc-in data-sc-stagger="70">
+          <h3 class="sc-display sc-display--md">An AI second brain</h3>
+          <p class="sc-body">A markdown vault plus a Claude Code assistant running my actual life: projects, knowledge, journal, people. Captured, cross-linked, queryable. The same patterns as the work platform, life-sized. Plain text, git-backed, built to last decades.</p>
         </div>
-
-        <div class="deck">
-            <article class="stack-card" style="--accent: var(--c-analyst); --stick: 76px;">
-                <div class="row"><span class="pnum">01</span><h3>An AI-ready measurement platform</h3><span class="tag">Work · systems</span></div>
-                <p>Built my team's data platform end-to-end: bronze → silver → gold Snowflake tiers unifying ~20 media data sources behind eight-figure pharma media programs. Every table ships with AI-readable metadata, so AI agents (Snowflake Cortex + Claude Code) query, profile, and QA the data directly. One-off analyst queries became a shared, version-controlled library that humans and AI both read.</p>
-                <div class="diagram" data-inline-svg="assets/diagrams/bi-platform.svg"></div>
-            </article>
-        
-            <article class="stack-card" style="--accent: var(--c-builder); --stick: 96px;">
-                <div class="row"><span class="pnum">02</span><h3>An AI second brain</h3><span class="tag">Systems · personal</span></div>
-                <p>A markdown vault + Claude Code assistant running my actual life: projects, knowledge, journal, and people. Captured, cross-linked, and queryable. The same patterns as the work platform, life-sized. Git-backed, plain text, built to last decades.</p>
-                <pre class="treecode" aria-label="Vault folder structure">second-brain/
-├── gtd/          ← projects, tasks, weekly review
-├── reference/    ← the wiki that compounds
-├── media/        ← generated artifacts
-└── CLAUDE.md     ← how the assistant behaves</pre>
-            </article>
-        
-            <article class="stack-card" style="--accent: var(--c-engineer); --stick: 116px;">
-                <div class="row"><span class="pnum">03</span><h3>Factory systems that outlived me</h3><span class="tag">Engineering · systems</span></div>
-                <p>At the aluminum plant: a material-flagging system that automatically catches problem products before they ship (still in production 7+ years after I built it) and a customer-returns database with automatic validation.</p>
-                <div class="statrow" role="list">
-                    <div role="listitem"><strong>7+ yrs</strong><span>still in production</span></div>
-                    <div role="listitem"><strong>~0%</strong><span>earing failures, from ~30%</span></div>
-                    <div role="listitem"><strong>10MM+ lbs</strong><span>scrap recovered</span></div>
-                </div>
-            </article>
-        
-            <article class="stack-card" style="--accent: var(--c-human); --stick: 136px;">
-                <div class="row"><span class="pnum">04</span><h3>Cool Club Book Club</h3><span class="tag">Ten years in</span></div>
-                <p>Ten years ago I started a book club. It's still going every week, 168 books deep. I build the things that run it: a weekly voting system (with a dashboard) to pick our next read, and a game spun from our whole reading history. <a href="https://jmoranii.github.io/cool-club-connections/" target="_blank" rel="noopener noreferrer">Play the game ↗</a></p>
-                <img class="shot" src="assets/projects/cool-club-connections.jpg" alt="Cool Club Connections puzzle board built from the book club's reading history" loading="lazy">
-            </article>
-        
-            <article class="stack-card" style="--accent: var(--c-builder); --stick: 156px;">
-                <div class="row"><span class="pnum">05</span><h3>Rolfe Legends</h3><span class="tag">AI · build</span></div>
-                <p>A full card battler I built end to end: a game engine, a distinct hand-tuned AI for all eight bosses, original art, and an original soundtrack. The hook: it's a birthday gift for my nephew, where his family is the boss ladder. <a href="https://jmoranii.github.io/rolfe-legends/" target="_blank" rel="noopener noreferrer">Play it live ↗</a></p>
-                <img class="shot" src="assets/projects/rolfe-legends.jpg" alt="Rolfe Legends card battler: a boss fight with farm-themed cards in hand" loading="lazy">
-            </article>
-        
-            <article class="stack-card" style="--accent: var(--c-analyst); --stick: 176px;">
-                <div class="row"><span class="pnum">06</span><h3>DSM Russian Conversation Club</h3><span class="tag">Community</span></div>
-                <p>Bilingual site for the weekly Russian conversation meetup I run at the Des Moines Public Library: light/dark themes, an auto-calculating schedule banner, and a hedgehog mascot with a secret room. <a href="https://dsmrussianconversationclub.com" target="_blank" rel="noopener noreferrer">Visit ↗</a></p>
-                <img class="shot" src="assets/projects/dsm-russian-club.jpg" alt="Des Moines Russian Conversation Club website with hedgehog mascot" loading="lazy">
-            </article>
+        <div class="proof-rest__narrow sc-stack" data-sc-in data-sc-stagger="70">
+          <h3 class="sc-display sc-display--md">The analytics workspace</h3>
+          <p class="sc-body">The one from the previous chapter: data, knowledge, and agents in one version-controlled repo. The work-sized version of the same idea.</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- ====================================================
-         EXPERIENCE
-         ==================================================== -->
-    <section class="section experience" id="experience" aria-label="Experience">
-        <div class="wrap">
-            <div class="kicker">The record</div>
-            <h2 class="section-title">Experience</h2>
-
-            <article class="xp">
-                <div class="xp-head">
-                    <h3>Spring &amp; Bond <span class="arc">→</span> Real Chemistry</h3>
-                    <span class="years">2023 – present</span>
-                </div>
-                <p class="role">Digital Media Account Manager → Ad Ops Analyst → <strong>Beyond Insights Manager</strong> <span class="note">(acquired mid-tenure; same desk, bigger company)</span></p>
-                <ul>
-                    <li>~Ninth hire at the startup; client services → ad operations → business intelligence, building processes from scratch at every stop.</li>
-                    <li>Built the BI data flow, measurement frameworks, and reporting processes end-to-end; now integrating agentic AI (Snowflake Cortex + Claude Code) into all three.</li>
-                    <li>"Transformed reporting from a disorganized state to a valuable and controlled system" (2024 manager review).</li>
-                </ul>
-            </article>
-
-            <article class="xp">
-                <div class="xp-head">
-                    <h3>Alcoa Warrick <span class="arc">→</span> Kaiser Aluminum</h3>
-                    <span class="years">2015 – 2022</span>
-                </div>
-                <p class="role">Metallurgical Engineer → Sr. Metallurgical Engineer <span class="note">(also acquired mid-tenure; it keeps happening)</span></p>
-                <ul>
-                    <li>Reduced earing failures from ~30% to ~0%, saving $200K+ per month.</li>
-                    <li>Improved as-cast metal recovery 3% (10MM+ lbs of scrap eliminated).</li>
-                    <li>Built a material-flagging system still in use 7+ years later.</li>
-                    <li>Selected for the plant-wide 3-year roadmap team of 1,100+ employees, as the only member with under 20 years' experience.</li>
-                </ul>
-            </article>
-
-            <article class="xp">
-                <div class="xp-head">
-                    <h3>Stellar Industries</h3>
-                    <span class="years">2014 – 2015</span>
-                </div>
-                <p class="role">Materials Engineer</p>
-                <ul>
-                    <li>Drove a stainless-steel corrosion investigation to a formal conclusion: supplier restitution and a supplier change.</li>
-                    <li>AWS welding certification.</li>
-                </ul>
-            </article>
-
-            <p class="edu"><strong>Education:</strong> B.S. Materials Engineering, Iowa State University (2014) · Google Data Analytics Certificate (2022)</p>
+  <!-- ═══ THE HUMAN: the one scrub, in a column ═══ -->
+  <section class="chapter chapter--human" data-sc-act="scrub" data-sc-span="1.9" data-sc-dwell="0.3" data-chapter="Beyond work">
+    <div data-sc-stage>
+      <div class="human sc-wrap">
+        <figure class="human__clip">
+          <div class="clip">
+            <img class="sc-stage__poster" src="assets/juggle-poster.jpg" alt="">
+            <video data-sc-scrub data-sc-src="assets/juggle.mp4" data-sc-src-mobile="assets/juggle-m.mp4" muted playsinline aria-label="James juggling four balls against a green wall"></video>
+          </div>
+          <figcaption class="sc-label">Four balls, one wall at home, September 2026</figcaption>
+        </figure>
+        <div class="human__copy sc-stack" data-sc-cue="0 1 0 0.08">
+          <h2 class="sc-display sc-display--lg chapter__title">Beyond work</h2>
+          <p class="sc-lede">I commit deeply, and I stay for years.</p>
+          <ul class="human__list">
+            <li><strong>Juggling.</strong> Club president at Iowa State for three years. St. Louis Jugglefest club-passing champion, 2018. The title page is literal.</li>
+            <li><strong>Brazilian jiu-jitsu.</strong> Years on the mats. Tournament gold, 2021.</li>
+            <li><strong>Books.</strong> One club, every week, more than ten years.</li>
+            <li><strong>Languages.</strong> Spanish and Russian. I host a weekly Russian conversation meetup in Des Moines.</li>
+            <li><strong>Mentoring.</strong> Big Brothers Big Sisters for three years. FIRST Lego League planning committee.</li>
+          </ul>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- ====================================================
-         THE HUMAN BALL
-         ==================================================== -->
-    <section class="section human" id="human" aria-label="Beyond work">
-        <div class="wrap">
-            <div class="kicker">The fourth ball</div>
-            <h2 class="section-title">Beyond Work</h2>
-            <p class="lede">The through-line: <strong>I commit deeply, and I stay for years.</strong></p>
-            <ul class="practices">
-                <li><strong>Juggling</strong>: ISU Juggling &amp; Unicycle Club president (3 years); St. Louis Jugglefest club-passing champion, 2018. That really is me in the footer.</li>
-                <li><strong>Brazilian Jiu-Jitsu</strong>: on the mats for years; grappling-tournament gold, 2021.</li>
-                <li><strong>Books</strong>: one book club, every week, 10+ years, 168 books. (It has its own game now, card 04 above.)</li>
-                <li><strong>Languages</strong>: Spanish and Russian; I run the weekly Des Moines Russian Conversation Club.</li>
-                <li><strong>Mentoring</strong>: Big Brothers Big Sisters (3 years); FIRST Lego League planning committee.</li>
-            </ul>
-            <p class="lede close"><em>I go deep, and I don't drop things.</em></p>
+  <!-- ═══ COLOPHON: the close, held ═══ -->
+  <section class="chapter chapter--colophon" data-sc-act="pin" data-sc-span="1.15" data-chapter="Colophon" id="colophon">
+    <div data-sc-stage>
+      <div class="colophon sc-wrap" data-sc-cue="0 1 0 0">
+        <img class="colophon__portrait" src="assets/portrait-clubs.jpg" width="1080" height="1350" alt="James juggling three clubs" loading="lazy">
+        <div class="colophon__text">
+          <p class="sc-label">James Moran · Des Moines, Iowa</p>
+          <p class="running running--lg">If you are hiring, or building something real, <a class="cta-line" href="mailto:JamesSheehanMoran@gmail.com">email me with opportunities</a>. Or <a class="cta-line" href="#" id="print-cv">read the one-page CV</a>.</p>
+          <p class="running colophon__links"><a href="https://www.linkedin.com/in/james-moran-082629b7/" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/jmoranii" target="_blank" rel="noopener">GitHub</a></p>
         </div>
-    </section>
+        <div class="colophon__tray-seat" id="tray-seat" aria-hidden="true"></div>
+        <footer class="colophon__foot sc-label">© <span id="year">2026</span> James Moran. Built with curiosity, and with Claude Code. No frameworks.</footer>
+      </div>
+    </div>
+  </section>
 
-    <!-- ====================================================
-         CV
-         ==================================================== -->
-    <section class="section cv" id="cv" aria-label="Printable CV">
-        <div class="wrap">
-            <div class="kicker">For the recruiters</div>
-            <h2 class="section-title">Need the one-pager?</h2>
-            <p>Everything above, condensed to a clean printable page, with a QR code that leads right back here.</p>
-            <button type="button" class="print-btn" id="print-cv">Print my CV</button>
-            <span class="hand" aria-hidden="true">(or save as PDF from the print dialog)</span>
-        </div>
-    </section>
 </main>
 
-<!-- ====================================================
-     PRINT-ONLY CV — the only thing the printer sees
-     ==================================================== -->
 <div id="cv-print" aria-hidden="true">
     <div class="cv-head">
         <div>
@@ -332,33 +316,13 @@
     <p>SQL / Snowflake · data architecture · measurement frameworks · agentic AI workflows (Cortex, Claude Code) · Python · process engineering</p>
 
     <h3>Beyond work</h3>
-    <p>Juggling (ISU club president; 2018 St. Louis Jugglefest passing champion) · Brazilian Jiu-Jitsu (2021 tournament gold) · book club (10+ yrs, 168 books) · Spanish &amp; Russian (runs the DSM Russian Conversation Club) · Big Brothers Big Sisters mentor (3 yrs)</p>
+    <p>Juggling (ISU club president; 2018 St. Louis Jugglefest passing champion) · Brazilian Jiu-Jitsu (2021 tournament gold) · book club (10+ yrs, 177 books) · Spanish &amp; Russian (runs the DSM Russian Conversation Club) · Big Brothers Big Sisters mentor (3 yrs)</p>
 </div>
 
-<!-- ====================================================
-     FOOTER — where the balls come to rest (they don't)
-     ==================================================== -->
-<footer class="footer" data-ball="3">
-    <span class="juggler-zone"><a href="keep-it-up.html" class="easter-egg" aria-label="Secret game"><img src="assets/human-v2.jpg" alt="James juggling four balls"></a></span>
-    <p class="footer-line">© <span id="current-year">2026</span> James Moran · Des Moines, Iowa. Built with curiosity (and with <a href="https://claude.com/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a>).</p>
-    <a href="#top" class="back-to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
-</footer>
 
-<!-- the cascade landing zone: balls arrive as you read, then never stop -->
-<div class="tray" id="tray" aria-hidden="true"></div>
 
-<!-- Theme toggle (fixed, top-right) -->
-<button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" type="button">
-    <svg class="tt-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    <svg class="tt-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-</button>
-
-<script src="js/theme.js" defer></script>
-<script src="js/carousel.js" defer></script>
-<script src="js/portrait.js" defer></script>
-<script src="js/reveal.js" defer></script>
-<script src="js/stack.js" defer></script>
-<script src="js/cascade.js" defer></script>
-<script src="js/main.js" defer></script>
+<script src="scrollcraft.js"></script>
+<script src="v3.js"></script>
+<script>ScrollCraft.mount(document.body);</script>
 </body>
 </html>
