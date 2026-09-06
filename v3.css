@@ -233,3 +233,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sc-accent); out
 .chapter--leap .media__frame img { object-position: center 40%; }
 .diagram__svg .band { fill: currentColor; font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; fill-opacity: 0.55; }
 .diagram__svg .rule { stroke: currentColor; stroke-width: 1; stroke-opacity: 0.22; stroke-dasharray: 1; }
+
+.media--cine .media__frame { aspect-ratio: 3 / 2; }
+.media--cine .media__frame img { top: -6%; height: 112%; }
