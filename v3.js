@@ -3,7 +3,7 @@
    2. the props: the title's four periods lift off, one per chapter, arc to
       the tray, and juggle real siteswaps (1 bounce, 2 → 31, 3 cascade, 4 → 5551)
    3. the peak: a playable Rolfe Legends 2, loaded only on request
-   4. the CV line prints */
+   4. the footer year (the résumé is a plain link to a PDF) */
 (function () {
   'use strict';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)');
@@ -102,8 +102,11 @@
     if (rafId === null && !reduce.matches && inPattern.length) rafId = requestAnimationFrame(frame);
   }
   reduce.addEventListener('change', function (e) {
-    if (e.matches && rafId !== null) { cancelAnimationFrame(rafId); rafId = null; staticRow(); }
-    else startEngine();
+    if (e.matches) {
+      if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+      staticRow();
+      var lp = document.getElementById('clubs-loop'); if (lp) lp.pause(); /* the loop, too, not only the balls */
+    } else startEngine();
   });
 
   function join(name) {
@@ -219,6 +222,36 @@
     addEventListener('scroll', tick, { passive: true }); tick();
   }
 
+  /* the one scrub: the engine reveals the clip on a timer once its bytes arrive, whether or
+     not they decode, and the decode error usually lands first. So: on error, take the reveal
+     back, and keep watching the class the engine sets (on the act and on the video) so a
+     reveal that arrives after the error is taken back too. */
+  var scrub = document.querySelector('video[data-sc-scrub]');
+  if (scrub && 'MutationObserver' in window) {
+    var scrubAct = scrub.closest('[data-sc-act]');
+    var unreveal = function () {
+      if (!scrub.error) return;
+      [scrub, scrubAct].forEach(function (el) {
+        if (el && el.classList.contains('sc-has-clip')) el.classList.remove('sc-has-clip');
+      });
+    };
+    scrub.addEventListener('error', unreveal);
+    var mo = new MutationObserver(unreveal);
+    mo.observe(scrub, { attributes: true, attributeFilter: ['class'] });
+    if (scrubAct) mo.observe(scrubAct, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  /* short viewports: v3.css un-pins the stages below 500px of height. The engine relays out on
+     width changes (rotation) but skips height-only resizes on narrow and touch layouts, so a
+     height-only crossing of that breakpoint would leave its cached section geometry stale.
+     Ask the mounted engine to lay out again once the stylesheet has switched. */
+  var shortMQ = matchMedia('(max-height: 500px)');
+  shortMQ.addEventListener('change', function () {
+    requestAnimationFrame(function () {
+      (window.ScrollCraft && ScrollCraft.instances || []).forEach(function (inst) { inst.layout(); inst.read(); });
+    });
+  });
+
   /* ----------------------------------------------------------- 3. peak -- */
   var phone = document.getElementById('phone');
   var play = document.getElementById('phone-play');
@@ -246,9 +279,7 @@
     });
   }
 
-  /* ------------------------------------------------------------- 4. CV -- */
-  var cv = document.getElementById('print-cv');
-  if (cv) cv.addEventListener('click', function (e) { e.preventDefault(); window.print(); });
+  /* ----------------------------------------------------------- 4. year -- */
   var y = document.getElementById('year');
   if (y) y.textContent = String(new Date().getFullYear());
 })();

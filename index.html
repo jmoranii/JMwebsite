@@ -17,6 +17,20 @@
 <link rel="stylesheet" href="scrollcraft.css">
 <link rel="stylesheet" href="v3.css">
 <link rel="stylesheet" href="print.css" media="print">
+<noscript><style>
+/* No JavaScript: the engine never mounts, so nothing may stay hidden, pinned, or at zero.
+   Everything reads settled: copy visible, stages in flow, diagrams drawn, counters at their
+   authored values (the markup carries the final numbers; the engine counts up from zero). */
+[data-sc-in], [data-sc-stagger] > *, [data-sc-cue] { opacity: 1 !important; transform: none !important; transition: none !important; }
+[data-sc-stage] { position: static; height: auto; overflow: visible; }
+.turn, .human, .colophon { height: auto; }
+.diagram__svg :is(path, rect, line)[style] { stroke-dashoffset: 0; }
+.diagram__svg text[style], .diagram__svg path[style] { opacity: 1; }
+.diagram__svg rect[fill]:not([fill="none"]) { fill-opacity: 1; }
+.clip .sc-stage__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.clip video { display: none; }
+.folio { display: none; }
+</style></noscript>
 </head>
 <body>
 
@@ -50,9 +64,9 @@
         <p class="sc-body">An Iowa State engineering degree, then eight years in an aluminum plant turning molten metal into precision sheet. Four roles of increasing responsibility, one plant, a lot of hard problems.</p>
         <p class="sc-body">What I actually learned there was process. Understand the system before you touch it. Fix the cause, not the symptom. Then measure, and keep iterating until the fix holds without you. The material changed later. The approach never did.</p>
         <dl class="figures">
-          <div><dt>Years on the plant floor</dt><dd><span class="num" data-sc-count="0 8" data-sc-count-at="0.1 0.3">0</span></dd></div>
-          <div><dt>Saved per month, one defect cut from about 30% to about zero</dt><dd>$<span class="num" data-sc-count="0 200" data-sc-count-at="0.1 0.3">0</span>K+</dd></div>
-          <div><dt>Years my material-flagging system has run since I left</dt><dd><span class="num" data-sc-count="0 7" data-sc-count-at="0.1 0.3">0</span>+</dd></div>
+          <div><dt>Years on the plant floor</dt><dd><span class="num" data-sc-count="0 8" data-sc-count-at="0.1 0.3">8</span></dd></div>
+          <div><dt>Saved per month, one defect cut from about 30% to about zero</dt><dd>$<span class="num" data-sc-count="0 200" data-sc-count-at="0.1 0.3">200</span>K+</dd></div>
+          <div><dt>Years my material-flagging system has run since I left</dt><dd><span class="num" data-sc-count="0 7" data-sc-count-at="0.1 0.3">7</span>+</dd></div>
         </dl>
       </div>
       <figure class="media media--cine" data-sc-reveal="up" data-sc-reveal-at="0.1 0.4">
@@ -85,8 +99,8 @@
         <p class="sc-body">I joined a scrappy pharma-marketing startup as the fifteenth hire and juggled whatever it needed next: client services, then ad operations, then business intelligence, building the process from scratch at every stop.</p>
         <p class="sc-body">We grew it into a real company, and Real Chemistry, a major healthcare marketing firm, acquired it. Along the way I rebuilt our reporting <q>from a disorganized state to a valuable and controlled system.</q> Leadership's words, not mine.</p>
         <dl class="figures figures--row">
-          <div><dt>Hire number</dt><dd><span class="num" data-sc-count="0 15" data-sc-count-at="0.1 0.3">0</span></dd></div>
-          <div><dt>Media data sources unified</dt><dd>~<span class="num" data-sc-count="0 20" data-sc-count-at="0.1 0.3">0</span></dd></div>
+          <div><dt>Hire number</dt><dd><span class="num" data-sc-count="0 15" data-sc-count-at="0.1 0.3">15</span></dd></div>
+          <div><dt>Media data sources unified</dt><dd>~<span class="num" data-sc-count="0 20" data-sc-count-at="0.1 0.3">20</span></dd></div>
           <div><dt>Annual media programs measured</dt><dd>eight figures</dd></div>
         </dl>
       </div>
@@ -191,7 +205,7 @@
   <section class="chapter chapter--proof" data-sc-act="flow" data-chapter="Things I've built" id="built">
     <div class="sc-wrap">
       <div class="proof-lead">
-        <div class="phone" data-sc-reveal="iris" data-sc-reveal-at="0.08 0.38" id="phone">
+        <div class="phone" data-sc-reveal="iris" data-sc-reveal-at="0.03 0.18" id="phone">
           <img class="phone__poster" src="assets/rl2-phone.jpg" width="1170" height="2532" alt="Rolfe Legends 2 title screen: a red barn, a windmill, geese on a farm road, and a twister on the horizon">
           <button class="phone__play" type="button" id="phone-play">Play it here</button>
           <button class="phone__close" type="button" id="phone-close" hidden>Close the game</button>
@@ -326,7 +340,7 @@
         <div class="colophon__loop"><video class="colophon__video" id="clubs-loop" muted loop playsinline preload="none" poster="assets/clubs-poster.jpg" width="480" height="600" aria-label="James juggling three clubs, slowed down"><source src="assets/clubs-loop.mp4" type="video/mp4"></video></div>
         <div class="colophon__text">
           <p class="sc-label">James Moran · Des Moines, Iowa</p>
-          <p class="running running--lg">If you are hiring, or building something real, <a class="cta-line" href="mailto:JamesSheehanMoran@gmail.com">email me with opportunities</a>. Or <a class="cta-line" href="#" id="print-cv">read the one-page CV</a>.</p>
+          <p class="running running--lg">If you are hiring, or building something real, <a class="cta-line" href="mailto:JamesSheehanMoran@gmail.com">email me with opportunities</a>. Or <a class="cta-line" href="assets/James_Moran_Resume.pdf" target="_blank" rel="noopener">read my résumé</a>.</p>
           <p class="running colophon__links"><a href="https://www.linkedin.com/in/james-moran-082629b7/" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/jmoranii" target="_blank" rel="noopener">GitHub</a></p>
         </div>
         <div class="colophon__tray-seat" id="tray-seat" aria-hidden="true"></div>
@@ -341,7 +355,7 @@
     <div class="cv-head">
         <div>
             <h2>James Moran</h2>
-            <p>Analytics leader &amp; AI builder · Des Moines, Iowa<br>
+            <p>AI builder with an engineer's precision · Des Moines, Iowa<br>
             JamesSheehanMoran@gmail.com · linkedin.com/in/james-moran-082629b7 · github.com/jmoranii</p>
         </div>
         <div class="cv-qr">
@@ -349,40 +363,8 @@
             <span>scan for the full story<br>+ live projects + one hidden game</span>
         </div>
     </div>
-    <p class="cv-summary">Engineer turned analytics leader. Ten years of quantified results across manufacturing and pharma media measurement; currently building AI-ready data platforms queried by AI agents (Snowflake Cortex, Claude Code).</p>
-
-    <h3>Experience</h3>
-    <div class="cv-job">
-        <p class="cv-jobhead"><strong>Spring &amp; Bond → Real Chemistry</strong> · Beyond Insights Manager <em>(prior: Ad Ops Analyst; Digital Media Account Manager)</em> <span>2023 – present</span></p>
-        <ul>
-            <li>Fifteenth hire; built BI data flow, measurement frameworks, and reporting processes from scratch for eight-figure pharma media programs.</li>
-            <li>Designed a medallion-architecture Snowflake platform (~20 data sources) with AI-readable metadata; AI agents query, profile, and QA it directly.</li>
-            <li>"Transformed reporting from a disorganized state to a valuable and controlled system" (2024 manager review).</li>
-        </ul>
-    </div>
-    <div class="cv-job">
-        <p class="cv-jobhead"><strong>Alcoa Warrick → Kaiser Aluminum</strong> · Metallurgical Engineer → Sr. Metallurgical Engineer <span>2015 – 2022</span></p>
-        <ul>
-            <li>Cut earing failures ~30% → ~0% ($200K+/month); improved as-cast recovery 3% (10MM+ lbs scrap eliminated).</li>
-            <li>Built a material-flagging system still in production 7+ years later; only sub-20-year member of the plant-wide 3-year roadmap team.</li>
-        </ul>
-    </div>
-    <div class="cv-job">
-        <p class="cv-jobhead"><strong>Stellar Industries</strong> · Materials Engineer <span>2014 – 2015</span></p>
-        <ul>
-            <li>Corrosion investigation to formal conclusion → supplier restitution + supplier change. AWS welding certification.</li>
-        </ul>
-    </div>
-
-    <h3>Education &amp; skills</h3>
-    <p>B.S. Materials Engineering, Iowa State University (2014) · Google Data Analytics Certificate (2022)</p>
-    <p>SQL / Snowflake · data architecture · measurement frameworks · agentic AI workflows (Cortex, Claude Code) · Python · process engineering</p>
-
-    <h3>Beyond work</h3>
-    <p>Juggling (ISU club president; 2018 St. Louis Jugglefest passing champion) · Brazilian Jiu-Jitsu (2021 tournament gold) · book club (10+ yrs, 177 books) · Spanish &amp; Russian (runs the DSM Russian Conversation Club) · Big Brothers Big Sisters mentor (3 yrs)</p>
+    <p class="cv-summary">This site is made to be scrolled, not printed. The current résumé is a PDF: jmoranii.github.io/JMwebsite/assets/James_Moran_Resume.pdf</p>
 </div>
-
-
 
 <script src="scrollcraft.js"></script>
 <script src="v3.js"></script>

@@ -1,6 +1,7 @@
 /* ============================================================
    Print stylesheet — the printer sees ONLY the #cv-print block:
-   a clean one-page CV with a QR code back to the live site.
+   a short card with the QR code and the address of the résumé PDF.
+   (The one-page CV that lived here was replaced by the PDF, Oct 2026.)
    ============================================================ */
 
 /* hide the entire screen experience */
@@ -32,16 +33,3 @@ body > *:not(#cv-print) { display: none !important; }
 .cv-qr span { display: block; font-size: 7.5pt; opacity: 0.75; margin-top: 2pt; line-height: 1.3; }
 
 .cv-summary { margin: 8pt 0 10pt; font-size: 10.5pt; }
-
-#cv-print h3 {
-    font-family: 'Outfit', sans-serif; font-weight: 800;
-    font-size: 11pt; text-transform: uppercase; letter-spacing: 0.06em;
-    margin: 10pt 0 4pt; border-bottom: 0.75pt solid #999; padding-bottom: 2pt;
-}
-.cv-job { margin-bottom: 7pt; page-break-inside: avoid; }
-.cv-jobhead { font-size: 10.5pt; }
-.cv-jobhead span { float: right; font-size: 9.5pt; opacity: 0.75; }
-.cv-jobhead em { font-size: 9.5pt; }
-#cv-print ul { margin: 2pt 0 0 14pt; }
-#cv-print li { margin-bottom: 1.5pt; font-size: 10pt; }
-#cv-print > p { margin-bottom: 4pt; }

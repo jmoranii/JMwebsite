@@ -129,7 +129,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sc-accent); out
 .phone iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
 .phone__play, .phone__close { position: absolute; left: 50%; translate: -50% 0; font-family: var(--sc-font-display); font-weight: 700; font-size: var(--sc-t-base); padding: 0.85em 1.6em; border: 0; border-radius: var(--sc-r-pill); background: var(--sc-accent); color: var(--sc-accent-ink); box-shadow: var(--sc-e2); cursor: pointer; white-space: nowrap; transition: transform 140ms var(--sc-ease-out), box-shadow 140ms var(--sc-ease-out); }
 .phone__play { bottom: 9%; }
-.phone__close { top: 12px; padding: 0.55em 1.1em; font-size: var(--sc-t-sm); background: var(--sc-ink); color: #fff; }
+.phone__close { top: 12px; padding: 0.55em 1.1em; font-size: var(--sc-t-sm); background: var(--sc-ink); color: #fff; z-index: 2; } /* above the iframe, which is appended after it */
 .phone__play:hover, .phone__close:hover { box-shadow: var(--sc-e3); }
 .phone__play:active, .phone__close:active { transform: scale(0.97); }
 .phone.is-playing .phone__poster { opacity: 0; }
@@ -206,6 +206,30 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sc-accent); out
   .title__h1 { font-size: clamp(2.4rem, 12.5vw, 3.4rem); }
   .title__word { display: block; }
   .sc-display--lg { font-size: var(--sc-t-2xl); }
+}
+
+/* --------------------------------------------------- short viewports -- */
+/* A pinned stage is one viewport tall and clips what does not fit. Below about 500px of
+   height none of the three pinned chapters fit (the AI era needs roughly two viewports), so
+   on short viewports, landscape phones mostly, the stages leave the pin and flow: the section
+   keeps the height the engine gives it, the diagram reads settled instead of drawing under the
+   wheel, and the copy scrolls like any other chapter. The engine warns once in the console
+   that these stages do not pin. Here that is the intent. */
+@media (max-height: 500px) {
+  [data-sc-stage] { position: static; height: auto; overflow: visible; }
+  /* the sections size to their content (the engine's inline span height loses to !important;
+     its travel maths is floored at 1px), and the cues stay put: the engine keeps writing
+     opacity, transform and pointer-events inline on its pinned timeline, and with the stage
+     in flow that timeline would fade copy that is still on screen */
+  .chapter--turn, .chapter--human, .chapter--colophon { height: auto !important; }
+  [data-sc-cue] { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
+  .turn, .human, .colophon { height: auto; padding-block: var(--sc-6); }
+  .diagram__svg :is(path, rect, line)[style] { stroke-dashoffset: 0; }
+  .diagram__svg text[style], .diagram__svg path[style] { opacity: 1; }
+  .diagram__svg rect[fill]:not([fill="none"]) { fill-opacity: 1; }
+  .clip { height: 60svh; }
+  .colophon { row-gap: var(--sc-4); }
+  .colophon__loop { width: clamp(96px, 12vw, 140px); }
 }
 
 /* ------------------------------------------------------- reduced motion -- */
