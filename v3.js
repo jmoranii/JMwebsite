@@ -38,7 +38,7 @@
   });
   var landed = {}, rafId = null, holding = false;
   /* the sign-off on the last page repeats the four words; its periods are where the balls come home */
-  var homes = {}, atHome = {}, closeTimer = null;
+  var homes = {}, atHome = {}, closeTimer = null, topTimer = null;
   Array.prototype.forEach.call(document.querySelectorAll('.sign__dot[data-home]'), function (el) {
     homes[el.getAttribute('data-home')] = el;
     if (!reduce.matches) el.classList.add('is-away');
@@ -51,7 +51,7 @@
   var LOOK = 620;       /* ms: a throw is decided this far ahead, before its ball reaches the hand */
   var ENTER_MIN = 880;  /* ms: the shortest fall from the title into the pattern */
 
-  var J = { balls: [], landAt: {}, next: 0, nextT: 0, tau: TAU.cascade, mode: 'cascade', started: false, G: null, land: false };
+  var J = { balls: [], landAt: {}, next: 0, nextT: 0, tau: TAU.cascade, mode: 'cascade', started: false, G: null, land: null };   /* land: null, 'sign' (the last page), or 'title' (back at the top) */
   function geom() {
     var d = BALL();
     var F3 = (3 - DWELL) * TAU.cascade / 1000;                     /* a cascade flight, seconds */
@@ -80,7 +80,8 @@
     var ball = J.landAt[b];
     if (!ball) return;
     delete J.landAt[b];
-    if (J.land && homes[ball.name]) { sendHome(ball, b, T); return; }
+    var dest = J.land === 'sign' ? homes[ball.name] : J.land === 'title' && props[ball.name] ? props[ball.name].dot : null;
+    if (dest) { sendHome(ball, b, T, dest, J.land); return; }
     var G = J.G, h = throwOf(J.mode), hand = b % 2, to = (b + h) % 2, H = hands(J.mode, G.d);
     var F = (h - DWELL) * J.tau / 1000;
     var x0 = side(hand) * (H.w - H.e);                               /* thrown from the inside of the hand */
@@ -95,19 +96,20 @@
     J.landAt[ball.nb] = ball;
   }
 
-  /* the last throw: from the hand, across the page, into the ball's own period in the sign-off */
+  /* the last throw: from the hand, across the page, into the ball's own period, in the sign-off
+     on the last page or back in the title at the top */
   function homeOf(dot) {
     var tr = tray.getBoundingClientRect(), r = dot.getBoundingClientRect();
     return { x: r.left + r.width / 2 - tr.left, y: tr.top - (r.top + r.height / 2) - J.G.d / 2, size: r.width };
   }
-  function sendHome(ball, b, T) {
-    var G = J.G, H = hands(J.mode, G.d), x0 = side(b % 2) * (H.w - H.e), to = homeOf(homes[ball.name]);
+  function sendHome(ball, b, T, dot, site) {
+    var G = J.G, H = hands(J.mode, G.d), x0 = side(b % 2) * (H.w - H.e), to = homeOf(dot);
     var Tf = Math.min(1.25, Math.max(0.85, 0.7 + Math.sqrt((to.x - x0) * (to.x - x0) + to.y * to.y) / 1500));
     var hold = ball.q[ball.q.length - 1];
     hold.t1 = T; hold.x1 = x0;
     hold.vx1 = Math.max(Math.min((to.x - x0) / Tf, 700), -700);
     hold.vy1 = Math.min(to.y / Tf + G.g * Tf / 2, 900);
-    ball.q.push({ k: 'land', t0: T, t1: T + Tf * 1000, T: Tf, x0: x0, dot: homes[ball.name] });
+    ball.q.push({ k: 'land', t0: T, t1: T + Tf * 1000, T: Tf, x0: x0, dot: dot, site: site });
     ball.nb = Infinity;
   }
 
@@ -157,12 +159,20 @@
   function arrive(ball) {
     J.balls.splice(J.balls.indexOf(ball), 1);
     ball.el.remove();
+    if (ball.q[ball.q.length - 1].site === 'title') {
+      /* back in the title: the period is whole again, and the page is ready to start over */
+      props[ball.name].el.classList.remove('is-lifted');
+      props[ball.name].el.classList.add('is-landed');
+      landed[ball.name] = false;
+      verify();
+      return;
+    }
     var dot = homes[ball.name];
     dot.classList.remove('is-away');
     dot.classList.add('is-landed');
     atHome[ball.name] = true;
     verify();
-    if (!J.land) leaveHome(ball.name);       /* the reader left while it was in the air */
+    if (J.land !== 'sign') leaveHome(ball.name);       /* the reader left while it was in the air */
   }
   /* and back out again: the period empties and the ball rejoins the juggle */
   function leaveHome(name) {
@@ -178,13 +188,20 @@
     if (reduce.matches) return;
     if (on) {
       closeTimer = setTimeout(function () {
-        J.land = true;
+        J.land = 'sign';
         tossUpTo('builder');                  /* arriving straight at the last page: bring in whatever never left the title */
       }, 450);
-    } else if (J.land) {
-      J.land = false;
-      ORDER.forEach(function (name, k) { setTimeout(function () { if (!J.land) leaveHome(name); }, 240 * k); });
+    } else if (J.land === 'sign') {
+      J.land = null;
+      ORDER.forEach(function (name, k) { setTimeout(function () { if (J.land !== 'sign') leaveHome(name); }, 240 * k); });
     }
+  }
+  /* back at the very top: the balls return to the title, and the page starts over from there */
+  function setAtTop(on) {
+    clearTimeout(topTimer);
+    if (reduce.matches) return;
+    if (on) topTimer = setTimeout(function () { if (J.land !== 'sign') J.land = 'title'; }, 350);
+    else if (J.land === 'title') J.land = null;
   }
   function staticRow() {
     J.G = geom();
@@ -264,6 +281,7 @@
     if (landed[name] || !props[name]) return;
     landed[name] = true;
     var pr = props[name];
+    pr.el.classList.remove('is-landed');
     pr.el.classList.add('is-lifted');
     var r = pr.dot.getBoundingClientRect();
     join(name, { x: Math.min(Math.max(r.left + r.width / 2, 24), innerWidth - 24), y: r.top + r.height / 2, size: r.width });
@@ -292,8 +310,7 @@
       es.forEach(function (e) {
         if (!e.isIntersecting) return;
         var sec = e.target.closest('[data-prop-toss]');
-        setTimeout(function () { tossUpTo(sec.getAttribute('data-prop-toss')); }, 420);
-        ioT.unobserve(e.target);
+        setTimeout(function () { tossUpTo(sec.getAttribute('data-prop-toss')); }, 420);   /* a no-op once tossed, until the top resets it */
       });
     }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
     Array.prototype.forEach.call(document.querySelectorAll('[data-prop-toss]'), function (sec) {
@@ -303,7 +320,7 @@
     var built = document.getElementById('built');
     if (built) {
       var ioB = new IntersectionObserver(function (es) {
-        es.forEach(function (e) { if (e.isIntersecting) { tossUpTo('builder'); ioB.unobserve(e.target); } });
+        es.forEach(function (e) { if (e.isIntersecting) tossUpTo('builder'); });
       }, { threshold: 0.15 });
       ioB.observe(built);
     }
@@ -324,6 +341,12 @@
         });
       }, { threshold: [0, 0.6, 1] });
       ioC.observe(colophon.querySelector('[data-sc-stage]') || colophon);
+      var titleH = document.querySelector('.title__h1');
+      if (titleH) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) { setAtTop(e.isIntersecting && e.intersectionRatio >= 0.99); });
+        }, { threshold: [0, 0.5, 0.99, 1] }).observe(titleH);
+      }
       var sign = document.getElementById('sign');
       if (sign) {
         new IntersectionObserver(function (es) {
