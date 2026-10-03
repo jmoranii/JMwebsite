@@ -264,3 +264,17 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sc-accent); out
 
 .media--cine .media__frame { aspect-ratio: 3 / 2; }
 .media--cine .media__frame img { top: -6%; height: 112%; }
+
+/* --------------------------------------------- the "me" pointer, startup photo -- */
+/* The photo's parallax moves a layer that carries the image and the pointer together, so
+   the arrow stays on James while the frame scrolls. The pointer pulses a few times each
+   time the photo comes into view (v3.js sets .is-seen), then rests. Opacity only. */
+.media--wide .media__layer { position: absolute; left: 0; top: -6%; width: 100%; height: 112%; }
+.media--wide .media__layer img { top: 0; height: 100%; }
+.pointer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.pointer__halo { fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0.85; }
+.pointer__line { fill: none; stroke: var(--sc-accent); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+.pointer__label { font-family: var(--sc-font-display); font-weight: 800; font-size: 6.4px; fill: var(--sc-accent); stroke: #fff; stroke-width: 1.3px; paint-order: stroke; stroke-linejoin: round; letter-spacing: 0.02em; }
+.media.is-seen .pointer { animation: pointer-pulse 1.3s ease-in-out 0.9s 5; }
+@keyframes pointer-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+@media (prefers-reduced-motion: reduce) { .media.is-seen .pointer { animation: none; } }

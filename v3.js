@@ -279,6 +279,14 @@
     });
   }
 
+  /* the "me" pointer on the startup photo pulses each time the photo comes into view */
+  var teamPhoto = document.querySelector('.chapter--startup .media');
+  if (teamPhoto && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { teamPhoto.classList.toggle('is-seen', e.isIntersecting); });
+    }, { threshold: 0.6 }).observe(teamPhoto);
+  } else if (teamPhoto) teamPhoto.classList.add('is-seen');
+
   /* ----------------------------------------------------------- 4. year -- */
   var y = document.getElementById('year');
   if (y) y.textContent = String(new Date().getFullYear());
