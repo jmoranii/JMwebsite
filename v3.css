@@ -18,14 +18,14 @@
   --sc-e3: 0 4px 8px hsl(var(--sc-shadow-color) / 0.11), 0 18px 40px -12px hsl(var(--sc-shadow-color) / 0.26);
   --sc-edge: inset 0 1px 0 rgba(255,255,255,0.85);
 
-  /* the four props: one set, deepened for the paper ground (>=3:1) */
-  --p-engineer: #3F7ABF;
-  --p-analyst:  #3C8A4D;
-  --p-builder:  #C94F2B;
-  --p-human:    #C2548C;
+  /* the four props: the three pastel clubs from the juggling footage, plus the sage of the wall behind them */
+  --p-engineer: #6CC3E8;
+  --p-analyst:  #8FA382;
+  --p-builder:  #E58B84;
+  --p-human:    #EBCF5C;
 
-  --ball: 28px;
-  --tray-bottom: 26px;
+  --ball: 36px;
+  --tray-bottom: 66px;   /* the hands sit here; the scoop dips below them */
 }
 
 html { background: var(--sc-canvas); }
@@ -153,7 +153,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sc-accent); out
 .human__list strong { color: var(--sc-ink); font-weight: 600; }
 
 /* ------------------------------------------------------------- colophon -- */
-.colophon { height: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: 1fr auto; column-gap: clamp(2rem, 5vw, 4rem); align-items: center; padding-block: clamp(2rem, 6vh, 4rem) calc(var(--tray-bottom) + var(--ball) + 5.5rem); }
+.colophon { height: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: 1fr auto; column-gap: clamp(2rem, 5vw, 4rem); align-items: center; padding-block: clamp(2rem, 6vh, 4rem) 8.9rem; }
 .colophon__loop { width: clamp(130px, 15vw, 200px); aspect-ratio: 4 / 5; border-radius: var(--sc-r-md); overflow: hidden; box-shadow: var(--sc-e2), var(--sc-edge); background: #cfd6c4; }
 .colophon__video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .colophon__text { max-width: 56ch; }
@@ -161,6 +161,20 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sc-accent); out
 .colophon__links a { color: var(--sc-ink-soft); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-color: var(--sc-hairline-strong); }
 .colophon__links a:hover { color: var(--sc-ink); }
 .colophon__tray-seat { display: none; }
+/* the sign-off: the title's four words again, and the balls come home as their periods */
+.sign { margin: 0; font-family: var(--sc-font-display); font-weight: 800; font-size: clamp(1.9rem, 1.2rem + 2.3vw, 3rem); line-height: 1.02; letter-spacing: var(--sc-track-tight); color: var(--sc-ink); }
+.sign__line { display: block; }
+.sign__word { display: inline-block; white-space: nowrap; }
+.sign__dot { display: inline-block; position: relative; width: 0.34em; height: 0.2em; margin-right: 0.08em; vertical-align: baseline; }
+.sign__ball { position: absolute; left: 0.09em; bottom: 0.015em; width: 0.19em; height: 0.19em; border-radius: 50%; background: var(--p); box-shadow: inset 0 0.03em 0 rgba(255,255,255,0.45), inset -0.03em -0.05em 0.06em rgba(0,0,0,0.18); }
+.sign__dot[data-home="engineer"] { --p: var(--p-engineer); }
+.sign__dot[data-home="analyst"]  { --p: var(--p-analyst); }
+.sign__dot[data-home="builder"]  { --p: var(--p-builder); }
+.sign__dot[data-home="human"]    { --p: var(--p-human); }
+.sign__dot.is-away .sign__ball { background: transparent; box-shadow: inset 0 0 0 0.028em var(--p); opacity: 0.55; }
+.sign__dot.is-landed .sign__ball { animation: sign-pop 420ms var(--sc-ease-out); }
+@keyframes sign-pop { from { transform: scale(1.9); } to { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .sign__dot.is-landed .sign__ball { animation: none; } }
 .colophon__foot { grid-column: 1 / -1; align-self: end; margin: 0; padding-top: var(--sc-4); border-top: 1px solid var(--sc-hairline); text-transform: none; letter-spacing: 0.02em; }
 
 /* ---------------------------------------------------------------- folio -- */
@@ -172,14 +186,13 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sc-accent); out
 
 /* ---------------------------------------------------------------- props -- */
 .props { position: fixed; inset: 0; pointer-events: none; z-index: var(--sc-z-chrome); }
-.tray { position: absolute; left: 50%; bottom: var(--tray-bottom); width: 0; height: 0; }
-.ball { position: absolute; left: 0; top: 0; width: var(--ball); height: var(--ball); border-radius: 50%; background: var(--p); box-shadow: 0 8px 14px -6px hsl(var(--sc-shadow-color) / 0.45), inset 0 1px 0 rgba(255,255,255,0.5), inset -3px -5px 8px rgba(0,0,0,0.2); will-change: transform; }
+/* the juggle lives in the bottom-right corner; the tray's origin is the midpoint between the two hands */
+.tray { position: absolute; right: calc(var(--ball) * 3 + 22px); bottom: var(--tray-bottom); width: 0; height: 0; }
+.ball { position: absolute; left: 0; top: 0; width: var(--ball); height: var(--ball); border-radius: 50%; background: var(--p); box-shadow: 0 9px 16px -7px hsl(var(--sc-shadow-color) / 0.45), inset 0 0 0 1px rgba(0,0,0,0.07), inset 0 1.5px 0 rgba(255,255,255,0.55), inset -4px -6px 10px rgba(0,0,0,0.18); will-change: transform; }
 .ball[data-prop="engineer"] { --p: var(--p-engineer); }
 .ball[data-prop="analyst"]  { --p: var(--p-analyst); }
 .ball[data-prop="builder"]  { --p: var(--p-builder); }
 .ball[data-prop="human"]    { --p: var(--p-human); }
-.flight { position: absolute; left: 0; top: 0; }
-.flight__y { position: absolute; left: 0; top: 0; }
 
 /* --------------------------------------------------------------- mobile -- */
 @media (max-width: 860px) {
@@ -200,7 +213,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--sc-accent); out
   .turn .sc-body:nth-of-type(2) { display: none; }
   .colophon { grid-template-rows: auto auto auto; align-content: center; row-gap: var(--sc-5); }
   .chapter--title { padding-bottom: clamp(3rem, 8vh, 5rem); }
-  :root { --ball: 22px; --tray-bottom: 18px; }
+  :root { --ball: 26px; --tray-bottom: 50px; }
 }
 @media (max-width: 700px) {
   .title__h1 { font-size: clamp(2.4rem, 12.5vw, 3.4rem); }

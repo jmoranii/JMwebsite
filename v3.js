@@ -1,7 +1,7 @@
 /* jamesmoran v3 — bespoke page behaviour. The engine is untouched.
    1. folio: the chapter title in the margin
-   2. the props: the title's four periods lift off, one per chapter, arc to
-      the tray, and juggle real siteswaps (1 bounce, 2 → 31, 3 cascade, 4 → 5551)
+   2. the props: the title's four periods lift off, one per chapter, fall into
+      the tray, and are juggled there: a cascade that fills up, then a four-ball fountain
    3. the peak: a playable Rolfe Legends 2, loaded only on request
    4. the footer year (the résumé is a plain link to a PDF) */
 (function () {
@@ -25,95 +25,238 @@
   }
 
   /* ---------------------------------------------------------- 2. props -- */
-  var layer = document.getElementById('props');
+  /* The title's periods lift off one per chapter, fall into a pair of unseen hands in the tray,
+     and are juggled there for the rest of the page. The juggle is a small siteswap simulation,
+     not a drawn loop: one gravity for everything, parabolic flights, and a scooping carry in the
+     hand between each catch and the next throw (the dwell). One, two, and three balls are the
+     same cascade filling up; the fourth ball turns it into a four-ball fountain. A new ball is
+     always caught on the beat, in a slot the pattern has free. */
   var tray = document.getElementById('tray');
   var props = {};
   Array.prototype.forEach.call(document.querySelectorAll('.prop[data-prop]'), function (el) {
     props[el.getAttribute('data-prop')] = { el: el, dot: el.querySelector('.prop__dot') };
   });
-  var landed = {}, inPattern = [], rafId = null, holding = false;
-  var BALL = function () { return parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ball')) || 28; };
-  var TRAY_BOTTOM = function () { return parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tray-bottom')) || 26; };
+  var landed = {}, rafId = null, holding = false;
+  /* the sign-off on the last page repeats the four words; its periods are where the balls come home */
+  var homes = {}, atHome = {}, closeTimer = null;
+  Array.prototype.forEach.call(document.querySelectorAll('.sign__dot[data-home]'), function (el) {
+    homes[el.getAttribute('data-home')] = el;
+    if (!reduce.matches) el.classList.add('is-away');
+  });
+  var BALL = function () { return parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ball')) || 36; };
+
+  var DWELL = 1.3;      /* beats a ball rests in the hand before it is thrown again */
+  var CARRY = 0.42;     /* how much of the ball's speed the hand keeps through the scoop */
+  var TAU = { cascade: 380, fountain: 300 };   /* ms per beat */
+  var LOOK = 620;       /* ms: a throw is decided this far ahead, before its ball reaches the hand */
+  var ENTER_MIN = 880;  /* ms: the shortest fall from the title into the pattern */
+
+  var J = { balls: [], landAt: {}, next: 0, nextT: 0, tau: TAU.cascade, mode: 'cascade', started: false, G: null, land: false };
+  function geom() {
+    var d = BALL();
+    var F3 = (3 - DWELL) * TAU.cascade / 1000;                     /* a cascade flight, seconds */
+    return { d: d, g: 8 * (2.6 * d) / (F3 * F3) };                 /* gravity: a cascade peaks 2.6 balls above the hands */
+  }
+  function side(hand) { return hand === 0 ? 1 : -1; }              /* hand 0 is on the right */
+  function throwOf(mode) { return mode === 'fountain' ? 4 : 3; }   /* siteswap 3 crosses; 4 returns to the same hand */
+  function hands(mode, d) {                                        /* centre of each hand, and half the width of its scoop */
+    return mode === 'fountain' ? { w: 1.6 * d, e: 0.8 * d } : { w: 1.45 * d, e: 0.5 * d };
+  }
+  function beatTime(b) { return J.nextT + (b - J.next) * J.tau; }
 
   function makeBall(name) {
-    var b = document.createElement('div');
-    b.className = 'ball';
-    b.setAttribute('data-prop', name);
-    return b;
+    var el = document.createElement('div');
+    el.className = 'ball';
+    el.setAttribute('data-prop', name);
+    return el;
   }
   function verify() {
-    tray.setAttribute('data-sc-verify-state', 'landed=' + inPattern.length + (holding ? ' hold' : ''));
+    tray.setAttribute('data-sc-verify-state', 'landed=' + J.balls.length + ' home=' + Object.keys(atHome).length + (holding ? ' hold' : ''));
     if (holding) tray.setAttribute('data-sc-verify-hold', 'true'); else tray.removeAttribute('data-sc-verify-hold');
   }
 
-  /* the juggle: parametric 1 and 3, beat-simulated siteswaps for 2 and 4 */
-  var T = 2400;
-  function pose(n, k, t) {
-    var th = (2 * Math.PI * t) / T;
-    if (n === 1) return { x: 0, y: -24 * Math.abs(Math.sin(th)) };
-    var a3 = th + (k * 2 * Math.PI) / 3;
-    return { x: 30 * Math.cos(a3), y: -26 * Math.abs(Math.sin(a3)) };
+  /* decide the throw for beat b (at time T), for whichever ball is due to be thrown then */
+  function resolve(b, T) {
+    var ball = J.landAt[b];
+    if (!ball) return;
+    delete J.landAt[b];
+    if (J.land && homes[ball.name]) { sendHome(ball, b, T); return; }
+    var G = J.G, h = throwOf(J.mode), hand = b % 2, to = (b + h) % 2, H = hands(J.mode, G.d);
+    var F = (h - DWELL) * J.tau / 1000;
+    var x0 = side(hand) * (H.w - H.e);                               /* thrown from the inside of the hand */
+    var x1 = side(to) * (H.w + H.e);                                 /* caught on the outside */
+    var vx = (x1 - x0) / F, vy = G.g * F / 2;
+    var hold = ball.q[ball.q.length - 1];
+    hold.t1 = T; hold.x1 = x0; hold.vx1 = vx; hold.vy1 = vy;
+    var tc = T + F * 1000;
+    ball.q.push({ k: 'fly', t0: T, t1: tc, x0: x0, x1: x1, F: F });
+    ball.q.push({ k: 'hold', t0: tc, t1: T + h * J.tau, x0: x1, x1: side(to) * (H.w - H.e), vx0: vx, vy0: -vy, vx1: 0, vy1: vy });
+    ball.nb = b + h;
+    J.landAt[ball.nb] = ball;
   }
-  var SS = null;
-  function ssApex(h) { return h === 1 ? 10 : h === 3 ? 46 : 66; }
-  function ssHandX(hand) { return hand === 0 ? 30 : -30; }
-  function ssInit(now, n) {
-    SS = { pattern: n >= 4 ? [5, 5, 5, 1] : [3, 1], tau: n >= 4 ? 300 : 340, forN: n,
-           t0: now, beat: 0, landAt: {}, pool: inPattern.slice(), flights: new Map() };
+
+  /* the last throw: from the hand, across the page, into the ball's own period in the sign-off */
+  function homeOf(dot) {
+    var tr = tray.getBoundingClientRect(), r = dot.getBoundingClientRect();
+    return { x: r.left + r.width / 2 - tr.left, y: tr.top - (r.top + r.height / 2) - J.G.d / 2, size: r.width };
   }
-  function ssBeats(now) {
-    while (SS.t0 + SS.beat * SS.tau <= now) {
-      var b = SS.beat, h = SS.pattern[b % SS.pattern.length], hand = b % 2;
-      var ball = SS.landAt[b] || SS.pool.shift();
-      delete SS.landAt[b];
-      if (ball) {
-        SS.flights.set(ball, { t0: SS.t0 + b * SS.tau, t1: SS.t0 + (b + h) * SS.tau,
-          x0: ssHandX(hand), x1: ssHandX((hand + h) % 2), apex: ssApex(h) });
-        SS.landAt[b + h] = ball;
-      }
-      SS.beat++;
+  function sendHome(ball, b, T) {
+    var G = J.G, H = hands(J.mode, G.d), x0 = side(b % 2) * (H.w - H.e), to = homeOf(homes[ball.name]);
+    var Tf = Math.min(1.25, Math.max(0.85, 0.7 + Math.sqrt((to.x - x0) * (to.x - x0) + to.y * to.y) / 1500));
+    var hold = ball.q[ball.q.length - 1];
+    hold.t1 = T; hold.x1 = x0;
+    hold.vx1 = Math.max(Math.min((to.x - x0) / Tf, 700), -700);
+    hold.vy1 = Math.min(to.y / Tf + G.g * Tf / 2, 900);
+    ball.q.push({ k: 'land', t0: T, t1: T + Tf * 1000, T: Tf, x0: x0, dot: homes[ball.name] });
+    ball.nb = Infinity;
+  }
+
+  /* where a ball is at time t: x to the right of the tray's centre, y above the hands, and a scale */
+  function where(ball, t) {
+    var q = ball.q, G = J.G;
+    while (q.length > 1 && t >= q[0].t1) q.shift();
+    var s = q[0], u, dt;
+    if (s.k === 'fly') {
+      dt = Math.min(Math.max((t - s.t0) / 1000, 0), s.F);
+      return { x: s.x0 + (s.x1 - s.x0) * (dt / s.F), y: (G.g / 2) * dt * (s.F - dt), k: 1 };
     }
+    if (s.k === 'land') {
+      u = Math.min(Math.max((t - s.t0) / (s.T * 1000), 0), 1);
+      var to = homeOf(s.dot), sh = u < 0.5 ? 0 : (u - 0.5) / 0.5;
+      return { x: s.x0 + (to.x - s.x0) * u, y: to.y * u + (G.g / 2) * s.T * s.T * u * (1 - u),
+               k: 1 - (1 - Math.max(to.size / G.d, 0.1)) * sh * sh * (3 - 2 * sh), done: u >= 1 };
+    }
+    if (s.k === 'enter') {
+      dt = Math.min(Math.max((t - s.t0) / 1000, 0), s.T);
+      u = dt / s.T;
+      return { x: s.x0 + s.vx * dt, y: s.y0 + s.vy * dt - (G.g / 2) * dt * dt, k: s.k0 + (1 - s.k0) * Math.min(u / 0.6, 1) };
+    }
+    var D = Math.max((s.t1 - s.t0) / 1000, 0.001);
+    u = Math.min(Math.max((t - s.t0) / (s.t1 - s.t0), 0), 1);
+    var u2 = u * u, u3 = u2 * u;
+    var h00 = 2 * u3 - 3 * u2 + 1, h10 = u3 - 2 * u2 + u, h01 = -2 * u3 + 3 * u2, h11 = u3 - u2, c = CARRY * D;
+    return { x: h00 * s.x0 + h10 * c * s.vx0 + h01 * s.x1 + h11 * c * s.vx1, y: h10 * c * s.vy0 + h11 * c * s.vy1, k: 1 };
   }
-  function ssPose(ball, now) {
-    var f = SS.flights.get(ball);
-    if (!f) return { x: 0, y: 0 };
-    var u = Math.min(Math.max((now - f.t0) / (f.t1 - f.t0), 0), 1);
-    return { x: f.x0 + (f.x1 - f.x0) * u, y: -6 - f.apex * 4 * u * (1 - u) };
-  }
-  function place(b, x, y) {
-    var s = BALL();
-    b.style.transform = 'translate(' + (x - s / 2) + 'px,' + (y - s) + 'px)';
+  function place(el, x, y, k) {
+    var d = J.G.d;
+    el.style.transform = 'translate(' + (x - d / 2).toFixed(2) + 'px,' + (-y - d).toFixed(2) + 'px)' + (k !== 1 ? ' scale(' + k.toFixed(3) + ')' : '');
   }
   function frame(now) {
-    var n = inPattern.length;
-    if (n === 2 || n >= 4) {
-      if (!SS || SS.forN !== n) ssInit(now, n);
-      ssBeats(now);
-      for (var k = 0; k < n; k++) { var p = ssPose(inPattern[k], now); place(inPattern[k], p.x, p.y); }
-    } else {
-      for (var j = 0; j < n; j++) { var q = pose(n, j, now % T); place(inPattern[j], q.x, q.y); }
+    while (J.nextT - LOOK <= now) { resolve(J.next, J.nextT); J.next++; J.nextT += J.tau; }
+    var arrived = null;
+    for (var i = 0; i < J.balls.length; i++) {
+      var p = where(J.balls[i], now);
+      place(J.balls[i].el, p.x, p.y, p.k);
+      if (p.done) (arrived = arrived || []).push(J.balls[i]);
     }
-    rafId = requestAnimationFrame(frame);
+    if (arrived) arrived.forEach(arrive);
+    if (J.balls.length) rafId = requestAnimationFrame(frame);
+    else { rafId = null; J.started = false; J.landAt = {}; }
+  }
+  /* a ball reaches its period: the period fills, the ball is gone */
+  function arrive(ball) {
+    J.balls.splice(J.balls.indexOf(ball), 1);
+    ball.el.remove();
+    var dot = homes[ball.name];
+    dot.classList.remove('is-away');
+    dot.classList.add('is-landed');
+    atHome[ball.name] = true;
+    verify();
+    if (!J.land) leaveHome(ball.name);       /* the reader left while it was in the air */
+  }
+  /* and back out again: the period empties and the ball rejoins the juggle */
+  function leaveHome(name) {
+    if (!atHome[name]) return;
+    delete atHome[name];
+    var dot = homes[name], r = dot.getBoundingClientRect();
+    dot.classList.remove('is-landed');
+    dot.classList.add('is-away');
+    join(name, { x: r.left + r.width / 2, y: r.top + r.height / 2, size: r.width });
+  }
+  function setClosing(on) {
+    clearTimeout(closeTimer);
+    if (reduce.matches) return;
+    if (on) {
+      closeTimer = setTimeout(function () {
+        J.land = true;
+        tossUpTo('builder');                  /* arriving straight at the last page: bring in whatever never left the title */
+      }, 450);
+    } else if (J.land) {
+      J.land = false;
+      ORDER.forEach(function (name, k) { setTimeout(function () { if (!J.land) leaveHome(name); }, 240 * k); });
+    }
   }
   function staticRow() {
-    inPattern.forEach(function (b, k) { place(b, (k - (inPattern.length - 1) / 2) * 36, 0); });
+    J.G = geom();
+    J.balls.forEach(function (b, k) { place(b.el, (k - (J.balls.length - 1) / 2) * (J.G.d + 10), 0, 1); });
   }
   function startEngine() {
-    if (rafId === null && !reduce.matches && inPattern.length) rafId = requestAnimationFrame(frame);
+    if (rafId === null && !reduce.matches && J.balls.length) rafId = requestAnimationFrame(frame);
   }
   reduce.addEventListener('change', function (e) {
     if (e.matches) {
       if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
       staticRow();
       var lp = document.getElementById('clubs-loop'); if (lp) lp.pause(); /* the loop, too, not only the balls */
-    } else startEngine();
+    } else if (J.balls.length) { restart(performance.now()); startEngine(); }
   });
+  addEventListener('resize', function () { if (reduce.matches) staticRow(); else J.G = geom(); });
 
-  function join(name) {
-    var b = makeBall(name);
-    tray.appendChild(b);
-    inPattern.push(b);
-    if (reduce.matches) staticRow(); else startEngine();
+  /* would this schedule ever put two balls on one beat? */
+  function clean(beats, mode) {
+    var due = {}, i, b;
+    for (i = 0; i < beats.length; i++) { if (due[beats[i]]) return false; due[beats[i]] = true; }
+    for (b = J.next; b < J.next + 48; b++) {
+      if (!due[b]) continue;
+      delete due[b];
+      if (due[b + throwOf(mode)]) return false;
+      due[b + throwOf(mode)] = true;
+    }
+    return true;
+  }
+  /* the pattern for n balls, and the first beat a newcomer can be caught on */
+  function plan(n, now) {
+    var mode = n < 4 ? 'cascade' : 'fountain', tau = TAU[mode];
+    var taken = J.balls.map(function (b) { return b.nb; });
+    var first = J.next;
+    while (J.nextT + (first - J.next) * tau - DWELL * tau < now + ENTER_MIN) first++;
+    for (var b = first; b < first + 16; b++) if (clean(taken.concat([b]), mode)) return { mode: mode, beat: b };
+    return { mode: mode, beat: first };
+  }
+  /* start again from rest (after reduced motion is switched off): every ball in a hand, one beat apart */
+  function restart(now) {
+    J.G = geom(); J.landAt = {}; J.next = 0; J.nextT = now + LOOK + 60; J.started = true;
+    J.mode = J.balls.length < 4 ? 'cascade' : 'fountain'; J.tau = TAU[J.mode];
+    var H = hands(J.mode, J.G.d);
+    J.balls.forEach(function (ball, k) {
+      var x = side(k % 2) * (H.w - H.e);
+      ball.nb = k; J.landAt[k] = ball;
+      ball.q = [{ k: 'hold', t0: now, t1: J.nextT + k * J.tau, x0: x, x1: x, vx0: 0, vy0: 0, vx1: 0, vy1: 0 }];
+    });
+  }
+
+  function join(name, from) {
+    var el = makeBall(name), now = performance.now();
+    tray.appendChild(el);
+    var ball = { el: el, name: name, q: [], nb: 0 };
+    if (reduce.matches) { J.balls.push(ball); staticRow(); verify(); return; }
+    if (!J.G) J.G = geom();
+    if (!J.started) { J.started = true; J.next = 0; J.nextT = now + LOOK + 60; }
+    var G = J.G, pl = plan(J.balls.length + 1, now);
+    J.mode = pl.mode; J.tau = TAU[pl.mode];
+    var H = hands(J.mode, G.d), T = beatTime(pl.beat), tc = T - DWELL * J.tau, hand = pl.beat % 2;
+    var xc = side(hand) * (H.w + H.e), Te = Math.max((tc - now) / 1000, 0.2);
+    /* the fall: from where the period sat, or from the top of the screen if the title has scrolled away */
+    var tr = tray.getBoundingClientRect();
+    var x0 = (from ? from.x : innerWidth / 2) - tr.left;
+    var y0 = tr.top - (from ? Math.min(Math.max(from.y, -G.d), innerHeight + G.d) : -G.d);
+    var vx = (xc - x0) / Te, vy = (-y0 + (G.g / 2) * Te * Te) / Te;
+    var vyEnd = Math.max(vy - G.g * Te, -1.3 * G.g * ((3 - DWELL) * TAU.cascade / 1000) / 2);   /* a firm catch, not a crater */
+    ball.q.push({ k: 'enter', t0: now, t1: tc, T: Te, x0: x0, y0: y0, vx: vx, vy: vy, k0: from ? Math.min(Math.max(from.size / G.d, 0.4), 1) : 0.6 });
+    ball.q.push({ k: 'hold', t0: tc, t1: T, x0: xc, x1: side(hand) * (H.w - H.e), vx0: Math.max(Math.min(vx, 400), -400), vy0: vyEnd, vx1: 0, vy1: 0 });
+    ball.nb = pl.beat; J.landAt[pl.beat] = ball;
+    J.balls.push(ball);
+    startEngine();
     verify();
   }
 
@@ -122,30 +265,8 @@
     landed[name] = true;
     var pr = props[name];
     pr.el.classList.add('is-lifted');
-    if (reduce.matches || !('animate' in Element.prototype)) { join(name); return; }
-
     var r = pr.dot.getBoundingClientRect();
-    var s = BALL();
-    var x0 = r.left + r.width / 2, y0 = r.top + r.height / 2;
-    var x1 = innerWidth / 2, y1 = innerHeight - TRAY_BOTTOM() - s / 2;
-    var fl = document.createElement('div'); fl.className = 'flight';
-    var fy = document.createElement('div'); fy.className = 'flight__y';
-    var b = makeBall(name); b.style.transform = 'translate(-50%,-50%)';
-    fy.appendChild(b); fl.appendChild(fy); layer.appendChild(fl);
-
-    var dur = 1050;
-    var rise = Math.max(170, Math.abs(y1 - y0) * 0.32);
-    var apex = Math.min(y0, y1) - rise;
-    fl.animate([{ transform: 'translateX(' + x0 + 'px)' }, { transform: 'translateX(' + x1 + 'px)' }],
-               { duration: dur, easing: 'linear', fill: 'forwards' });
-    b.animate([{ transform: 'translate(-50%,-50%) scale(0.6)' }, { transform: 'translate(-50%,-50%) scale(1)' }],
-              { duration: dur * 0.6, easing: 'cubic-bezier(0.23, 1, 0.32, 1)', fill: 'forwards' });
-    var a = fy.animate([
-      { transform: 'translateY(' + y0 + 'px)', easing: 'cubic-bezier(0.22, 0.9, 0.45, 1)' },
-      { transform: 'translateY(' + apex + 'px)', offset: 0.46, easing: 'cubic-bezier(0.55, 0, 0.8, 0.25)' },
-      { transform: 'translateY(' + y1 + 'px)' }
-    ], { duration: dur, fill: 'forwards' });
-    a.onfinish = function () { fl.remove(); join(name); };
+    join(name, { x: Math.min(Math.max(r.left + r.width / 2, 24), innerWidth - 24), y: r.top + r.height / 2, size: r.width });
   }
 
   /* toss up to and including this prop, in story order, spaced out */
@@ -203,6 +324,12 @@
         });
       }, { threshold: [0, 0.6, 1] });
       ioC.observe(colophon.querySelector('[data-sc-stage]') || colophon);
+      var sign = document.getElementById('sign');
+      if (sign) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) { setClosing(e.isIntersecting && e.intersectionRatio >= 0.99); });
+        }, { threshold: [0, 0.5, 0.99, 1] }).observe(sign);
+      }
     }
   }
   verify();
